@@ -1,0 +1,1395 @@
+{  
+  "modalities": {  
+    "CT": {  
+      "examMatch": [  
+        "ct",  
+        "computed tomography",  
+        "ct scan",  
+        "contrast ct",  
+        "noncontrast ct"  
+      ],  
+      "dictionary": {  
+        "keywords": {  
+          "lesion": "Lesion detected",  
+          "nodule": "Nodule present",  
+          "mass": "Mass identified",  
+          "atelectasis": "Atelectasis observed",  
+          "consolidation": "Consolidation seen",  
+          "ground glass": "Ground glass opacity noted",  
+          "effusion": "Pleural effusion observed",  
+          "calcification": "Calcification detected",  
+          "hemorrhage": "Hemorrhage evident",  
+          "fluid": "Fluid collection identified"  
+        },  
+        "negativePhrases": {  
+          "no lesion": "No lesion found",  
+          "no nodule": "No nodule found",  
+          "no mass": "No mass detected",  
+          "no atelectasis": "No atelectasis noted",  
+          "no consolidation": "No consolidation observed",  
+          "no ground glass": "No ground glass opacity",  
+          "no effusion": "No effusion seen",  
+          "no calcification": "No calcification detected",  
+          "unremarkable": "CT appears unremarkable",  
+          "negative for": "CT is negative for significant findings"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(cm|mm)\\s*(lesion|nodule|mass)",  
+            "labelTemplate": "{capture1} {capture2} {capture3}"  
+          },  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(x|by)\\s*(\\d+(?:\\.\\d+)?)\\s*(cm|mm)",  
+            "labelTemplate": "{capture1}x{capture3}{capture4}"  
+          }  
+        ],  
+        "defaultNormalLabel": "CT scan normal",  
+        "defaultNoFindingsLabel": "No abnormal CT findings"  
+      }  
+    },  
+    "Ultrasound": {  
+      "examMatch": [  
+        "ultrasound",  
+        "us",  
+        "sonography",  
+        "echo",  
+        "point of care ultrasound"  
+      ],  
+      "dictionary": {  
+        "keywords": {  
+          "cyst": "Cyst detected",  
+          "mass": "Mass present",  
+          "fluid collection": "Fluid collection observed",  
+          "abnormal echotexture": "Abnormal echotexture noted",  
+          "septation": "Septated structure identified",  
+          "hyperechoic": "Hyperechoic region observed",  
+          "hypoechoic": "Hypoechoic finding present",  
+          "shadowing": "Acoustic shadowing noted",  
+          "increased vascularity": "Increased vascularity detected",  
+          "irregular borders": "Irregular borders observed"  
+        },  
+        "negativePhrases": {  
+          "no cyst": "No cyst observed",  
+          "no mass": "No mass detected",  
+          "clear": "Ultrasound appears clear",  
+          "unremarkable": "Ultrasound is unremarkable",  
+          "no abnormality": "No abnormality detected"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(cm|mm)\\s*(cyst|mass|lesion)",  
+            "labelTemplate": "{capture1} {capture2} {capture3}"  
+          }  
+        ],  
+        "defaultNormalLabel": "Ultrasound normal",  
+        "defaultNoFindingsLabel": "No abnormal ultrasound findings"  
+      }  
+    },  
+    "XRay": {  
+      "examMatch": [  
+        "xray",  
+        "radiograph",  
+        "plain film",  
+        "roentgen"  
+      ],  
+      "dictionary": {  
+        "keywords": {  
+          "infiltrate": "Infiltrate observed",  
+          "consolidation": "Consolidation present",  
+          "opacity": "Opacity seen",  
+          "effusion": "Effusion detected",  
+          "pneumothorax": "Pneumothorax identified",  
+          "deformity": "Bony deformity noted",  
+          "fracture": "Fracture detected",  
+          "lesion": "Lesion observed",  
+          "calcification": "Calcification present",  
+          "scoliosis": "Scoliosis evident"  
+        },  
+        "negativePhrases": {  
+          "no infiltrate": "No infiltrate detected",  
+          "no consolidation": "No consolidation noted",  
+          "clear": "X-ray appears clear",  
+          "normal": "X-ray is within normal limits",  
+          "no fracture": "No fracture detected"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(cm|mm)",  
+            "labelTemplate": "{capture1}{capture2}"  
+          }  
+        ],  
+        "defaultNormalLabel": "Chest x-ray normal",  
+        "defaultNoFindingsLabel": "No abnormal chest x-ray findings"  
+      }  
+    },  
+    "MRI": {  
+      "examMatch": [  
+        "mri",  
+        "magnetic resonance",  
+        "mr imaging"  
+      ],  
+      "dictionary": {  
+        "keywords": {  
+          "enhancement": "Enhancement noted",  
+          "lesion": "Lesion observed",  
+          "abnormal signal": "Abnormal signal detected",  
+          "edema": "Edema present",  
+          "cyst": "Cyst identified",  
+          "mass": "Mass visualized",  
+          "hemorrhage": "Intracranial hemorrhage seen",  
+          "stenosis": "Stenosis observed",  
+          "hyperintensity": "Hyperintensity detected",  
+          "hypointensity": "Hypointensity noted"  
+        },  
+        "negativePhrases": {  
+          "no enhancement": "No enhancement observed",  
+          "no lesion": "No lesion present",  
+          "no edema": "No edema noted",  
+          "unremarkable": "MRI appears unremarkable",  
+          "no abnormal signal": "No abnormal signal detected"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(cm|mm)",  
+            "labelTemplate": "{capture1} {capture2}"  
+          }  
+        ],  
+        "defaultNormalLabel": "MRI normal",  
+        "defaultNoFindingsLabel": "No abnormal MRI findings"  
+      }  
+    },  
+    "Mammogram": {  
+      "examMatch": [  
+        "mammogram",  
+        "breast screening",  
+        "digital mammography",  
+        "mammo"  
+      ],  
+      "dictionary": {  
+        "keywords": {  
+          "microcalcification": "Microcalcification detected",  
+          "mass": "Mass present",  
+          "architectural distortion": "Architectural distortion observed",  
+          "asymmetry": "Asymmetry noted",  
+          "density": "Increased density observed",  
+          "nipple retraction": "Nipple retraction detected",  
+          "skin thickening": "Skin thickening present",  
+          "lymph node": "Abnormal lymph node observed",  
+          "benign calcification": "Benign calcification detected",  
+          "suspicious lesion": "Suspicious lesion identified"  
+        },  
+        "negativePhrases": {  
+          "no microcalcification": "No microcalcification found",  
+          "no mass": "No mass detected",  
+          "normal": "Mammogram appears normal",  
+          "unremarkable": "Mammogram is unremarkable",  
+          "no asymmetry": "No asymmetry noted"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(cm|mm)",  
+            "labelTemplate": "{capture1} {capture2}"  
+          }  
+        ],  
+        "defaultNormalLabel": "Mammogram normal",  
+        "defaultNoFindingsLabel": "No abnormal mammogram findings"  
+      }  
+    },  
+    "PET/CT": {  
+      "examMatch": [  
+        "pet",  
+        "positron emission",  
+        "pet/ct"  
+      ],  
+      "dictionary": {  
+        "keywords": {  
+          "hypermetabolic": "Hypermetabolic activity observed",  
+          "uptake": "Abnormal uptake detected",  
+          "metastasis": "Potential metastasis noted",  
+          "sclerosis": "Sclerotic lesion identified",  
+          "increased tracer": "Increased tracer uptake"  
+        },  
+        "negativePhrases": {  
+          "no hypermetabolic": "No hypermetabolic activity",  
+          "physiological uptake": "Normal physiological uptake",  
+          "no uptake": "No abnormal uptake detected",  
+          "uniform uptake": "Uniform uptake across the field"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(cm|mm)",  
+            "labelTemplate": "{capture1} {capture2}"  
+          }  
+        ],  
+        "defaultNormalLabel": "PET/CT normal",  
+        "defaultNoFindingsLabel": "No abnormal PET/CT findings"  
+      }  
+    },  
+    "Echocardiogram": {  
+      "examMatch": [  
+        "echo",  
+        "echocardiogram",  
+        "cardiac ultrasound"  
+      ],  
+      "dictionary": {  
+        "keywords": {  
+          "ejection fraction": "Reduced ejection fraction",  
+          "wall motion abnormality": "Wall motion abnormality detected",  
+          "valvular regurgitation": "Valvular regurgitation present",  
+          "ventricular hypertrophy": "Ventricular hypertrophy noted",  
+          "pericardial effusion": "Pericardial effusion observed",  
+          "diastolic dysfunction": "Diastolic dysfunction noted",  
+          "myocardial strain": "Abnormal myocardial strain detected",  
+          "regional dysfunction": "Regional dysfunction identified",  
+          "mitral annular calcification": "Mitral annular calcification present",  
+          "abnormal chamber size": "Abnormal chamber size noted"  
+        },  
+        "negativePhrases": {  
+          "normal function": "Normal cardiac function",  
+          "no wall motion": "No wall motion abnormalities",  
+          "preserved ejection fraction": "Preserved ejection fraction observed",  
+          "no regurgitation": "No valvular regurgitation detected"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Echocardiogram normal",  
+        "defaultNoFindingsLabel": "No abnormal echocardiogram findings"  
+      }  
+    }  
+  }  
+}
+    "Nuclear Medicine": {  
+      "examMatch": [  
+        "nuclear",  
+        "scintigraphy",  
+        "nuclear medicine",  
+        "scinti"  
+      ],  
+      "dictionary": {  
+        "keywords": {  
+          "defect": "Perfusion defect noted",  
+          "uptake": "Focal uptake detected",  
+          "radiotracer": "Abnormal radiotracer distribution",  
+          "cold defect": "Cold defect observed",  
+          "hot spot": "Hot spot detected",  
+          "mismatched uptake": "Mismatched uptake identified",  
+          "heterogeneous uptake": "Heterogeneous tracer uptake"  
+        },  
+        "negativePhrases": {  
+          "homogeneous uptake": "Homogeneous uptake; no defect",  
+          "no defect": "No perfusion defect observed",  
+          "normal distribution": "Normal radiotracer distribution",  
+          "symmetric uptake": "Symmetric uptake noted"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Nuclear medicine study normal",  
+        "defaultNoFindingsLabel": "No abnormal nuclear medicine findings"  
+      }  
+    },  
+    "Bone Scan": {  
+      "examMatch": [  
+        "bone scan",  
+        "skeletal scintigraphy",  
+        "bone scintigraphy"  
+      ],  
+      "dictionary": {  
+        "keywords": {  
+          "increased uptake": "Increased uptake observed",  
+          "lesion": "Bone lesion detected",  
+          "metastasis": "Possible metastatic lesion",  
+          "cold area": "Cold area identified",  
+          "lytic lesion": "Lytic lesion noted",  
+          "sclerotic lesion": "Sclerotic lesion present",  
+          "focal uptake": "Focal uptake identified"  
+        },  
+        "negativePhrases": {  
+          "no increased uptake": "No increased uptake noted",  
+          "normal distribution": "Bone scan appears normal",  
+          "symmetric uptake": "Symmetric uptake; no focal abnormality"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Bone scan normal",  
+        "defaultNoFindingsLabel": "No abnormal bone scan findings"  
+      }  
+    },  
+    "Interventional Radiology": {  
+      "examMatch": [  
+        "ir",  
+        "interventional",  
+        "interventional radiology"  
+      ],  
+      "dictionary": {  
+        "keywords": {  
+          "stent": "Stent placement noted",  
+          "embolization": "Embolization performed",  
+          "drainage": "Drainage procedure carried out",  
+          "angioplasty": "Angioplasty performed",  
+          "biopsy": "IR guided biopsy performed",  
+          "balloon dilatation": "Balloon dilatation performed"  
+        },  
+        "negativePhrases": {  
+          "no stent": "No stent found",  
+          "no embolization": "No embolization performed",  
+          "no drainage": "No drainage observed",  
+          "no angioplasty": "No angioplasty conducted"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Interventional radiology report normal",  
+        "defaultNoFindingsLabel": "Findings inconclusive; see full report"  
+      }  
+    },  
+    "CT Angiography": {  
+      "examMatch": [  
+        "cta",  
+        "ct angiography",  
+        "angiogram"  
+      ],  
+      "dictionary": {  
+        "keywords": {  
+          "stenosis": "Vascular stenosis observed",  
+          "occlusion": "Vascular occlusion detected",  
+          "aneurysm": "Aneurysm identified",  
+          "dissection": "Vascular dissection noted",  
+          "plaque": "Atherosclerotic plaque present",  
+          "irregular lumen": "Irregular lumen contour observed"  
+        },  
+        "negativePhrases": {  
+          "no stenosis": "No vascular stenosis",  
+          "no occlusion": "No occlusion found",  
+          "clear vessels": "Vessels appear clear",  
+          "smooth lumen": "Smooth lumen noted; no irregularities"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(cm|mm)\\s*(stenosis|aneurysm)",  
+            "labelTemplate": "{capture1} {capture2} {capture3}"  
+          }  
+        ],  
+        "defaultNormalLabel": "CT angiography normal",  
+        "defaultNoFindingsLabel": "No abnormal vascular findings"  
+      }  
+    },  
+    "Fluoroscopy": {  
+      "examMatch": [  
+        "fluoro",  
+        "fluoroscopy",  
+        "real time imaging"  
+      ],  
+      "dictionary": {  
+        "keywords": {  
+          "contrast leak": "Contrast leak identified",  
+          "abnormal motility": "Abnormal motility observed",  
+          "obstruction": "Obstruction noted",  
+          "perforation": "Perforation detected",  
+          "stricture": "Stricture present",  
+          "abnormal transit": "Abnormal transit time detected"  
+        },  
+        "negativePhrases": {  
+          "no contrast leak": "No contrast leak",  
+          "normal motility": "Normal motility observed",  
+          "no obstruction": "No obstruction detected",  
+          "smooth transit": "Smooth transit with no abnormalities"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Fluoroscopy normal",  
+        "defaultNoFindingsLabel": "No abnormal fluoroscopy findings"  
+      }  
+    },  
+    "MRS": {  
+      "examMatch": [  
+        "mrs",  
+        "magnetic resonance spectroscopy",  
+        "spectroscopy"  
+      ],  
+      "dictionary": {  
+        "keywords": {  
+          "peak": "Abnormal spectroscopic peak noted",  
+          "choline": "Elevated choline peak detected",  
+          "nacetyl": "Reduced N-acetylaspartate noted",  
+          "lactate": "Elevated lactate peak observed",  
+          "creatine": "Altered creatine levels detected"  
+        },  
+        "negativePhrases": {  
+          "normal spectrum": "Normal spectroscopic values observed",  
+          "no abnormal peak": "No abnormal peak detected",  
+          "balanced metabolites": "Balanced metabolite peaks"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRS normal",  
+        "defaultNoFindingsLabel": "No abnormal spectroscopic findings"  
+      }  
+    }  
+  }  
+}
+,  
+    "MIBI": {  
+      "examMatch": [  
+        "mibi",  
+        "myocardial perfusion scan",  
+        "mps",  
+        "cardiac nuclear test",  
+        "sestamibi"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no reversible defect": "No reversible ischemia",  
+          "normal perfusion": "Normal myocardial perfusion",  
+          "no perfusion defect": "No perfusion defect"  
+        },  
+        "keywords": {  
+          "ischemia": "Possible ischemia",  
+          "infarct": "Infarct / scar",  
+          "perfusion defect": "Perfusion defect"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MIBI: Normal perfusion",  
+        "defaultNoFindingsLabel": "MIBI: No recognized pattern"  
+      }  
+    },  
+    "StressMIBI": {  
+      "examMatch": [  
+        "stress mibi",  
+        "stress myocardial perfusion"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no stress-induced ischemia": "No ischemia",  
+          "no reversible defect": "No reversible defect"  
+        },  
+        "keywords": {  
+          "reversible defect": "Reversible ischemia",  
+          "fixed defect": "Fixed defect (scar)",  
+          "ischemia": "Ischemia"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Stress MIBI normal",  
+        "defaultNoFindingsLabel": "Stress MIBI: No recognized pattern"  
+      }  
+    },  
+    "StressEcho": {  
+      "examMatch": [  
+        "stress echo",  
+        "stress echocardiogram",  
+        "dse"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no inducible ischemia": "No ischemia",  
+          "normal wall motion at rest and stress": "Normal WMA at rest & stress"  
+        },  
+        "keywords": {  
+          "ischemia": "Stress-induced ischemia",  
+          "hypokinesis": "Hypokinesis (stress)"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Stress Echo normal",  
+        "defaultNoFindingsLabel": "Stress Echo: No recognized pattern"  
+      }  
+    },  
+    "ExerciseStressTest": {  
+      "examMatch": [  
+        "exercise stress test",  
+        "gxt",  
+        "treadmill test",  
+        "est"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no st changes": "No significant ST changes",  
+          "normal blood pressure response": "Normal BP response"  
+        },  
+        "keywords": {  
+          "st depression": "ST depression (ischemia)",  
+          "arrhythmia": "Arrhythmia",  
+          "hypotension": "Hypotensive response"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "EST normal",  
+        "defaultNoFindingsLabel": "EST: No recognized pattern"  
+      }  
+    },  
+    "Spirometry": {  
+      "examMatch": [  
+        "spirometry",  
+        "pulmonary function test",  
+        "pft"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no obstruction": "No obstructive defect",  
+          "no restriction": "No restrictive defect"  
+        },  
+        "keywords": {  
+          "obstructive": "Obstructive pattern",  
+          "restrictive": "Restrictive pattern",  
+          "reduced fev1": "Reduced FEV1",  
+          "reduced fvc": "Reduced FVC",  
+          "bronchodilator response": "Positive bronchodilator response"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Spirometry normal",  
+        "defaultNoFindingsLabel": "Spirometry: No recognized pattern"  
+      }  
+    },  
+    "PapSmear": {  
+      "examMatch": [  
+        "pap smear",  
+        "pap test"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "negative for intraepithelial lesion": "NILM (Normal)",  
+          "no malignant cells": "No malignant cells"  
+        },  
+        "keywords": {  
+          "ascus": "ASC-US",  
+          "lsil": "LSIL",  
+          "hsil": "HSIL",  
+          "agc": "Atypical glandular cells"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Pap normal",  
+        "defaultNoFindingsLabel": "Pap: No recognized pattern"  
+      }  
+    },  
+    "HPVSwab": {  
+      "examMatch": [  
+        "cervical hpv swab",  
+        "hpv swab",  
+        "hpv test"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "hpv negative": "HPV negative"  
+        },  
+        "keywords": {  
+          "hpv positive": "HPV positive",  
+          "16": "HPV type 16",  
+          "18": "HPV type 18"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "HPV test negative",  
+        "defaultNoFindingsLabel": "HPV: No recognized pattern"  
+      }  
+    },  
+    "CTChest": {  
+      "examMatch": [  
+        "ct chest",  
+        "chest ct"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no mass": "No mass",  
+          "no nodule": "No nodule",  
+          "no effusion": "No pleural effusion",  
+          "no pneumothorax": "No pneumothorax"  
+        },  
+        "keywords": {  
+          "nodule": "Pulmonary nodule",  
+          "mass": "Suspicious mass",  
+          "effusion": "Pleural effusion",  
+          "pneumothorax": "Pneumothorax",  
+          "ground-glass": "Ground-glass opacity"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(mm|cm)\\s*(nodule|mass)",  
+            "labelTemplate": "{capture1}{capture2} {capture3}"  
+          }  
+        ],  
+        "defaultNormalLabel": "CT Chest Normal",  
+        "defaultNoFindingsLabel": "CT Chest: No recognized pattern"  
+      }  
+    },  
+    "CTAbdomen": {  
+      "examMatch": [  
+        "ct abdomen",  
+        "abdomen ct"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no liver lesions": "No liver lesions",  
+          "no kidney stones": "No nephrolithiasis",  
+          "no ascites": "No ascites"  
+        },  
+        "keywords": {  
+          "liver lesion": "Hepatic lesion",  
+          "kidney stone": "Nephrolithiasis",  
+          "ascites": "Ascites",  
+          "diverticulitis": "Diverticulitis",  
+          "pancreatic mass": "Pancreatic mass"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "CT Abdomen Normal",  
+        "defaultNoFindingsLabel": "CT Abdomen: No recognized pattern"  
+      }  
+    },  
+    "CTPelvis": {  
+      "examMatch": [  
+        "ct pelvis",  
+        "pelvis ct"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no ovarian mass": "No ovarian mass",  
+          "no fibroid": "No fibroid"  
+        },  
+        "keywords": {  
+          "fibroid": "Uterine fibroid",  
+          "ovarian cyst": "Ovarian cyst",  
+          "mass": "Pelvic mass"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "CT Pelvis Normal",  
+        "defaultNoFindingsLabel": "CT Pelvis: No recognized pattern"  
+      }  
+    },  
+    "CTCAP": {  
+      "examMatch": [  
+        "ct chest abdomen pelvis",  
+        "ct cap",  
+        "ct thorax abdomen pelvis"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no suspicious mass": "No suspicious mass",  
+          "no lymphadenopathy": "No lymphadenopathy"  
+        },  
+        "keywords": {  
+          "mass": "Suspicious mass",  
+          "nodule": "Nodule",  
+          "metastasis": "Metastasis",  
+          "ascites": "Ascites",  
+          "lymphadenopathy": "LAD"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "CT Chest/Abdomen/Pelvis Normal",  
+        "defaultNoFindingsLabel": "CT CAP: No recognized pattern"  
+      }  
+    },  
+    "CTHead": {  
+      "examMatch": [  
+        "ct head",  
+        "head ct",  
+        "ct brain",  
+        "brain ct"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no hemorrhage": "No hemorrhage",  
+          "no mass": "No intracranial mass",  
+          "no infarct": "No acute infarct"  
+        },  
+        "keywords": {  
+          "hemorrhage": "Intracranial hemorrhage",  
+          "infarct": "Infarct",  
+          "mass": "Intracranial mass",  
+          "shift": "Midline shift"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "CT Head Normal",  
+        "defaultNoFindingsLabel": "CT Head: No recognized pattern"  
+      }  
+    },  
+    "CTSpine": {  
+      "examMatch": [  
+        "ct spine",  
+        "cervical spine ct",  
+        "thoracic spine ct",  
+        "lumbar spine ct"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no fracture": "No fracture",  
+          "no significant disc herniation": "No disc herniation"  
+        },  
+        "keywords": {  
+          "fracture": "Vertebral fracture",  
+          "disc herniation": "Disc herniation",  
+          "stenosis": "Spinal stenosis"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "CT Spine Normal",  
+        "defaultNoFindingsLabel": "CT Spine: No recognized pattern"  
+      }  
+    },  
+    "CTSinuses": {  
+      "examMatch": [  
+        "ct sinuses",  
+        "sinus ct"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no sinusitis": "No sinusitis",  
+          "no polyp": "No sinus polyp"  
+        },  
+        "keywords": {  
+          "sinusitis": "Sinusitis",  
+          "polyp": "Sinus polyp",  
+          "mucosal thickening": "Mucosal thickening"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "CT Sinuses Normal",  
+        "defaultNoFindingsLabel": "CT Sinuses: No recognized pattern"  
+      }  
+    },  
+    "CTA": {  
+      "examMatch": [  
+        "cta",  
+        "ct angiography",  
+        "cows",  
+        "carotid cta",  
+        "fem aorta runoff",  
+        "runoff"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no stenosis": "No vascular stenosis",  
+          "no occlusion": "No occlusion found",  
+          "clear vessels": "Vessels appear clear",  
+          "smooth lumen": "Smooth lumen noted"  
+        },  
+        "keywords": {  
+          "aneurysm": "Aneurysm",  
+          "stenosis": "Stenosis",  
+          "occlusion": "Occlusion",  
+          "plaque": "Plaque",  
+          "dissection": "Dissection"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(mm|cm)\\s*(aneurysm)",  
+            "labelTemplate": "{capture1}{capture2} aneurysm"  
+          }  
+        ],  
+        "defaultNormalLabel": "CTA Normal",  
+        "defaultNoFindingsLabel": "CTA: No recognized pattern"  
+      }  
+    },  
+    "ABI": {  
+      "examMatch": [  
+        "abi",  
+        "ankle brachial index"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no peripheral arterial disease": "No PAD",  
+          "normal abi": "ABI normal"  
+        },  
+        "keywords": {  
+          "reduced abi": "Possible PAD",  
+          "pad": "Peripheral arterial disease"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "ABI normal",  
+        "defaultNoFindingsLabel": "ABI: No recognized pattern"  
+      }  
+    },  
+    "MRIChest": {  
+      "examMatch": [  
+        "mri chest",  
+        "chest mri"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no mass": "No suspicious mass",  
+          "no effusion": "No pleural effusion"  
+        },  
+        "keywords": {  
+          "mass": "Suspicious mass",  
+          "nodule": "Nodule",  
+          "pleural effusion": "Pleural effusion"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRI Chest Normal",  
+        "defaultNoFindingsLabel": "MRI Chest: No recognized pattern"  
+      }  
+    },  
+    "MRIAbdomen": {  
+      "examMatch": [  
+        "mri abdomen",  
+        "abdomen mri"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no liver lesions": "No liver lesions",  
+          "no pancreatic mass": "No pancreatic mass"  
+        },  
+        "keywords": {  
+          "liver lesion": "Hepatic lesion",  
+          "pancreatic mass": "Pancreatic mass",  
+          "kidney lesion": "Renal lesion"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRI Abdomen Normal",  
+        "defaultNoFindingsLabel": "MRI Abdomen: No recognized pattern"  
+      }  
+    },  
+    "MRIPelvis": {  
+      "examMatch": [  
+        "mri pelvis",  
+        "pelvis mri"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no adnexal mass": "No adnexal mass",  
+          "no fibroid": "No fibroid"  
+        },  
+        "keywords": {  
+          "fibroid": "Uterine fibroid",  
+          "ovarian cyst": "Ovarian cyst",  
+          "mass": "Pelvic mass",  
+          "endometriosis": "Endometriosis"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRI Pelvis Normal",  
+        "defaultNoFindingsLabel": "MRI Pelvis: No recognized pattern"  
+      }  
+    },  
+    "MRICAP": {  
+      "examMatch": [  
+        "mri chest abdomen pelvis",  
+        "mri cap",  
+        "mri thorax abdomen pelvis"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no suspicious lesion": "No suspicious lesion",  
+          "no metastasis": "No metastasis"  
+        },  
+        "keywords": {  
+          "lesion": "Suspicious lesion",  
+          "metastasis": "Metastasis",  
+          "lymphadenopathy": "Lymphadenopathy"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRI CAP Normal",  
+        "defaultNoFindingsLabel": "MRI CAP: No recognized pattern"  
+      }  
+    },  
+    "MRIHeadBrain": {  
+      "examMatch": [  
+        "mri head",  
+        "mri brain",  
+        "brain mri",  
+        "head mri"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no infarct": "No acute infarct",  
+          "no mass": "No intracranial mass",  
+          "no hemorrhage": "No hemorrhage"  
+        },  
+        "keywords": {  
+          "mass": "Intracranial mass",  
+          "hemorrhage": "Intracranial hemorrhage",  
+          "lesion": "Brain lesion",  
+          "stroke": "Infarct / stroke"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRI Brain Normal",  
+        "defaultNoFindingsLabel": "MRI Brain: No recognized pattern"  
+      }  
+    },  
+    "MRISpine": {  
+      "examMatch": [  
+        "mri spine",  
+        "cervical spine mri",  
+        "thoracic spine mri",  
+        "lumbar spine mri"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no disc herniation": "No disc herniation",  
+          "no spinal stenosis": "No spinal stenosis",  
+          "no fracture": "No vertebral fracture"  
+        },  
+        "keywords": {  
+          "disc herniation": "Disc herniation",  
+          "stenosis": "Spinal stenosis",  
+          "compression fracture": "Vertebral compression"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRI Spine Normal",  
+        "defaultNoFindingsLabel": "MRI Spine: No recognized pattern"  
+      }  
+    },  
+    "MRI_IAC": {  
+      "examMatch": [  
+        "mri iac",  
+        "mri cp angle",  
+        "iac mri",  
+        "cp angle mri"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no acoustic neuroma": "No acoustic neuroma"  
+        },  
+        "keywords": {  
+          "vestibular schwannoma": "Vestibular schwannoma",  
+          "acoustic neuroma": "Acoustic neuroma"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRI IAC Normal",  
+        "defaultNoFindingsLabel": "MRI IAC: No recognized pattern"  
+      }  
+    },  
+    "ChestXRay": {  
+      "examMatch": [  
+        "chest x-ray",  
+        "cxr",  
+        "chest radiograph",  
+        "c xr"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no consolidation": "No consolidation",  
+          "no pleural effusion": "No pleural effusion",  
+          "no pneumothorax": "No pneumothorax"  
+        },  
+        "keywords": {  
+          "pneumothorax": "Pneumothorax",  
+          "effusion": "Pleural effusion",  
+          "mass": "Suspicious mass",  
+          "nodule": "Pulmonary nodule",  
+          "infiltrate": "Infiltrate"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "CXR Normal",  
+        "defaultNoFindingsLabel": "CXR: No recognized pattern"  
+      }  
+    },  
+    "AbdominalXRay": {  
+      "examMatch": [  
+        "abdominal x-ray",  
+        "abd x-ray",  
+        "abdo xray",  
+        "kub x-ray"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no obstruction": "No bowel obstruction",  
+          "no free air": "No free air"  
+        },  
+        "keywords": {  
+          "bowel obstruction": "Bowel obstruction",  
+          "ileus": "Ileus",  
+          "free air": "Free air (perforation)"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Abdominal X-ray Normal",  
+        "defaultNoFindingsLabel": "Abdominal X-ray: No recognized pattern"  
+      }  
+    },  
+    "NeckPharyngealXRay": {  
+      "examMatch": [  
+        "neck x-ray",  
+        "pharyngeal x-ray",  
+        "soft tissue neck x-ray",  
+        "lateral neck x-ray"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no epiglottitis": "No epiglottitis"  
+        },  
+        "keywords": {  
+          "swelling": "Neck swelling",  
+          "epiglottitis": "Epiglottitis",  
+          "foreign body": "Foreign body"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Neck X-ray Normal",  
+        "defaultNoFindingsLabel": "Neck X-ray: No recognized pattern"  
+      }  
+    },  
+    "SpineXRay": {  
+      "examMatch": [  
+        "spine x-ray",  
+        "c-spine x-ray",  
+        "t-spine x-ray",  
+        "l-spine x-ray",  
+        "sacrum x-ray"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no fracture": "No fracture",  
+          "no spondylolisthesis": "No spondylolisthesis"  
+        },  
+        "keywords": {  
+          "fracture": "Vertebral fracture",  
+          "subluxation": "Subluxation",  
+          "spondylolisthesis": "Spondylolisthesis"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Spine X-ray Normal",  
+        "defaultNoFindingsLabel": "Spine X-ray: No recognized pattern"  
+      }  
+    },  
+    "JointXRay": {  
+      "examMatch": [  
+        "shoulder x-ray",  
+        "knee x-ray",  
+        "hip x-ray",  
+        "hand x-ray",  
+        "wrist x-ray",  
+        "elbow x-ray",  
+        "foot x-ray",  
+        "ankle x-ray",  
+        "tibia x-ray",  
+        "fibula x-ray",  
+        "femur x-ray"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no arthritis": "No significant arthritis",  
+          "no fracture": "No fracture"  
+        },  
+        "keywords": {  
+          "arthritis": "Arthritis",  
+          "fracture": "Fracture",  
+          "effusion": "Joint effusion",  
+          "degenerative changes": "Degenerative changes"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Joint X-ray Normal",  
+        "defaultNoFindingsLabel": "Joint X-ray: No recognized pattern"  
+      }  
+    },  
+    "UltrasoundAbdomen": {  
+      "examMatch": [  
+        "abdominal ultrasound",  
+        "us abdomen",  
+        "ultrasound abdomen",  
+        "abdomen ultrasound"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no gallstones": "No cholelithiasis",  
+          "no hydronephrosis": "No hydronephrosis",  
+          "no liver lesions": "No liver lesions"  
+        },  
+        "keywords": {  
+          "gallstones": "Cholelithiasis",  
+          "ascites": "Ascites",  
+          "cyst": "Cyst",  
+          "mass": "Mass"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(mm|cm)\\s*(cyst|mass)",  
+            "labelTemplate": "{capture1}{capture2} {capture3}"  
+          }  
+        ],  
+        "defaultNormalLabel": "Abdominal Ultrasound Normal",  
+        "defaultNoFindingsLabel": "Abdominal US: No recognized pattern"  
+      }  
+    },  
+    "UltrasoundPelvisFemale": {  
+      "examMatch": [  
+        "pelvic ultrasound",  
+        "us pelvis",  
+        "tv ultrasound",  
+        "transvaginal ultrasound"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no fibroid": "No fibroid",  
+          "no ovarian cyst": "No ovarian cyst",  
+          "no free fluid": "No free fluid in pelvis"  
+        },  
+        "keywords": {  
+          "fibroid": "Uterine fibroid",  
+          "ovarian cyst": "Ovarian cyst",  
+          "endometriosis": "Endometriosis",  
+          "adnexal mass": "Adnexal mass"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(mm|cm)\\s*(fibroid|cyst)",  
+            "labelTemplate": "{capture1}{capture2} {capture3}"  
+          }  
+        ],  
+        "defaultNormalLabel": "Pelvic Ultrasound Normal (Female)",  
+        "defaultNoFindingsLabel": "Pelvic US (F): No recognized pattern"  
+      }  
+    },  
+    "UltrasoundPelvisMale": {  
+      "examMatch": [  
+        "male pelvic ultrasound",  
+        "transrectal ultrasound",  
+        "prostate ultrasound"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no prostatic enlargement": "No prostatic enlargement"  
+        },  
+        "keywords": {  
+          "prostatic enlargement": "Prostatic enlargement",  
+          "mass": "Pelvic mass"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Male Pelvic Ultrasound Normal",  
+        "defaultNoFindingsLabel": "Male Pelvic US: No recognized pattern"  
+      }  
+    },  
+    "UltrasoundOB": {  
+      "examMatch": [  
+        "ob ultrasound",  
+        "pregnancy ultrasound",  
+        "obstetric ultrasound",  
+        "fetal ultrasound"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no fetal anomaly": "No fetal anomaly",  
+          "normal amniotic fluid": "Normal AFI"  
+        },  
+        "keywords": {  
+          "viable": "Viable pregnancy",  
+          "oligohydramnios": "Oligohydramnios",  
+          "polyhydramnios": "Polyhydramnios",  
+          "fetal demise": "Fetal demise"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(weeks|wks)",  
+            "labelTemplate": "{capture1} weeks gestation"  
+          }  
+        ],  
+        "defaultNormalLabel": "OB Ultrasound Normal",  
+        "defaultNoFindingsLabel": "OB Ultrasound: No recognized pattern"  
+      }  
+    },  
+    "UltrasoundTesticular": {  
+      "examMatch": [  
+        "testicular ultrasound",  
+        "scrotal ultrasound",  
+        "testis us",  
+        "testicle us"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no torsion": "No torsion",  
+          "no epididymitis": "No epididymitis"  
+        },  
+        "keywords": {  
+          "torsion": "Testicular torsion",  
+          "epididymitis": "Epididymitis",  
+          "hydrocele": "Hydrocele",  
+          "varicocele": "Varicocele",  
+          "mass": "Testicular mass"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(mm|cm)\\s*tumor",  
+            "labelTemplate": "{capture1}{capture2} testicular tumor"  
+          }  
+        ],  
+        "defaultNormalLabel": "Testicular Ultrasound Normal",  
+        "defaultNoFindingsLabel": "Testicular US: No recognized pattern"  
+      }  
+    },  
+    "UltrasoundThyroid": {  
+      "examMatch": [  
+        "thyroid ultrasound",  
+        "us thyroid"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no nodules": "No thyroid nodules",  
+          "no suspicious calcifications": "No suspicious calcifications"  
+        },  
+        "keywords": {  
+          "nodule": "Thyroid nodule",  
+          "calcification": "Calcification",  
+          "goiter": "Goiter",  
+          "cyst": "Thyroid cyst"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(mm|cm)\\s*(nodule|mass)",  
+            "labelTemplate": "{capture1}{capture2} thyroid {capture3}"  
+          }  
+        ],  
+        "defaultNormalLabel": "Thyroid Ultrasound Normal",  
+        "defaultNoFindingsLabel": "Thyroid US: No recognized pattern"  
+      }  
+    },  
+    "UltrasoundVascular": {  
+      "examMatch": [  
+        "vascular ultrasound",  
+        "carotid ultrasound",  
+        "venous doppler",  
+        "dvt ultrasound",  
+        "aaa ultrasound"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no stenosis": "No stenosis",  
+          "no dvt": "No deep vein thrombosis",  
+          "no aneurysm": "No aneurysm"  
+        },  
+        "keywords": {  
+          "stenosis": "Stenosis",  
+          "thrombosis": "Thrombosis",  
+          "aneurysm": "Aneurysm",  
+          "plaque": "Plaque"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(mm|cm)\\s*aneurysm",  
+            "labelTemplate": "{capture1}{capture2} aneurysm"  
+          }  
+        ],  
+        "defaultNormalLabel": "Vascular Ultrasound Normal",  
+        "defaultNoFindingsLabel": "Vascular US: No recognized pattern"  
+      }  
+    },  
+    "UltrasoundMSK": {  
+      "examMatch": [  
+        "msk ultrasound",  
+        "musculoskeletal ultrasound",  
+        "joint ultrasound",  
+        "shoulder ultrasound",  
+        "knee ultrasound",  
+        "wrist ultrasound",  
+        "ankle ultrasound"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no effusion": "No effusion",  
+          "no tendinopathy": "No tendinopathy"  
+        },  
+        "keywords": {  
+          "effusion": "Joint effusion",  
+          "tendinopathy": "Tendinopathy",  
+          "tear": "Tendon tear",  
+          "bursitis": "Bursitis"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MSK Ultrasound Normal",  
+        "defaultNoFindingsLabel": "MSK US: No recognized pattern"  
+      }  
+    },  
+    "Angiogram": {  
+      "examMatch": [  
+        "angiogram",  
+        "coronary angio",  
+        "angiography"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no significant stenosis": "No significant stenosis",  
+          "no occlusion": "No occlusion"  
+        },  
+        "keywords": {  
+          "stenosis": "Stenosis",  
+          "occlusion": "Occlusion",  
+          "plaque": "Plaque",  
+          "aneurysm": "Aneurysm"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Angiogram Normal",  
+        "defaultNoFindingsLabel": "Angiogram: No recognized pattern"  
+      }  
+    },  
+    "UpperGI": {  
+      "examMatch": [  
+        "upper gi series",  
+        "barium swallow",  
+        "ugs"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no reflux": "No reflux",  
+          "no ulcer": "No ulcer",  
+          "normal swallow": "Normal swallowing"  
+        },  
+        "keywords": {  
+          "reflux": "Reflux",  
+          "hiatal hernia": "Hiatal hernia",  
+          "ulcer": "Ulcer"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Upper GI series normal",  
+        "defaultNoFindingsLabel": "Upper GI: No recognized pattern"  
+      }  
+    },  
+    "SwallowStudy": {  
+      "examMatch": [  
+        "swallow study",  
+        "modified barium swallow",  
+        "mbs"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no aspiration": "No aspiration"  
+        },  
+        "keywords": {  
+          "aspiration": "Aspiration",  
+          "dysphagia": "Dysphagia",  
+          "penetration": "Penetration"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Swallow study normal",  
+        "defaultNoFindingsLabel": "Swallow study: No recognized pattern"  
+      }  
+    },  
+    "Colonoscopy": {  
+      "examMatch": [  
+        "colonoscopy",  
+        "lower endoscopy",  
+        "sigmoidoscopy"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no polyps": "No polyps",  
+          "no diverticulosis": "No diverticulosis",  
+          "no colitis": "No colitis",  
+          "normal mucosa": "Normal mucosa"  
+        },  
+        "keywords": {  
+          "polyp": "Polyp",  
+          "diverticulosis": "Diverticulosis",  
+          "mass": "Colonic mass",  
+          "colitis": "Colitis",  
+          "hemorrhoids": "Hemorrhoids"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(mm|cm)\\s*polyp",  
+            "labelTemplate": "{capture1}{capture2} polyp"  
+          }  
+        ],  
+        "defaultNormalLabel": "Colonoscopy Normal",  
+        "defaultNoFindingsLabel": "Colonoscopy: No recognized pattern"  
+      }  
+    },  
+    "Gastroscopy": {  
+      "examMatch": [  
+        "gastroscopy",  
+        "upper endoscopy",  
+        "egd",  
+        "ogd"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no ulcers": "No ulcers",  
+          "no gastritis": "No gastritis",  
+          "no esophagitis": "No esophagitis",  
+          "normal mucosa": "Normal mucosa"  
+        },  
+        "keywords": {  
+          "ulcer": "Ulcer",  
+          "erosion": "Erosions",  
+          "esophagitis": "Esophagitis",  
+          "barrett": "Barrett’s esophagus",  
+          "varices": "Esophageal varices",  
+          "hiatal hernia": "Hiatal hernia"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "EGD Normal",  
+        "defaultNoFindingsLabel": "EGD: No recognized pattern"  
+      }  
+    }  
+  }  
+}
