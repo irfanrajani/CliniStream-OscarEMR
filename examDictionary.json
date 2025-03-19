@@ -1,0 +1,120 @@
+{  
+  "version": "0.1",  
+  "modalities": {  
+    "CXR": {  
+      "examMatch": ["cxr", "chest x-ray", "chest radiograph"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no focal consolidation": "No consolidation",  
+          "no effusion": "No pleural effusion",  
+          "no pneumothorax": "No pneumothorax"  
+        },  
+        "keywords": {  
+          "pneumothorax": "Pneumothorax",  
+          "effusion": "Pleural effusion",  
+          "consolidation": "Consolidation",  
+          "mass": "Suspicious mass",  
+          "nodule": "Pulmonary nodule"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(\\.\\d+)?)\\s*(mm|cm)\\s*(nodule|mass)",  
+            "labelTemplate": "{size}{units} {capture4}"  
+          }  
+        ],  
+        "defaultNormalLabel": "CXR Normal",  
+        "defaultNoFindingsLabel": "CXR: No recognized pattern"  
+      }  
+    },  
+    "Echo": {  
+      "examMatch": ["echocardiogram", "echo", "transthoracic echo"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no wall motion abnormality": "No WMA",  
+          "valves normal": "Valves normal"   
+        },  
+        "keywords": {  
+          "regurgitation": "Valvular regurgitation",  
+          "stenosis": "Valvular stenosis",  
+          "pericardial effusion": "Pericardial effusion"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(\\.\\d+)?)%\\s*ef",  
+            "labelTemplate": "EF {capture1}%"  
+          }  
+        ],  
+        "defaultNormalLabel": "Echo normal overall",  
+        "defaultNoFindingsLabel": "Echo: No recognized pattern"  
+      }  
+    },  
+    "CTChest": {  
+      "examMatch": ["ct chest", "chest ct"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no mass": "No suspicious mass",  
+          "no nodule": "No nodule",  
+          "no lymphadenopathy": "No LAD"  
+        },  
+        "keywords": {  
+          "lymphadenopathy": "LAD",  
+          "mass": "Mass",  
+          "nodule": "Nodule",  
+          "ground glass": "Ground-glass opacity",  
+          "emphysema": "Emphysema"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(\\.\\d+)?)\\s*(mm|cm)\\s*(nodule|mass|lesion)",  
+            "labelTemplate": "{size}{units} {capture4}"  
+          }  
+        ],  
+        "defaultNormalLabel": "CT Chest Normal",  
+        "defaultNoFindingsLabel": "CT Chest: No recognized pattern"  
+      }  
+    },  
+    "USAbdomen": {  
+      "examMatch": ["abdominal ultrasound", "abdominal us", "us abdomen", "ultrasound abdomen"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no gallstones": "No gallstones",  
+          "no hydronephrosis": "No hydronephrosis",  
+          "no free fluid": "No ascites"  
+        },  
+        "keywords": {  
+          "gallstones": "Cholelithiasis",  
+          "hydronephrosis": "Hydronephrosis",  
+          "ascites": "Ascites",  
+          "cyst": "Cyst",  
+          "mass": "Abdominal mass"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(\\.\\d+)?)\\s*(mm|cm)\\s*(cyst|mass)",  
+            "labelTemplate": "{size}{units} {capture4}"  
+          }  
+        ],  
+        "defaultNormalLabel": "US Abdomen Normal",  
+        "defaultNoFindingsLabel": "US Abdomen: No recognized pattern"  
+      }  
+    },  
+    "Colonoscopy": {  
+      "examMatch": ["colonoscopy"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no polyps": "No polyps",  
+          "no diverticulosis": "No diverticulosis",  
+          "no colitis": "No colitis"  
+        },  
+        "keywords": {  
+          "polyp": "Polyp",  
+          "diverticulosis": "Diverticulosis",  
+          "colitis": "Colitis",  
+          "mass": "Mass"  
+        },  
+        "defaultNormalLabel": "Colonoscopy Normal",  
+        "defaultNoFindingsLabel": "Colonoscopy: No recognized pattern"  
+      }  
+    }  
+  }  
+}
