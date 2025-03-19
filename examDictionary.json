@@ -1,20 +1,208 @@
 {  
-  "version": "0.1",  
+  "version": "0.3",  
   "modalities": {  
-    "CXR": {  
-      "examMatch": ["cxr", "chest x-ray", "chest radiograph"],  
+
+    /************************************************  
+     * 1) ECHOCARDIOGRAM (TTE)  
+     ************************************************/  
+    "Echocardiogram": {  
+      "examMatch": ["echocardiogram", "tte", "echo", "transthoracic echo"],  
       "dictionary": {  
         "negativePhrases": {  
-          "no focal consolidation": "No consolidation",  
+          "no wall motion abnormality": "No WMA",  
+          "no pericardial effusion": "No pericardial effusion",  
+          "valves normal": "Valves normal",  
+          "no valvular abnormality": "No valvular disease",  
+          "no intracardiac shunt": "No intracardiac shunt"  
+        },  
+        "keywords": {  
+          "pericardial effusion": "Pericardial effusion",  
+          "stenosis": "Valvular stenosis",  
+          "regurgitation": "Valvular regurgitation",  
+          "wall motion abnormality": "WMA",  
+          "lv hypertrophy": "LVH"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(\\.\\d+)?)%\\s*(ef|ejection fraction)",  
+            "labelTemplate": "EF {capture1}%"  
+          }  
+        ],  
+        "defaultNormalLabel": "Echocardiogram normal",  
+        "defaultNoFindingsLabel": "Echo: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 2) MIBI  
+     ************************************************/  
+    "MIBI": {  
+      "examMatch": [  
+        "mibi", "myocardial perfusion scan", "mps",  
+        "cardiac nuclear test", "sestamibi"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no reversible defect": "No reversible ischemia",  
+          "normal perfusion": "Normal myocardial perfusion",  
+          "no perfusion defect": "No perfusion defect"  
+        },  
+        "keywords": {  
+          "ischemia": "Possible ischemia",  
+          "infarct": "Infarct / scar",  
+          "perfusion defect": "Perfusion defect"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MIBI: Normal perfusion",  
+        "defaultNoFindingsLabel": "MIBI: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 3) STRESS MIBI  
+     ************************************************/  
+    "StressMIBI": {  
+      "examMatch": ["stress mibi", "stress myocardial perfusion"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no stress-induced ischemia": "No ischemia",  
+          "no reversible defect": "No reversible defect"  
+        },  
+        "keywords": {  
+          "reversible defect": "Reversible ischemia",  
+          "fixed defect": "Fixed defect (scar)",  
+          "ischemia": "Ischemia"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Stress MIBI normal",  
+        "defaultNoFindingsLabel": "Stress MIBI: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 4) STRESS ECHOCARDIOGRAM  
+     ************************************************/  
+    "StressEcho": {  
+      "examMatch": ["stress echo", "stress echocardiogram", "dse"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no inducible ischemia": "No ischemia",  
+          "normal wall motion at rest and stress": "Normal WMA at rest & stress"  
+        },  
+        "keywords": {  
+          "ischemia": "Stress-induced ischemia",  
+          "hypokinesis": "Hypokinesis (stress)"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Stress Echo normal",  
+        "defaultNoFindingsLabel": "Stress Echo: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 5) EXERCISE STRESS TESTING (EST)  
+     ************************************************/  
+    "ExerciseStressTest": {  
+      "examMatch": ["exercise stress test", "gxt", "treadmill test", "est"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no st changes": "No significant ST changes",  
+          "normal blood pressure response": "Normal BP response"  
+        },  
+        "keywords": {  
+          "st depression": "ST depression (ischemia)",  
+          "arrhythmia": "Arrhythmia",  
+          "hypotension": "Hypotensive response"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "EST normal",  
+        "defaultNoFindingsLabel": "EST: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 6) SPIROMETRY  
+     ************************************************/  
+    "Spirometry": {  
+      "examMatch": ["spirometry", "pulmonary function test", "pft"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no obstruction": "No obstructive defect",  
+          "no restriction": "No restrictive defect"  
+        },  
+        "keywords": {  
+          "obstructive": "Obstructive pattern",  
+          "restrictive": "Restrictive pattern",  
+          "reduced fev1": "Reduced FEV1",  
+          "reduced fvc": "Reduced FVC",  
+          "bronchodilator response": "Positive bronchodilator response"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Spirometry normal",  
+        "defaultNoFindingsLabel": "Spirometry: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 7) PAP SMEAR  
+     ************************************************/  
+    "PapSmear": {  
+      "examMatch": ["pap smear", "pap test"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "negative for intraepithelial lesion": "NILM (Normal)",  
+          "no malignant cells": "No malignant cells"  
+        },  
+        "keywords": {  
+          "ascus": "ASC-US",  
+          "lsil": "LSIL",  
+          "hsil": "HSIL",  
+          "agc": "Atypical glandular cells"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Pap normal",  
+        "defaultNoFindingsLabel": "Pap: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 8) CERVICAL HPV SWAB  
+     ************************************************/  
+    "HPVSwab": {  
+      "examMatch": ["cervical hpv swab", "hpv swab", "hpv test"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "hpv negative": "HPV negative"  
+        },  
+        "keywords": {  
+          "hpv positive": "HPV positive",  
+          "16": "HPV type 16",  
+          "18": "HPV type 18"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "HPV test negative",  
+        "defaultNoFindingsLabel": "HPV: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 9) CT CHEST  
+     ************************************************/  
+    "CTChest": {  
+      "examMatch": ["ct chest", "chest ct"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no mass": "No mass",  
+          "no nodule": "No nodule",  
           "no effusion": "No pleural effusion",  
           "no pneumothorax": "No pneumothorax"  
         },  
         "keywords": {  
-          "pneumothorax": "Pneumothorax",  
-          "effusion": "Pleural effusion",  
-          "consolidation": "Consolidation",  
+          "nodule": "Pulmonary nodule",  
           "mass": "Suspicious mass",  
-          "nodule": "Pulmonary nodule"  
+          "effusion": "Pleural effusion",  
+          "pneumothorax": "Pneumothorax",  
+          "ground-glass": "Ground-glass opacity"  
         },  
         "sizeCapture": [  
           {  
@@ -22,71 +210,502 @@
             "labelTemplate": "{size}{units} {capture4}"  
           }  
         ],  
-        "defaultNormalLabel": "CXR Normal",  
-        "defaultNoFindingsLabel": "CXR: No recognized pattern"  
-      }  
-    },  
-    "Echo": {  
-      "examMatch": ["echocardiogram", "echo", "transthoracic echo"],  
-      "dictionary": {  
-        "negativePhrases": {  
-          "no wall motion abnormality": "No WMA",  
-          "valves normal": "Valves normal"   
-        },  
-        "keywords": {  
-          "regurgitation": "Valvular regurgitation",  
-          "stenosis": "Valvular stenosis",  
-          "pericardial effusion": "Pericardial effusion"  
-        },  
-        "sizeCapture": [  
-          {  
-            "pattern": "(\\d+(\\.\\d+)?)%\\s*ef",  
-            "labelTemplate": "EF {capture1}%"  
-          }  
-        ],  
-        "defaultNormalLabel": "Echo normal overall",  
-        "defaultNoFindingsLabel": "Echo: No recognized pattern"  
-      }  
-    },  
-    "CTChest": {  
-      "examMatch": ["ct chest", "chest ct"],  
-      "dictionary": {  
-        "negativePhrases": {  
-          "no mass": "No suspicious mass",  
-          "no nodule": "No nodule",  
-          "no lymphadenopathy": "No LAD"  
-        },  
-        "keywords": {  
-          "lymphadenopathy": "LAD",  
-          "mass": "Mass",  
-          "nodule": "Nodule",  
-          "ground glass": "Ground-glass opacity",  
-          "emphysema": "Emphysema"  
-        },  
-        "sizeCapture": [  
-          {  
-            "pattern": "(\\d+(\\.\\d+)?)\\s*(mm|cm)\\s*(nodule|mass|lesion)",  
-            "labelTemplate": "{size}{units} {capture4}"  
-          }  
-        ],  
         "defaultNormalLabel": "CT Chest Normal",  
         "defaultNoFindingsLabel": "CT Chest: No recognized pattern"  
       }  
     },  
-    "USAbdomen": {  
-      "examMatch": ["abdominal ultrasound", "abdominal us", "us abdomen", "ultrasound abdomen"],  
+
+    /************************************************  
+     * 10) CT ABDOMEN  
+     ************************************************/  
+    "CTAbdomen": {  
+      "examMatch": ["ct abdomen", "abdomen ct"],  
       "dictionary": {  
         "negativePhrases": {  
-          "no gallstones": "No gallstones",  
+          "no liver lesions": "No liver lesions",  
+          "no kidney stones": "No nephrolithiasis",  
+          "no ascites": "No ascites"  
+        },  
+        "keywords": {  
+          "liver lesion": "Hepatic lesion",  
+          "kidney stone": "Nephrolithiasis",  
+          "ascites": "Ascites",  
+          "diverticulitis": "Diverticulitis",  
+          "pancreatic mass": "Pancreatic mass"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "CT Abdomen Normal",  
+        "defaultNoFindingsLabel": "CT Abdomen: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 11) CT PELVIS  
+     ************************************************/  
+    "CTPelvis": {  
+      "examMatch": ["ct pelvis", "pelvis ct"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no ovarian mass": "No ovarian mass",  
+          "no fibroid": "No fibroid"  
+        },  
+        "keywords": {  
+          "fibroid": "Uterine fibroid",  
+          "ovarian cyst": "Ovarian cyst",  
+          "mass": "Pelvic mass"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "CT Pelvis Normal",  
+        "defaultNoFindingsLabel": "CT Pelvis: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 12) CT CHEST/ABDOMEN/PELVIS (CT CAP)  
+     ************************************************/  
+    "CTCAP": {  
+      "examMatch": [  
+        "ct chest abdomen pelvis", "ct cap",  
+        "ct thorax abdomen pelvis"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no suspicious mass": "No suspicious mass",  
+          "no lymphadenopathy": "No lymphadenopathy"  
+        },  
+        "keywords": {  
+          "mass": "Suspicious mass",  
+          "nodule": "Nodule",  
+          "metastasis": "Metastasis",  
+          "ascites": "Ascites",  
+          "lymphadenopathy": "LAD"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "CT Chest/Abd/Pelvis normal",  
+        "defaultNoFindingsLabel": "CT CAP: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 13) CT HEAD / BRAIN  
+     ************************************************/  
+    "CTHead": {  
+      "examMatch": ["ct head", "head ct", "ct brain", "brain ct"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no hemorrhage": "No hemorrhage",  
+          "no mass": "No intracranial mass",  
+          "no infarct": "No acute infarct"  
+        },  
+        "keywords": {  
+          "hemorrhage": "Intracranial hemorrhage",  
+          "infarct": "Infarct",  
+          "mass": "Intracranial mass",  
+          "shift": "Midline shift"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "CT Head Normal",  
+        "defaultNoFindingsLabel": "CT Head: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 14) CT SPINE (CERVICAL, THORACIC, LUMBAR)  
+     ************************************************/  
+    "CTSpine": {  
+      "examMatch": [  
+        "ct spine", "cervical spine ct", "thoracic spine ct", "lumbar spine ct"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no fracture": "No fracture",  
+          "no significant disc herniation": "No disc herniation"  
+        },  
+        "keywords": {  
+          "fracture": "Vertebral fracture",  
+          "disc herniation": "Disc herniation",  
+          "stenosis": "Spinal stenosis"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "CT Spine Normal",  
+        "defaultNoFindingsLabel": "CT Spine: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 15) CT SINUSES  
+     ************************************************/  
+    "CTSinuses": {  
+      "examMatch": ["ct sinuses", "sinus ct"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no sinusitis": "No sinusitis",  
+          "no polyp": "No sinus polyp"  
+        },  
+        "keywords": {  
+          "sinusitis": "Sinusitis",  
+          "polyp": "Sinus polyp",  
+          "mucosal thickening": "Mucosal thickening"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "CT Sinuses Normal",  
+        "defaultNoFindingsLabel": "CT Sinuses: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 16) CTA (ANGIOGRAPHY) - (COWS, CAROTIDS, RUNOFF)  
+     ************************************************/  
+    "CTA": {  
+      "examMatch": [  
+        "cta", "ct angiography",  
+        "cows", "carotid cta", "fem aorta runoff", "runoff"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no aneurysm": "No aneurysm",  
+          "no significant stenosis": "No significant stenosis",  
+          "no occlusion": "No occlusion"  
+        },  
+        "keywords": {  
+          "aneurysm": "Aneurysm",  
+          "stenosis": "Stenosis",  
+          "occlusion": "Occlusion",  
+          "plaque": "Plaque",  
+          "dissection": "Dissection"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(\\.\\d+)?)\\s*(mm|cm)\\s*(aneurysm)",  
+            "labelTemplate": "{size}{units} aneurysm"  
+          }  
+        ],  
+        "defaultNormalLabel": "CTA Normal",  
+        "defaultNoFindingsLabel": "CTA: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 17) ABI (ANKLE-BRACHIAL INDEX)  
+     ************************************************/  
+    "ABI": {  
+      "examMatch": ["abi", "ankle brachial index"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no peripheral arterial disease": "No PAD",  
+          "normal abi": "ABI normal"  
+        },  
+        "keywords": {  
+          "reduced abi": "Possible PAD",  
+          "pad": "Peripheral arterial disease"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "ABI normal",  
+        "defaultNoFindingsLabel": "ABI: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 18) MRI CHEST  
+     ************************************************/  
+    "MRIChest": {  
+      "examMatch": ["mri chest", "chest mri"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no mass": "No suspicious mass",  
+          "no effusion": "No pleural effusion"  
+        },  
+        "keywords": {  
+          "mass": "Suspicious mass",  
+          "nodule": "Nodule",  
+          "pleural effusion": "Pleural effusion"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRI Chest Normal",  
+        "defaultNoFindingsLabel": "MRI Chest: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 19) MRI ABDOMEN  
+     ************************************************/  
+    "MRIAbdomen": {  
+      "examMatch": ["mri abdomen", "abdomen mri"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no liver lesions": "No liver lesions",  
+          "no pancreatic mass": "No pancreatic mass"  
+        },  
+        "keywords": {  
+          "liver lesion": "Hepatic lesion",  
+          "pancreatic mass": "Pancreatic mass",  
+          "kidney lesion": "Renal lesion"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRI Abdomen Normal",  
+        "defaultNoFindingsLabel": "MRI Abdomen: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 20) MRI PELVIS  
+     ************************************************/  
+    "MRIPelvis": {  
+      "examMatch": ["mri pelvis", "pelvis mri"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no adnexal mass": "No adnexal mass",  
+          "no fibroid": "No fibroid"  
+        },  
+        "keywords": {  
+          "fibroid": "Uterine fibroid",  
+          "ovarian cyst": "Ovarian cyst",  
+          "mass": "Pelvic mass",  
+          "endometriosis": "Endometriosis"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRI Pelvis Normal",  
+        "defaultNoFindingsLabel": "MRI Pelvis: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 21) MRI CHEST/ABDOMEN/PELVIS (MRI CAP)  
+     ************************************************/  
+    "MRICAP": {  
+      "examMatch": [  
+        "mri chest abdomen pelvis", "mri cap",  
+        "mri thorax abdomen pelvis"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no suspicious lesion": "No suspicious lesion",  
+          "no metastasis": "No metastasis"  
+        },  
+        "keywords": {  
+          "lesion": "Suspicious lesion",  
+          "metastasis": "Metastasis",  
+          "lymphadenopathy": "Lymphadenopathy"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRI CAP Normal",  
+        "defaultNoFindingsLabel": "MRI CAP: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 22) MRI HEAD / BRAIN  
+     ************************************************/  
+    "MRIHeadBrain": {  
+      "examMatch": ["mri head", "mri brain", "brain mri", "head mri"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no infarct": "No acute infarct",  
+          "no mass": "No intracranial mass",  
+          "no hemorrhage": "No hemorrhage"  
+        },  
+        "keywords": {  
+          "mass": "Intracranial mass",  
+          "hemorrhage": "Intracranial hemorrhage",  
+          "lesion": "Brain lesion",  
+          "stroke": "Infarct / stroke"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRI Brain Normal",  
+        "defaultNoFindingsLabel": "MRI Brain: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 23) MRI SPINE (CERVICAL, THORACIC, LUMBAR)  
+     ************************************************/  
+    "MRISpine": {  
+      "examMatch": [  
+        "mri spine", "cervical spine mri",  
+        "thoracic spine mri", "lumbar spine mri"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no disc herniation": "No disc herniation",  
+          "no spinal stenosis": "No spinal stenosis",  
+          "no fracture": "No vertebral fracture"  
+        },  
+        "keywords": {  
+          "disc herniation": "Disc herniation",  
+          "stenosis": "Spinal stenosis",  
+          "compression fracture": "Vertebral compression"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRI Spine Normal",  
+        "defaultNoFindingsLabel": "MRI Spine: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 24) MRI IAC / CP ANGLE  
+     ************************************************/  
+    "MRI_IAC": {  
+      "examMatch": [  
+        "mri iac", "mri cp angle",  
+        "iac mri", "cp angle mri"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no acoustic neuroma": "No acoustic neuroma"  
+        },  
+        "keywords": {  
+          "vestibular schwannoma": "Vestibular schwannoma",  
+          "acoustic neuroma": "Acoustic neuroma"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MRI IAC Normal",  
+        "defaultNoFindingsLabel": "MRI IAC: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 25) CHEST X-RAY  
+     ************************************************/  
+    "ChestXRay": {  
+      "examMatch": [  
+        "chest x-ray", "cxr", "chest radiograph", "c xr"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no consolidation": "No consolidation",  
+          "no pleural effusion": "No pleural effusion",  
+          "no pneumothorax": "No pneumothorax"  
+        },  
+        "keywords": {  
+          "pneumothorax": "Pneumothorax",  
+          "effusion": "Pleural effusion",  
+          "mass": "Suspicious mass",  
+          "nodule": "Pulmonary nodule",  
+          "infiltrate": "Infiltrate"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "CXR Normal",  
+        "defaultNoFindingsLabel": "CXR: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 26) ABDOMINAL X-RAY  
+     ************************************************/  
+    "AbdominalXRay": {  
+      "examMatch": [  
+        "abdominal x-ray", "abd x-ray",  
+        "abdo xray", "kub x-ray"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no obstruction": "No bowel obstruction",  
+          "no free air": "No free air"  
+        },  
+        "keywords": {  
+          "bowel obstruction": "Bowel obstruction",  
+          "ileus": "Ileus",  
+          "free air": "Free air (perforation)"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Abdominal X-ray Normal",  
+        "defaultNoFindingsLabel": "Abdominal X-ray: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 27) NECK / PHARYNGEAL X-RAY  
+     ************************************************/  
+    "NeckPharyngealXRay": {  
+      "examMatch": [  
+        "neck x-ray", "pharyngeal x-ray",  
+        "soft tissue neck x-ray", "lateral neck x-ray"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no epiglottitis": "No epiglottitis"  
+        },  
+        "keywords": {  
+          "swelling": "Neck swelling",  
+          "epiglottitis": "Epiglottitis",  
+          "foreign body": "Foreign body"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Neck X-ray Normal",  
+        "defaultNoFindingsLabel": "Neck X-ray: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 28) SPINE X-RAY  
+     ************************************************/  
+    "SpineXRay": {  
+      "examMatch": [  
+        "spine x-ray", "c-spine x-ray",  
+        "t-spine x-ray", "l-spine x-ray", "sacrum x-ray"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no fracture": "No fracture",  
+          "no spondylolisthesis": "No spondylolisthesis"  
+        },  
+        "keywords": {  
+          "fracture": "Vertebral fracture",  
+          "subluxation": "Subluxation",  
+          "spondylolisthesis": "Spondylolisthesis"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Spine X-ray Normal",  
+        "defaultNoFindingsLabel": "Spine X-ray: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 29) JOINT X-RAY  
+     ************************************************/  
+    "JointXRay": {  
+      "examMatch": [  
+        "shoulder x-ray", "knee x-ray", "hip x-ray",  
+        "hand x-ray", "wrist x-ray", "elbow x-ray",  
+        "foot x-ray", "ankle x-ray", "tibia x-ray",  
+        "fibula x-ray", "femur x-ray"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no arthritis": "No significant arthritis",  
+          "no fracture": "No fracture"  
+        },  
+        "keywords": {  
+          "arthritis": "Arthritis",  
+          "fracture": "Fracture",  
+          "effusion": "Joint effusion",  
+          "degenerative changes": "Degenerative changes"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Joint X-ray Normal",  
+        "defaultNoFindingsLabel": "Joint X-ray: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 30) ULTRASOUND: ABDOMINAL  
+     ************************************************/  
+    "UltrasoundAbdomen": {  
+      "examMatch": [  
+        "abdominal ultrasound", "us abdomen",  
+        "ultrasound abdomen", "abdomen ultrasound"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no gallstones": "No cholelithiasis",  
           "no hydronephrosis": "No hydronephrosis",  
-          "no free fluid": "No ascites"  
+          "no liver lesions": "No liver lesions"  
         },  
         "keywords": {  
           "gallstones": "Cholelithiasis",  
-          "hydronephrosis": "Hydronephrosis",  
           "ascites": "Ascites",  
           "cyst": "Cyst",  
-          "mass": "Abdominal mass"  
+          "mass": "Mass"  
         },  
         "sizeCapture": [  
           {  
@@ -94,27 +713,328 @@
             "labelTemplate": "{size}{units} {capture4}"  
           }  
         ],  
-        "defaultNormalLabel": "US Abdomen Normal",  
-        "defaultNoFindingsLabel": "US Abdomen: No recognized pattern"  
+        "defaultNormalLabel": "Abdominal Ultrasound Normal",  
+        "defaultNoFindingsLabel": "Abdominal US: No recognized pattern"  
       }  
     },  
+
+    /************************************************  
+     * 31) ULTRASOUND: PELVIC (FEMALE)  
+     ************************************************/  
+    "UltrasoundPelvisFemale": {  
+      "examMatch": [  
+        "pelvic ultrasound", "us pelvis",  
+        "tv ultrasound", "transvaginal ultrasound"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no fibroid": "No fibroid",  
+          "no ovarian cyst": "No ovarian cyst",  
+          "no free fluid": "No free fluid in pelvis"  
+        },  
+        "keywords": {  
+          "fibroid": "Uterine fibroid",  
+          "ovarian cyst": "Ovarian cyst",  
+          "endometriosis": "Endometriosis",  
+          "adnexal mass": "Adnexal mass"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(\\.\\d+)?)\\s*(mm|cm)\\s*(fibroid|cyst)",  
+            "labelTemplate": "{size}{units} {capture4}"  
+          }  
+        ],  
+        "defaultNormalLabel": "Pelvic Ultrasound Normal (Female)",  
+        "defaultNoFindingsLabel": "Pelvic US (F) No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 32) ULTRASOUND: PELVIC (MALE)  
+     ************************************************/  
+    "UltrasoundPelvisMale": {  
+      "examMatch": [  
+        "male pelvic ultrasound", "transrectal ultrasound",  
+        "prostate ultrasound"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no prostatic enlargement": "No prostatic enlargement"  
+        },  
+        "keywords": {  
+          "prostatic enlargement": "Prostatic enlargement",  
+          "mass": "Pelvic mass"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Male Pelvic Ultrasound Normal",  
+        "defaultNoFindingsLabel": "Male Pelvic US: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 33) ULTRASOUND: OB (PREGNANCY)  
+     ************************************************/  
+    "UltrasoundOB": {  
+      "examMatch": [  
+        "ob ultrasound", "pregnancy ultrasound",  
+        "obstetric ultrasound", "fetal ultrasound"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no fetal anomaly": "No fetal anomaly",  
+          "normal amniotic fluid": "Normal AFI"  
+        },  
+        "keywords": {  
+          "viable": "Viable pregnancy",  
+          "oligohydramnios": "Oligohydramnios",  
+          "polyhydramnios": "Polyhydramnios",  
+          "fetal demise": "Fetal demise"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(\\.\\d+)?)\\s*(weeks|wks)",  
+            "labelTemplate": "{capture1} weeks gestation"  
+          }  
+        ],  
+        "defaultNormalLabel": "OB Ultrasound Normal",  
+        "defaultNoFindingsLabel": "OB Ultrasound: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 34) ULTRASOUND: TESTICULAR  
+     ************************************************/  
+    "UltrasoundTesticular": {  
+      "examMatch": [  
+        "testicular ultrasound", "scrotal ultrasound",  
+        "testis us", "testicle us"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no torsion": "No torsion",  
+          "no epididymitis": "No epididymitis"  
+        },  
+        "keywords": {  
+          "torsion": "Testicular torsion",  
+          "epididymitis": "Epididymitis",  
+          "hydrocele": "Hydrocele",  
+          "varicocele": "Varicocele",  
+          "mass": "Testicular mass"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(\\.\\d+)?)\\s*(mm|cm)\\s*tumor",  
+            "labelTemplate": "{size}{units} testicular tumor"  
+          }  
+        ],  
+        "defaultNormalLabel": "Testicular Ultrasound Normal",  
+        "defaultNoFindingsLabel": "Testicular US: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 35) ULTRASOUND: THYROID  
+     ************************************************/  
+    "UltrasoundThyroid": {  
+      "examMatch": ["thyroid ultrasound", "us thyroid"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no nodules": "No thyroid nodules",  
+          "no suspicious calcifications": "No suspicious calcifications"  
+        },  
+        "keywords": {  
+          "nodule": "Thyroid nodule",  
+          "calcification": "Calcification",  
+          "goiter": "Goiter",  
+          "cyst": "Thyroid cyst"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(\\.\\d+)?)\\s*(mm|cm)\\s*(nodule|mass)",  
+            "labelTemplate": "{size}{units} thyroid {capture4}"  
+          }  
+        ],  
+        "defaultNormalLabel": "Thyroid Ultrasound Normal",  
+        "defaultNoFindingsLabel": "Thyroid US: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 36) ULTRASOUND: VASCULAR (CAROTID, DVT, AAA)  
+     ************************************************/  
+    "UltrasoundVascular": {  
+      "examMatch": [  
+        "vascular ultrasound", "carotid ultrasound",  
+        "venous doppler", "dvt ultrasound", "aaa ultrasound"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no stenosis": "No stenosis",  
+          "no dvt": "No deep vein thrombosis",  
+          "no aneurysm": "No aneurysm"  
+        },  
+        "keywords": {  
+          "stenosis": "Stenosis",  
+          "thrombosis": "Thrombosis",  
+          "aneurysm": "Aneurysm",  
+          "plaque": "Plaque"  
+        },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(\\.\\d+)?)\\s*(mm|cm)\\s*aneurysm",  
+            "labelTemplate": "{size}{units} aneurysm"  
+          }  
+        ],  
+        "defaultNormalLabel": "Vascular Ultrasound Normal",  
+        "defaultNoFindingsLabel": "Vascular US: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 37) ULTRASOUND: MUSCULOSKELETAL (JOINT)  
+     ************************************************/  
+    "UltrasoundMSK": {  
+      "examMatch": [  
+        "msk ultrasound", "musculoskeletal ultrasound",  
+        "joint ultrasound", "shoulder ultrasound",  
+        "knee ultrasound", "wrist ultrasound", "ankle ultrasound"  
+      ],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no effusion": "No effusion",  
+          "no tendinopathy": "No tendinopathy"  
+        },  
+        "keywords": {  
+          "effusion": "Joint effusion",  
+          "tendinopathy": "Tendinopathy",  
+          "tear": "Tendon tear",  
+          "bursitis": "Bursitis"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "MSK Ultrasound Normal",  
+        "defaultNoFindingsLabel": "MSK US: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 38) ANGIOGRAMS (CORONARY, ETC.)  
+     ************************************************/  
+    "Angiogram": {  
+      "examMatch": ["angiogram", "coronary angio", "angiography"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no significant stenosis": "No significant stenosis",  
+          "no occlusion": "No occlusion"  
+        },  
+        "keywords": {  
+          "stenosis": "Stenosis",  
+          "occlusion": "Occlusion",  
+          "plaque": "Plaque",  
+          "aneurysm": "Aneurysm"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Angiogram Normal",  
+        "defaultNoFindingsLabel": "Angiogram: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 39) UPPER GI SERIES  
+     ************************************************/  
+    "UpperGI": {  
+      "examMatch": ["upper gi series", "barium swallow", "ugs"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no reflux": "No reflux",  
+          "no ulcer": "No ulcer",  
+          "normal swallow": "Normal swallowing"  
+        },  
+        "keywords": {  
+          "reflux": "Reflux",  
+          "hiatal hernia": "Hiatal hernia",  
+          "ulcer": "Ulcer"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Upper GI series normal",  
+        "defaultNoFindingsLabel": "Upper GI: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 40) SWALLOW STUDY  
+     ************************************************/  
+    "SwallowStudy": {  
+      "examMatch": ["swallow study", "modified barium swallow", "mbs"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no aspiration": "No aspiration"  
+        },  
+        "keywords": {  
+          "aspiration": "Aspiration",  
+          "dysphagia": "Dysphagia",  
+          "penetration": "Penetration"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "Swallow study normal",  
+        "defaultNoFindingsLabel": "Swallow study: No recognized pattern"  
+      }  
+    },  
+
+    /************************************************  
+     * 41) COLONOSCOPY / LOWER ENDOSCOPY  
+     ************************************************/  
     "Colonoscopy": {  
-      "examMatch": ["colonoscopy"],  
+      "examMatch": ["colonoscopy", "lower endoscopy", "sigmoidoscopy"],  
       "dictionary": {  
         "negativePhrases": {  
           "no polyps": "No polyps",  
           "no diverticulosis": "No diverticulosis",  
-          "no colitis": "No colitis"  
+          "no colitis": "No colitis",  
+          "normal mucosa": "Normal mucosa"  
         },  
         "keywords": {  
           "polyp": "Polyp",  
           "diverticulosis": "Diverticulosis",  
+          "mass": "Colonic mass",  
           "colitis": "Colitis",  
-          "mass": "Mass"  
+          "hemorrhoids": "Hemorrhoids"  
         },  
+        "sizeCapture": [  
+          {  
+            "pattern": "(\\d+(?:\\.\\d+)?)\\s*(mm|cm)\\s*polyp",  
+            "labelTemplate": "{size}{units} polyp"  
+          }  
+        ],  
         "defaultNormalLabel": "Colonoscopy Normal",  
         "defaultNoFindingsLabel": "Colonoscopy: No recognized pattern"  
       }  
+    },  
+
+    /************************************************  
+     * 42) GASTROSCOPY / UPPER ENDOSCOPY (EGD)  
+     ************************************************/  
+    "Gastroscopy": {  
+      "examMatch": ["gastroscopy", "upper endoscopy", "egd", "ogd"],  
+      "dictionary": {  
+        "negativePhrases": {  
+          "no ulcers": "No ulcers",  
+          "no gastritis": "No gastritis",  
+          "no esophagitis": "No esophagitis",  
+          "normal mucosa": "Normal mucosa"  
+        },  
+        "keywords": {  
+          "ulcer": "Ulcer",  
+          "erosion": "Erosions",  
+          "esophagitis": "Esophagitis",  
+          "barrett": "Barrett’s esophagus",  
+          "varices": "Esophageal varices",  
+          "hiatal hernia": "Hiatal hernia"  
+        },  
+        "sizeCapture": [],  
+        "defaultNormalLabel": "EGD Normal",  
+        "defaultNoFindingsLabel": "EGD: No recognized pattern"  
+      }  
     }  
+
   }  
 }
