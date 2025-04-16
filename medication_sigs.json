@@ -113,5 +113,530 @@
     "full_sig": "Take 4 capsules PO three times daily",
     "short_sig": "4 capsules three times daily",
     "form": "capsule"
+  },
+  "1.5bid": {
+    "full_sig": "Take 1.5 tablets PO twice daily",
+    "short_sig": "1.5 tablets twice daily",
+    "form": "tablet"
+  },
+  "1.5hs": {
+    "full_sig": "Take 1.5 tablets PO at bedtime",
+    "short_sig": "1.5 tablets at bedtime",
+    "form": "tablet"
+  },
+  "1.5prn": {
+    "full_sig": "Take 1.5 tablets PO as needed",
+    "short_sig": "1.5 tablets as needed",
+    "form": "tablet"
+  },
+  "1.5q12h": {
+    "full_sig": "Take 1.5 tablets PO every 12 hours",
+    "short_sig": "1.5 tablets every 12 hours",
+    "form": "tablet"
+  },
+  "1.5q4h": {
+    "full_sig": "Take 1.5 tablets PO every 4 hours",
+    "short_sig": "1.5 tablets every 4 hours",
+    "form": "tablet"
+  },
+  "1.5q6h": {
+    "full_sig": "Take 1.5 tablets PO every 6 hours",
+    "short_sig": "1.5 tablets every 6 hours",
+    "form": "tablet"
+  },
+  "1.5q8h": {
+    "full_sig": "Take 1.5 tablets PO every 8 hours",
+    "short_sig": "1.5 tablets every 8 hours",
+    "form": "tablet"
+  },
+  "1.5qmo": {
+    "full_sig": "Take 1.5 tablets PO once monthly",
+    "short_sig": "1.5 tablets once monthly",
+    "form": "tablet"
+  },
+  "1.5qod": {
+    "full_sig": "Take 1.5 tablets PO every other day",
+    "short_sig": "1.5 tablets every other day",
+    "form": "tablet"
+  },
+  "1.5qwk": {
+    "full_sig": "Take 1.5 tablets PO once weekly",
+    "short_sig": "1.5 tablets once weekly",
+    "form": "tablet"
+  },
+  "1.5stat": {
+    "full_sig": "Take 1.5 tablets PO immediately",
+    "short_sig": "1.5 tablets immediately",
+    "form": "tablet"
+  },
+  "1/2hs": {
+    "full_sig": "Take 1/2 tablets PO at bedtime",
+    "short_sig": "1/2 tablets at bedtime",
+    "form": "tablet"
+  },
+  "1/2prn": {
+    "full_sig": "Take 1/2 tablets PO as needed",
+    "short_sig": "1/2 tablets as needed",
+    "form": "tablet"
+  },
+  "1/2q12h": {
+    "full_sig": "Take 1/2 tablets PO every 12 hours",
+    "short_sig": "1/2 tablets every 12 hours",
+    "form": "tablet"
+  },
+  "1/2q4h": {
+    "full_sig": "Take 1/2 tablets PO every 4 hours",
+    "short_sig": "1/2 tablets every 4 hours",
+    "form": "tablet"
+  },
+  "1/2q6h": {
+    "full_sig": "Take 1/2 tablets PO every 6 hours",
+    "short_sig": "1/2 tablets every 6 hours",
+    "form": "tablet"
+  },
+  "1/2q8h": {
+    "full_sig": "Take 1/2 tablets PO every 8 hours",
+    "short_sig": "1/2 tablets every 8 hours",
+    "form": "tablet"
+  },
+  "1/2qmo": {
+    "full_sig": "Take 1/2 tablets PO once monthly",
+    "short_sig": "1/2 tablets once monthly",
+    "form": "tablet"
+  },
+  "1/2qod": {
+    "full_sig": "Take 1/2 tablets PO every other day",
+    "short_sig": "1/2 tablets every other day",
+    "form": "tablet"
+  },
+  "1/2qwk": {
+    "full_sig": "Take 1/2 tablets PO once weekly",
+    "short_sig": "1/2 tablets once weekly",
+    "form": "tablet"
+  },
+  "1/2stat": {
+    "full_sig": "Take 1/2 tablets PO immediately",
+    "short_sig": "1/2 tablets immediately",
+    "form": "tablet"
+  },
+  "1bid": {
+    "full_sig": "Take 1 tablets PO twice daily",
+    "short_sig": "1 tablets twice daily",
+    "form": "tablet"
+  },
+  "1hs": {
+    "full_sig": "Take 1 tablets PO at bedtime",
+    "short_sig": "1 tablets at bedtime",
+    "form": "tablet"
+  },
+  "1od": {
+    "full_sig": "Take 1 tablets PO once daily",
+    "short_sig": "1 tablets once daily",
+    "form": "tablet"
+  },
+  "1prn": {
+    "full_sig": "Take 1 tablets PO as needed",
+    "short_sig": "1 tablets as needed",
+    "form": "tablet"
+  },
+  "1q12h": {
+    "full_sig": "Take 1 tablets PO every 12 hours",
+    "short_sig": "1 tablets every 12 hours",
+    "form": "tablet"
+  },
+  "1q4h": {
+    "full_sig": "Take 1 tablets PO every 4 hours",
+    "short_sig": "1 tablets every 4 hours",
+    "form": "tablet"
+  },
+  "1q6h": {
+    "full_sig": "Take 1 tablets PO every 6 hours",
+    "short_sig": "1 tablets every 6 hours",
+    "form": "tablet"
+  },
+  "1q8h": {
+    "full_sig": "Take 1 tablets PO every 8 hours",
+    "short_sig": "1 tablets every 8 hours",
+    "form": "tablet"
+  },
+  "1qid": {
+    "full_sig": "Take 1 tablets PO four times daily",
+    "short_sig": "1 tablets four times daily",
+    "form": "tablet"
+  },
+  "1qmo": {
+    "full_sig": "Take 1 tablets PO once monthly",
+    "short_sig": "1 tablets once monthly",
+    "form": "tablet"
+  },
+  "1qod": {
+    "full_sig": "Take 1 tablets PO every other day",
+    "short_sig": "1 tablets every other day",
+    "form": "tablet"
+  },
+  "1qwk": {
+    "full_sig": "Take 1 tablets PO once weekly",
+    "short_sig": "1 tablets once weekly",
+    "form": "tablet"
+  },
+  "1stat": {
+    "full_sig": "Take 1 tablets PO immediately",
+    "short_sig": "1 tablets immediately",
+    "form": "tablet"
+  },
+  "1tid": {
+    "full_sig": "Take 1 tablets PO three times daily",
+    "short_sig": "1 tablets three times daily",
+    "form": "tablet"
+  },
+  "2.5bid": {
+    "full_sig": "Take 2.5 tablets PO twice daily",
+    "short_sig": "2.5 tablets twice daily",
+    "form": "tablet"
+  },
+  "2.5hs": {
+    "full_sig": "Take 2.5 tablets PO at bedtime",
+    "short_sig": "2.5 tablets at bedtime",
+    "form": "tablet"
+  },
+  "2.5od": {
+    "full_sig": "Take 2.5 tablets PO once daily",
+    "short_sig": "2.5 tablets once daily",
+    "form": "tablet"
+  },
+  "2.5prn": {
+    "full_sig": "Take 2.5 tablets PO as needed",
+    "short_sig": "2.5 tablets as needed",
+    "form": "tablet"
+  },
+  "2.5q12h": {
+    "full_sig": "Take 2.5 tablets PO every 12 hours",
+    "short_sig": "2.5 tablets every 12 hours",
+    "form": "tablet"
+  },
+  "2.5q4h": {
+    "full_sig": "Take 2.5 tablets PO every 4 hours",
+    "short_sig": "2.5 tablets every 4 hours",
+    "form": "tablet"
+  },
+  "2.5q6h": {
+    "full_sig": "Take 2.5 tablets PO every 6 hours",
+    "short_sig": "2.5 tablets every 6 hours",
+    "form": "tablet"
+  },
+  "2.5q8h": {
+    "full_sig": "Take 2.5 tablets PO every 8 hours",
+    "short_sig": "2.5 tablets every 8 hours",
+    "form": "tablet"
+  },
+  "2.5qid": {
+    "full_sig": "Take 2.5 tablets PO four times daily",
+    "short_sig": "2.5 tablets four times daily",
+    "form": "tablet"
+  },
+  "2.5qmo": {
+    "full_sig": "Take 2.5 tablets PO once monthly",
+    "short_sig": "2.5 tablets once monthly",
+    "form": "tablet"
+  },
+  "2.5qod": {
+    "full_sig": "Take 2.5 tablets PO every other day",
+    "short_sig": "2.5 tablets every other day",
+    "form": "tablet"
+  },
+  "2.5qwk": {
+    "full_sig": "Take 2.5 tablets PO once weekly",
+    "short_sig": "2.5 tablets once weekly",
+    "form": "tablet"
+  },
+  "2.5stat": {
+    "full_sig": "Take 2.5 tablets PO immediately",
+    "short_sig": "2.5 tablets immediately",
+    "form": "tablet"
+  },
+  "2.5tid": {
+    "full_sig": "Take 2.5 tablets PO three times daily",
+    "short_sig": "2.5 tablets three times daily",
+    "form": "tablet"
+  },
+  "2bid": {
+    "full_sig": "Take 2 tablets PO twice daily",
+    "short_sig": "2 tablets twice daily",
+    "form": "tablet"
+  },
+  "2hs": {
+    "full_sig": "Take 2 tablets PO at bedtime",
+    "short_sig": "2 tablets at bedtime",
+    "form": "tablet"
+  },
+  "2od": {
+    "full_sig": "Take 2 tablets PO once daily",
+    "short_sig": "2 tablets once daily",
+    "form": "tablet"
+  },
+  "2prn": {
+    "full_sig": "Take 2 tablets PO as needed",
+    "short_sig": "2 tablets as needed",
+    "form": "tablet"
+  },
+  "2q12h": {
+    "full_sig": "Take 2 tablets PO every 12 hours",
+    "short_sig": "2 tablets every 12 hours",
+    "form": "tablet"
+  },
+  "2q4h": {
+    "full_sig": "Take 2 tablets PO every 4 hours",
+    "short_sig": "2 tablets every 4 hours",
+    "form": "tablet"
+  },
+  "2q6h": {
+    "full_sig": "Take 2 tablets PO every 6 hours",
+    "short_sig": "2 tablets every 6 hours",
+    "form": "tablet"
+  },
+  "2q8h": {
+    "full_sig": "Take 2 tablets PO every 8 hours",
+    "short_sig": "2 tablets every 8 hours",
+    "form": "tablet"
+  },
+  "2qid": {
+    "full_sig": "Take 2 tablets PO four times daily",
+    "short_sig": "2 tablets four times daily",
+    "form": "tablet"
+  },
+  "2qmo": {
+    "full_sig": "Take 2 tablets PO once monthly",
+    "short_sig": "2 tablets once monthly",
+    "form": "tablet"
+  },
+  "2qod": {
+    "full_sig": "Take 2 tablets PO every other day",
+    "short_sig": "2 tablets every other day",
+    "form": "tablet"
+  },
+  "2qwk": {
+    "full_sig": "Take 2 tablets PO once weekly",
+    "short_sig": "2 tablets once weekly",
+    "form": "tablet"
+  },
+  "2stat": {
+    "full_sig": "Take 2 tablets PO immediately",
+    "short_sig": "2 tablets immediately",
+    "form": "tablet"
+  },
+  "2tid": {
+    "full_sig": "Take 2 tablets PO three times daily",
+    "short_sig": "2 tablets three times daily",
+    "form": "tablet"
+  },
+  "3bid": {
+    "full_sig": "Take 3 tablets PO twice daily",
+    "short_sig": "3 tablets twice daily",
+    "form": "tablet"
+  },
+  "3hs": {
+    "full_sig": "Take 3 tablets PO at bedtime",
+    "short_sig": "3 tablets at bedtime",
+    "form": "tablet"
+  },
+  "3od": {
+    "full_sig": "Take 3 tablets PO once daily",
+    "short_sig": "3 tablets once daily",
+    "form": "tablet"
+  },
+  "3prn": {
+    "full_sig": "Take 3 tablets PO as needed",
+    "short_sig": "3 tablets as needed",
+    "form": "tablet"
+  },
+  "3q12h": {
+    "full_sig": "Take 3 tablets PO every 12 hours",
+    "short_sig": "3 tablets every 12 hours",
+    "form": "tablet"
+  },
+  "3q4h": {
+    "full_sig": "Take 3 tablets PO every 4 hours",
+    "short_sig": "3 tablets every 4 hours",
+    "form": "tablet"
+  },
+  "3q6h": {
+    "full_sig": "Take 3 tablets PO every 6 hours",
+    "short_sig": "3 tablets every 6 hours",
+    "form": "tablet"
+  },
+  "3q8h": {
+    "full_sig": "Take 3 tablets PO every 8 hours",
+    "short_sig": "3 tablets every 8 hours",
+    "form": "tablet"
+  },
+  "3qid": {
+    "full_sig": "Take 3 tablets PO four times daily",
+    "short_sig": "3 tablets four times daily",
+    "form": "tablet"
+  },
+  "3qmo": {
+    "full_sig": "Take 3 tablets PO once monthly",
+    "short_sig": "3 tablets once monthly",
+    "form": "tablet"
+  },
+  "3qod": {
+    "full_sig": "Take 3 tablets PO every other day",
+    "short_sig": "3 tablets every other day",
+    "form": "tablet"
+  },
+  "3qwk": {
+    "full_sig": "Take 3 tablets PO once weekly",
+    "short_sig": "3 tablets once weekly",
+    "form": "tablet"
+  },
+  "3stat": {
+    "full_sig": "Take 3 tablets PO immediately",
+    "short_sig": "3 tablets immediately",
+    "form": "tablet"
+  },
+  "3tid": {
+    "full_sig": "Take 3 tablets PO three times daily",
+    "short_sig": "3 tablets three times daily",
+    "form": "tablet"
+  },
+  "4bid": {
+    "full_sig": "Take 4 tablets PO twice daily",
+    "short_sig": "4 tablets twice daily",
+    "form": "tablet"
+  },
+  "4hs": {
+    "full_sig": "Take 4 tablets PO at bedtime",
+    "short_sig": "4 tablets at bedtime",
+    "form": "tablet"
+  },
+  "4od": {
+    "full_sig": "Take 4 tablets PO once daily",
+    "short_sig": "4 tablets once daily",
+    "form": "tablet"
+  },
+  "4prn": {
+    "full_sig": "Take 4 tablets PO as needed",
+    "short_sig": "4 tablets as needed",
+    "form": "tablet"
+  },
+  "4q12h": {
+    "full_sig": "Take 4 tablets PO every 12 hours",
+    "short_sig": "4 tablets every 12 hours",
+    "form": "tablet"
+  },
+  "4q4h": {
+    "full_sig": "Take 4 tablets PO every 4 hours",
+    "short_sig": "4 tablets every 4 hours",
+    "form": "tablet"
+  },
+  "4q6h": {
+    "full_sig": "Take 4 tablets PO every 6 hours",
+    "short_sig": "4 tablets every 6 hours",
+    "form": "tablet"
+  },
+  "4q8h": {
+    "full_sig": "Take 4 tablets PO every 8 hours",
+    "short_sig": "4 tablets every 8 hours",
+    "form": "tablet"
+  },
+  "4qid": {
+    "full_sig": "Take 4 tablets PO four times daily",
+    "short_sig": "4 tablets four times daily",
+    "form": "tablet"
+  },
+  "4qmo": {
+    "full_sig": "Take 4 tablets PO once monthly",
+    "short_sig": "4 tablets once monthly",
+    "form": "tablet"
+  },
+  "4qod": {
+    "full_sig": "Take 4 tablets PO every other day",
+    "short_sig": "4 tablets every other day",
+    "form": "tablet"
+  },
+  "4qwk": {
+    "full_sig": "Take 4 tablets PO once weekly",
+    "short_sig": "4 tablets once weekly",
+    "form": "tablet"
+  },
+  "4stat": {
+    "full_sig": "Take 4 tablets PO immediately",
+    "short_sig": "4 tablets immediately",
+    "form": "tablet"
+  },
+  "4tid": {
+    "full_sig": "Take 4 tablets PO three times daily",
+    "short_sig": "4 tablets three times daily",
+    "form": "tablet"
+  },
+  "5bid": {
+    "full_sig": "Take 5 tablets PO twice daily",
+    "short_sig": "5 tablets twice daily",
+    "form": "tablet"
+  },
+  "5hs": {
+    "full_sig": "Take 5 tablets PO at bedtime",
+    "short_sig": "5 tablets at bedtime",
+    "form": "tablet"
+  },
+  "5od": {
+    "full_sig": "Take 5 tablets PO once daily",
+    "short_sig": "5 tablets once daily",
+    "form": "tablet"
+  },
+  "5prn": {
+    "full_sig": "Take 5 tablets PO as needed",
+    "short_sig": "5 tablets as needed",
+    "form": "tablet"
+  },
+  "5q12h": {
+    "full_sig": "Take 5 tablets PO every 12 hours",
+    "short_sig": "5 tablets every 12 hours",
+    "form": "tablet"
+  },
+  "5q4h": {
+    "full_sig": "Take 5 tablets PO every 4 hours",
+    "short_sig": "5 tablets every 4 hours",
+    "form": "tablet"
+  },
+  "5q6h": {
+    "full_sig": "Take 5 tablets PO every 6 hours",
+    "short_sig": "5 tablets every 6 hours",
+    "form": "tablet"
+  },
+  "5q8h": {
+    "full_sig": "Take 5 tablets PO every 8 hours",
+    "short_sig": "5 tablets every 8 hours",
+    "form": "tablet"
+  },
+  "5qid": {
+    "full_sig": "Take 5 tablets PO four times daily",
+    "short_sig": "5 tablets four times daily",
+    "form": "tablet"
+  },
+  "5qmo": {
+    "full_sig": "Take 5 tablets PO once monthly",
+    "short_sig": "5 tablets once monthly",
+    "form": "tablet"
+  },
+  "5qod": {
+    "full_sig": "Take 5 tablets PO every other day",
+    "short_sig": "5 tablets every other day",
+    "form": "tablet"
+  },
+  "5qwk": {
+    "full_sig": "Take 5 tablets PO once weekly",
+    "short_sig": "5 tablets once weekly",
+    "form": "tablet"
+  },
+  "5stat": {
+    "full_sig": "Take 5 tablets PO immediately",
+    "short_sig": "5 tablets immediately",
+    "form": "tablet"
+  },
+  "5tid": {
+    "full_sig": "Take 5 tablets PO three times daily",
+    "short_sig": "5 tablets three times daily",
+    "form": "tablet"
   }
 }
