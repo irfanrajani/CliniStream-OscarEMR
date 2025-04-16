@@ -1,0 +1,117 @@
+{
+  "1.5od": {
+    "full_sig": "Take 1.5 capsules PO once daily",
+    "short_sig": "1.5 capsules once daily",
+    "form": "capsule"
+  },
+  "1.5qid": {
+    "full_sig": "Take 1.5 capsules PO four times daily",
+    "short_sig": "1.5 capsules four times daily",
+    "form": "capsule"
+  },
+  "1.5tid": {
+    "full_sig": "Take 1.5 capsules PO three times daily",
+    "short_sig": "1.5 capsules three times daily",
+    "form": "capsule"
+  },
+  "1/2bid": {
+    "full_sig": "Take 1/2 capsules PO twice daily",
+    "short_sig": "0.5 capsules twice daily",
+    "form": "capsule"
+  },
+  "1/2od": {
+    "full_sig": "Take 1/2 capsules PO once daily",
+    "short_sig": "0.5 capsule once daily",
+    "form": "capsule"
+  },
+  "1/2qid": {
+    "full_sig": "Take 1/2 capsule PO four times daily",
+    "short_sig": "0.5 capsule four times daily",
+    "form": "capsule"
+  },
+  "1/2tid": {
+    "full_sig": "Take 1/2 capsule PO three times daily",
+    "short_sig": "0.5 capsule three times daily",
+    "form": "capsule"
+  },
+  "ibid": {
+    "full_sig": "Take 1 capsule PO twice daily ",
+    "short_sig": "1 capsule twice daily",
+    "form": "capsule"
+  },
+  "iibid": {
+    "full_sig": "Take 2 capsules PO twice daily ",
+    "short_sig": "2 capsules twice daily",
+    "form": "capsule"
+  },
+  "iiibid": {
+    "full_sig": "Take 3 capsules PO twice daily ",
+    "short_sig": "3 capsules twice daily",
+    "form": "capsule"
+  },
+  "iiiod": {
+    "full_sig": "Take 3 capsules PO once daily",
+    "short_sig": "3 capsules once daily",
+    "form": "capsule"
+  },
+  "iiiqid": {
+    "full_sig": "Take 3 capsules PO four times daily",
+    "short_sig": "3 capsules four times daily",
+    "form": "capsule"
+  },
+  "iiitid": {
+    "full_sig": "Take 3 capsules PO three times daily",
+    "short_sig": "3 capsules three times daily",
+    "form": "capsule"
+  },
+  "iiod": {
+    "full_sig": "Take 2 capsules PO once daily",
+    "short_sig": "2 capsules once daily",
+    "form": "capsule"
+  },
+  "iiqid": {
+    "full_sig": "Take 2 capsules PO four times daily",
+    "short_sig": "2 capsules four times daily",
+    "form": "capsule"
+  },
+  "iitid": {
+    "full_sig": "Take 2 capsules PO three times daily ",
+    "short_sig": "2 capsules three daily",
+    "form": "capsule"
+  },
+  "iod": {
+    "full_sig": "Take 1 capsule PO once daily",
+    "short_sig": "1 capsule once daily",
+    "form": "capsule"
+  },
+  "iqid": {
+    "full_sig": "Take 1 capsule PO four times daily",
+    "short_sig": "1 capsule four times daily",
+    "form": "capsule"
+  },
+  "itid": {
+    "full_sig": "Take 1 capsule PO three times daily",
+    "short_sig": "1 capsule three times daily",
+    "form": "capsule"
+  },
+  "ivbid": {
+    "full_sig": "Take 4 capsules PO twice daily ",
+    "short_sig": "4 capsules twice daily",
+    "form": "capsule"
+  },
+  "ivod": {
+    "full_sig": "Take 4 capsules PO once daily",
+    "short_sig": "4 capsules once daily",
+    "form": "capsule"
+  },
+  "ivqid": {
+    "full_sig": "Take 4 capsules PO four times daily",
+    "short_sig": "4 capsules four times daily",
+    "form": "capsule"
+  },
+  "ivtid": {
+    "full_sig": "Take 4 capsules PO three times daily",
+    "short_sig": "4 capsules three times daily",
+    "form": "capsule"
+  }
+}
