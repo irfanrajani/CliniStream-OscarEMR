@@ -1,642 +1,767 @@
 {
   "1.5od": {
-    "full_sig": "Take 1.5 capsules PO once daily",
-    "short_sig": "1.5 capsules once daily",
+    "full_sig": "Take 1.5 capsules by mouth once daily",
+    "short_sig": "1.5 capsules by mouth once daily",
     "form": "capsule"
   },
   "1.5qid": {
-    "full_sig": "Take 1.5 capsules PO four times daily",
-    "short_sig": "1.5 capsules four times daily",
+    "full_sig": "Take 1.5 capsules by mouth four times daily",
+    "short_sig": "1.5 capsules by mouth four times daily",
     "form": "capsule"
   },
   "1.5tid": {
-    "full_sig": "Take 1.5 capsules PO three times daily",
-    "short_sig": "1.5 capsules three times daily",
+    "full_sig": "Take 1.5 capsules by mouth three times daily",
+    "short_sig": "1.5 capsules by mouth three times daily",
     "form": "capsule"
   },
   "1/2bid": {
-    "full_sig": "Take 1/2 capsules PO twice daily",
-    "short_sig": "0.5 capsules twice daily",
+    "full_sig": "Take 1/2 capsules by mouth twice daily",
+    "short_sig": "1/2 capsules by mouth twice daily",
     "form": "capsule"
   },
   "1/2od": {
-    "full_sig": "Take 1/2 capsules PO once daily",
-    "short_sig": "0.5 capsule once daily",
+    "full_sig": "Take 1/2 capsules by mouth once daily",
+    "short_sig": "1/2 capsules by mouth once daily",
     "form": "capsule"
   },
   "1/2qid": {
-    "full_sig": "Take 1/2 capsule PO four times daily",
-    "short_sig": "0.5 capsule four times daily",
+    "full_sig": "Take 1/2 capsules by mouth four times daily",
+    "short_sig": "1/2 capsules by mouth four times daily",
     "form": "capsule"
   },
   "1/2tid": {
-    "full_sig": "Take 1/2 capsule PO three times daily",
-    "short_sig": "0.5 capsule three times daily",
+    "full_sig": "Take 1/2 capsules by mouth three times daily",
+    "short_sig": "1/2 capsules by mouth three times daily",
     "form": "capsule"
   },
   "ibid": {
-    "full_sig": "Take 1 capsule PO twice daily ",
-    "short_sig": "1 capsule twice daily",
+    "full_sig": "Take  capsules by mouth ibid",
+    "short_sig": "capsules by mouth ibid",
     "form": "capsule"
   },
   "iibid": {
-    "full_sig": "Take 2 capsules PO twice daily ",
-    "short_sig": "2 capsules twice daily",
+    "full_sig": "Take  capsules by mouth iibid",
+    "short_sig": "capsules by mouth iibid",
     "form": "capsule"
   },
   "iiibid": {
-    "full_sig": "Take 3 capsules PO twice daily ",
-    "short_sig": "3 capsules twice daily",
+    "full_sig": "Take  capsules by mouth iiibid",
+    "short_sig": "capsules by mouth iiibid",
     "form": "capsule"
   },
   "iiiod": {
-    "full_sig": "Take 3 capsules PO once daily",
-    "short_sig": "3 capsules once daily",
+    "full_sig": "Take  capsules by mouth iiiod",
+    "short_sig": "capsules by mouth iiiod",
     "form": "capsule"
   },
   "iiiqid": {
-    "full_sig": "Take 3 capsules PO four times daily",
-    "short_sig": "3 capsules four times daily",
+    "full_sig": "Take  capsules by mouth iiiqid",
+    "short_sig": "capsules by mouth iiiqid",
     "form": "capsule"
   },
   "iiitid": {
-    "full_sig": "Take 3 capsules PO three times daily",
-    "short_sig": "3 capsules three times daily",
+    "full_sig": "Take  capsules by mouth iiitid",
+    "short_sig": "capsules by mouth iiitid",
     "form": "capsule"
   },
   "iiod": {
-    "full_sig": "Take 2 capsules PO once daily",
-    "short_sig": "2 capsules once daily",
+    "full_sig": "Take  capsules by mouth iiod",
+    "short_sig": "capsules by mouth iiod",
     "form": "capsule"
   },
   "iiqid": {
-    "full_sig": "Take 2 capsules PO four times daily",
-    "short_sig": "2 capsules four times daily",
+    "full_sig": "Take  capsules by mouth iiqid",
+    "short_sig": "capsules by mouth iiqid",
     "form": "capsule"
   },
   "iitid": {
-    "full_sig": "Take 2 capsules PO three times daily ",
-    "short_sig": "2 capsules three daily",
+    "full_sig": "Take  capsules by mouth iitid",
+    "short_sig": "capsules by mouth iitid",
     "form": "capsule"
   },
   "iod": {
-    "full_sig": "Take 1 capsule PO once daily",
-    "short_sig": "1 capsule once daily",
+    "full_sig": "Take  capsules by mouth iod",
+    "short_sig": "capsules by mouth iod",
     "form": "capsule"
   },
   "iqid": {
-    "full_sig": "Take 1 capsule PO four times daily",
-    "short_sig": "1 capsule four times daily",
+    "full_sig": "Take  capsules by mouth iqid",
+    "short_sig": "capsules by mouth iqid",
     "form": "capsule"
   },
   "itid": {
-    "full_sig": "Take 1 capsule PO three times daily",
-    "short_sig": "1 capsule three times daily",
+    "full_sig": "Take  capsules by mouth itid",
+    "short_sig": "capsules by mouth itid",
     "form": "capsule"
   },
   "ivbid": {
-    "full_sig": "Take 4 capsules PO twice daily ",
-    "short_sig": "4 capsules twice daily",
+    "full_sig": "Take  capsules by mouth ivbid",
+    "short_sig": "capsules by mouth ivbid",
     "form": "capsule"
   },
   "ivod": {
-    "full_sig": "Take 4 capsules PO once daily",
-    "short_sig": "4 capsules once daily",
+    "full_sig": "Take  capsules by mouth ivod",
+    "short_sig": "capsules by mouth ivod",
     "form": "capsule"
   },
   "ivqid": {
-    "full_sig": "Take 4 capsules PO four times daily",
-    "short_sig": "4 capsules four times daily",
+    "full_sig": "Take  capsules by mouth ivqid",
+    "short_sig": "capsules by mouth ivqid",
     "form": "capsule"
   },
   "ivtid": {
-    "full_sig": "Take 4 capsules PO three times daily",
-    "short_sig": "4 capsules three times daily",
+    "full_sig": "Take  capsules by mouth ivtid",
+    "short_sig": "capsules by mouth ivtid",
     "form": "capsule"
   },
-  "1.5bid": {
-    "full_sig": "Take 1.5 tablets PO twice daily",
-    "short_sig": "1.5 tablets twice daily",
-    "form": "tablet"
-  },
-  "1.5hs": {
-    "full_sig": "Take 1.5 tablets PO at bedtime",
-    "short_sig": "1.5 tablets at bedtime",
-    "form": "tablet"
-  },
-  "1.5prn": {
-    "full_sig": "Take 1.5 tablets PO as needed",
-    "short_sig": "1.5 tablets as needed",
-    "form": "tablet"
-  },
-  "1.5q12h": {
-    "full_sig": "Take 1.5 tablets PO every 12 hours",
-    "short_sig": "1.5 tablets every 12 hours",
-    "form": "tablet"
-  },
-  "1.5q4h": {
-    "full_sig": "Take 1.5 tablets PO every 4 hours",
-    "short_sig": "1.5 tablets every 4 hours",
-    "form": "tablet"
-  },
-  "1.5q6h": {
-    "full_sig": "Take 1.5 tablets PO every 6 hours",
-    "short_sig": "1.5 tablets every 6 hours",
-    "form": "tablet"
-  },
-  "1.5q8h": {
-    "full_sig": "Take 1.5 tablets PO every 8 hours",
-    "short_sig": "1.5 tablets every 8 hours",
-    "form": "tablet"
-  },
-  "1.5qmo": {
-    "full_sig": "Take 1.5 tablets PO once monthly",
-    "short_sig": "1.5 tablets once monthly",
-    "form": "tablet"
-  },
-  "1.5qod": {
-    "full_sig": "Take 1.5 tablets PO every other day",
-    "short_sig": "1.5 tablets every other day",
-    "form": "tablet"
-  },
-  "1.5qwk": {
-    "full_sig": "Take 1.5 tablets PO once weekly",
-    "short_sig": "1.5 tablets once weekly",
-    "form": "tablet"
-  },
-  "1.5stat": {
-    "full_sig": "Take 1.5 tablets PO immediately",
-    "short_sig": "1.5 tablets immediately",
-    "form": "tablet"
-  },
-  "1/2hs": {
-    "full_sig": "Take 1/2 tablets PO at bedtime",
-    "short_sig": "1/2 tablets at bedtime",
-    "form": "tablet"
-  },
-  "1/2prn": {
-    "full_sig": "Take 1/2 tablets PO as needed",
-    "short_sig": "1/2 tablets as needed",
-    "form": "tablet"
-  },
-  "1/2q12h": {
-    "full_sig": "Take 1/2 tablets PO every 12 hours",
-    "short_sig": "1/2 tablets every 12 hours",
-    "form": "tablet"
-  },
-  "1/2q4h": {
-    "full_sig": "Take 1/2 tablets PO every 4 hours",
-    "short_sig": "1/2 tablets every 4 hours",
-    "form": "tablet"
-  },
-  "1/2q6h": {
-    "full_sig": "Take 1/2 tablets PO every 6 hours",
-    "short_sig": "1/2 tablets every 6 hours",
-    "form": "tablet"
-  },
-  "1/2q8h": {
-    "full_sig": "Take 1/2 tablets PO every 8 hours",
-    "short_sig": "1/2 tablets every 8 hours",
-    "form": "tablet"
-  },
-  "1/2qmo": {
-    "full_sig": "Take 1/2 tablets PO once monthly",
-    "short_sig": "1/2 tablets once monthly",
-    "form": "tablet"
-  },
-  "1/2qod": {
-    "full_sig": "Take 1/2 tablets PO every other day",
-    "short_sig": "1/2 tablets every other day",
-    "form": "tablet"
-  },
-  "1/2qwk": {
-    "full_sig": "Take 1/2 tablets PO once weekly",
-    "short_sig": "1/2 tablets once weekly",
-    "form": "tablet"
-  },
-  "1/2stat": {
-    "full_sig": "Take 1/2 tablets PO immediately",
-    "short_sig": "1/2 tablets immediately",
-    "form": "tablet"
-  },
-  "1bid": {
-    "full_sig": "Take 1 tablets PO twice daily",
-    "short_sig": "1 tablets twice daily",
-    "form": "tablet"
-  },
-  "1hs": {
-    "full_sig": "Take 1 tablets PO at bedtime",
-    "short_sig": "1 tablets at bedtime",
-    "form": "tablet"
-  },
-  "1od": {
-    "full_sig": "Take 1 tablets PO once daily",
-    "short_sig": "1 tablets once daily",
-    "form": "tablet"
-  },
-  "1prn": {
-    "full_sig": "Take 1 tablets PO as needed",
-    "short_sig": "1 tablets as needed",
-    "form": "tablet"
-  },
-  "1q12h": {
-    "full_sig": "Take 1 tablets PO every 12 hours",
-    "short_sig": "1 tablets every 12 hours",
-    "form": "tablet"
-  },
-  "1q4h": {
-    "full_sig": "Take 1 tablets PO every 4 hours",
-    "short_sig": "1 tablets every 4 hours",
-    "form": "tablet"
-  },
-  "1q6h": {
-    "full_sig": "Take 1 tablets PO every 6 hours",
-    "short_sig": "1 tablets every 6 hours",
-    "form": "tablet"
-  },
-  "1q8h": {
-    "full_sig": "Take 1 tablets PO every 8 hours",
-    "short_sig": "1 tablets every 8 hours",
-    "form": "tablet"
-  },
-  "1qid": {
-    "full_sig": "Take 1 tablets PO four times daily",
-    "short_sig": "1 tablets four times daily",
-    "form": "tablet"
-  },
-  "1qmo": {
-    "full_sig": "Take 1 tablets PO once monthly",
-    "short_sig": "1 tablets once monthly",
-    "form": "tablet"
-  },
-  "1qod": {
-    "full_sig": "Take 1 tablets PO every other day",
-    "short_sig": "1 tablets every other day",
-    "form": "tablet"
-  },
-  "1qwk": {
-    "full_sig": "Take 1 tablets PO once weekly",
-    "short_sig": "1 tablets once weekly",
-    "form": "tablet"
-  },
-  "1stat": {
-    "full_sig": "Take 1 tablets PO immediately",
-    "short_sig": "1 tablets immediately",
-    "form": "tablet"
-  },
-  "1tid": {
-    "full_sig": "Take 1 tablets PO three times daily",
-    "short_sig": "1 tablets three times daily",
-    "form": "tablet"
-  },
-  "2.5bid": {
-    "full_sig": "Take 2.5 tablets PO twice daily",
-    "short_sig": "2.5 tablets twice daily",
-    "form": "tablet"
-  },
-  "2.5hs": {
-    "full_sig": "Take 2.5 tablets PO at bedtime",
-    "short_sig": "2.5 tablets at bedtime",
-    "form": "tablet"
-  },
-  "2.5od": {
-    "full_sig": "Take 2.5 tablets PO once daily",
-    "short_sig": "2.5 tablets once daily",
-    "form": "tablet"
-  },
-  "2.5prn": {
-    "full_sig": "Take 2.5 tablets PO as needed",
-    "short_sig": "2.5 tablets as needed",
-    "form": "tablet"
-  },
-  "2.5q12h": {
-    "full_sig": "Take 2.5 tablets PO every 12 hours",
-    "short_sig": "2.5 tablets every 12 hours",
-    "form": "tablet"
-  },
-  "2.5q4h": {
-    "full_sig": "Take 2.5 tablets PO every 4 hours",
-    "short_sig": "2.5 tablets every 4 hours",
-    "form": "tablet"
-  },
-  "2.5q6h": {
-    "full_sig": "Take 2.5 tablets PO every 6 hours",
-    "short_sig": "2.5 tablets every 6 hours",
-    "form": "tablet"
-  },
-  "2.5q8h": {
-    "full_sig": "Take 2.5 tablets PO every 8 hours",
-    "short_sig": "2.5 tablets every 8 hours",
-    "form": "tablet"
-  },
-  "2.5qid": {
-    "full_sig": "Take 2.5 tablets PO four times daily",
-    "short_sig": "2.5 tablets four times daily",
-    "form": "tablet"
-  },
-  "2.5qmo": {
-    "full_sig": "Take 2.5 tablets PO once monthly",
-    "short_sig": "2.5 tablets once monthly",
-    "form": "tablet"
-  },
-  "2.5qod": {
-    "full_sig": "Take 2.5 tablets PO every other day",
-    "short_sig": "2.5 tablets every other day",
-    "form": "tablet"
-  },
-  "2.5qwk": {
-    "full_sig": "Take 2.5 tablets PO once weekly",
-    "short_sig": "2.5 tablets once weekly",
-    "form": "tablet"
-  },
-  "2.5stat": {
-    "full_sig": "Take 2.5 tablets PO immediately",
-    "short_sig": "2.5 tablets immediately",
-    "form": "tablet"
-  },
-  "2.5tid": {
-    "full_sig": "Take 2.5 tablets PO three times daily",
-    "short_sig": "2.5 tablets three times daily",
-    "form": "tablet"
-  },
-  "2bid": {
-    "full_sig": "Take 2 tablets PO twice daily",
-    "short_sig": "2 tablets twice daily",
-    "form": "tablet"
-  },
-  "2hs": {
-    "full_sig": "Take 2 tablets PO at bedtime",
-    "short_sig": "2 tablets at bedtime",
-    "form": "tablet"
-  },
-  "2od": {
-    "full_sig": "Take 2 tablets PO once daily",
-    "short_sig": "2 tablets once daily",
-    "form": "tablet"
-  },
-  "2prn": {
-    "full_sig": "Take 2 tablets PO as needed",
-    "short_sig": "2 tablets as needed",
-    "form": "tablet"
-  },
-  "2q12h": {
-    "full_sig": "Take 2 tablets PO every 12 hours",
-    "short_sig": "2 tablets every 12 hours",
-    "form": "tablet"
-  },
-  "2q4h": {
-    "full_sig": "Take 2 tablets PO every 4 hours",
-    "short_sig": "2 tablets every 4 hours",
-    "form": "tablet"
-  },
-  "2q6h": {
-    "full_sig": "Take 2 tablets PO every 6 hours",
-    "short_sig": "2 tablets every 6 hours",
-    "form": "tablet"
-  },
-  "2q8h": {
-    "full_sig": "Take 2 tablets PO every 8 hours",
-    "short_sig": "2 tablets every 8 hours",
-    "form": "tablet"
-  },
-  "2qid": {
-    "full_sig": "Take 2 tablets PO four times daily",
-    "short_sig": "2 tablets four times daily",
-    "form": "tablet"
-  },
-  "2qmo": {
-    "full_sig": "Take 2 tablets PO once monthly",
-    "short_sig": "2 tablets once monthly",
-    "form": "tablet"
-  },
-  "2qod": {
-    "full_sig": "Take 2 tablets PO every other day",
-    "short_sig": "2 tablets every other day",
-    "form": "tablet"
-  },
-  "2qwk": {
-    "full_sig": "Take 2 tablets PO once weekly",
-    "short_sig": "2 tablets once weekly",
-    "form": "tablet"
-  },
-  "2stat": {
-    "full_sig": "Take 2 tablets PO immediately",
-    "short_sig": "2 tablets immediately",
-    "form": "tablet"
-  },
-  "2tid": {
-    "full_sig": "Take 2 tablets PO three times daily",
-    "short_sig": "2 tablets three times daily",
-    "form": "tablet"
-  },
-  "3bid": {
-    "full_sig": "Take 3 tablets PO twice daily",
-    "short_sig": "3 tablets twice daily",
-    "form": "tablet"
-  },
-  "3hs": {
-    "full_sig": "Take 3 tablets PO at bedtime",
-    "short_sig": "3 tablets at bedtime",
-    "form": "tablet"
-  },
-  "3od": {
-    "full_sig": "Take 3 tablets PO once daily",
-    "short_sig": "3 tablets once daily",
-    "form": "tablet"
-  },
-  "3prn": {
-    "full_sig": "Take 3 tablets PO as needed",
-    "short_sig": "3 tablets as needed",
-    "form": "tablet"
-  },
-  "3q12h": {
-    "full_sig": "Take 3 tablets PO every 12 hours",
-    "short_sig": "3 tablets every 12 hours",
-    "form": "tablet"
-  },
-  "3q4h": {
-    "full_sig": "Take 3 tablets PO every 4 hours",
-    "short_sig": "3 tablets every 4 hours",
-    "form": "tablet"
-  },
-  "3q6h": {
-    "full_sig": "Take 3 tablets PO every 6 hours",
-    "short_sig": "3 tablets every 6 hours",
-    "form": "tablet"
-  },
-  "3q8h": {
-    "full_sig": "Take 3 tablets PO every 8 hours",
-    "short_sig": "3 tablets every 8 hours",
-    "form": "tablet"
-  },
-  "3qid": {
-    "full_sig": "Take 3 tablets PO four times daily",
-    "short_sig": "3 tablets four times daily",
-    "form": "tablet"
-  },
-  "3qmo": {
-    "full_sig": "Take 3 tablets PO once monthly",
-    "short_sig": "3 tablets once monthly",
-    "form": "tablet"
-  },
-  "3qod": {
-    "full_sig": "Take 3 tablets PO every other day",
-    "short_sig": "3 tablets every other day",
-    "form": "tablet"
-  },
-  "3qwk": {
-    "full_sig": "Take 3 tablets PO once weekly",
-    "short_sig": "3 tablets once weekly",
-    "form": "tablet"
-  },
-  "3stat": {
-    "full_sig": "Take 3 tablets PO immediately",
-    "short_sig": "3 tablets immediately",
-    "form": "tablet"
-  },
-  "3tid": {
-    "full_sig": "Take 3 tablets PO three times daily",
-    "short_sig": "3 tablets three times daily",
-    "form": "tablet"
-  },
-  "4bid": {
-    "full_sig": "Take 4 tablets PO twice daily",
-    "short_sig": "4 tablets twice daily",
-    "form": "tablet"
-  },
-  "4hs": {
-    "full_sig": "Take 4 tablets PO at bedtime",
-    "short_sig": "4 tablets at bedtime",
-    "form": "tablet"
-  },
-  "4od": {
-    "full_sig": "Take 4 tablets PO once daily",
-    "short_sig": "4 tablets once daily",
-    "form": "tablet"
-  },
-  "4prn": {
-    "full_sig": "Take 4 tablets PO as needed",
-    "short_sig": "4 tablets as needed",
-    "form": "tablet"
-  },
-  "4q12h": {
-    "full_sig": "Take 4 tablets PO every 12 hours",
-    "short_sig": "4 tablets every 12 hours",
-    "form": "tablet"
-  },
-  "4q4h": {
-    "full_sig": "Take 4 tablets PO every 4 hours",
-    "short_sig": "4 tablets every 4 hours",
-    "form": "tablet"
-  },
-  "4q6h": {
-    "full_sig": "Take 4 tablets PO every 6 hours",
-    "short_sig": "4 tablets every 6 hours",
-    "form": "tablet"
-  },
-  "4q8h": {
-    "full_sig": "Take 4 tablets PO every 8 hours",
-    "short_sig": "4 tablets every 8 hours",
-    "form": "tablet"
-  },
-  "4qid": {
-    "full_sig": "Take 4 tablets PO four times daily",
-    "short_sig": "4 tablets four times daily",
-    "form": "tablet"
-  },
-  "4qmo": {
-    "full_sig": "Take 4 tablets PO once monthly",
-    "short_sig": "4 tablets once monthly",
-    "form": "tablet"
-  },
-  "4qod": {
-    "full_sig": "Take 4 tablets PO every other day",
-    "short_sig": "4 tablets every other day",
-    "form": "tablet"
-  },
-  "4qwk": {
-    "full_sig": "Take 4 tablets PO once weekly",
-    "short_sig": "4 tablets once weekly",
-    "form": "tablet"
-  },
-  "4stat": {
-    "full_sig": "Take 4 tablets PO immediately",
-    "short_sig": "4 tablets immediately",
-    "form": "tablet"
-  },
-  "4tid": {
-    "full_sig": "Take 4 tablets PO three times daily",
-    "short_sig": "4 tablets three times daily",
-    "form": "tablet"
-  },
-  "5bid": {
-    "full_sig": "Take 5 tablets PO twice daily",
-    "short_sig": "5 tablets twice daily",
-    "form": "tablet"
-  },
-  "5hs": {
-    "full_sig": "Take 5 tablets PO at bedtime",
-    "short_sig": "5 tablets at bedtime",
-    "form": "tablet"
-  },
-  "5od": {
-    "full_sig": "Take 5 tablets PO once daily",
-    "short_sig": "5 tablets once daily",
-    "form": "tablet"
-  },
-  "5prn": {
-    "full_sig": "Take 5 tablets PO as needed",
-    "short_sig": "5 tablets as needed",
-    "form": "tablet"
-  },
-  "5q12h": {
-    "full_sig": "Take 5 tablets PO every 12 hours",
-    "short_sig": "5 tablets every 12 hours",
-    "form": "tablet"
-  },
-  "5q4h": {
-    "full_sig": "Take 5 tablets PO every 4 hours",
-    "short_sig": "5 tablets every 4 hours",
-    "form": "tablet"
-  },
-  "5q6h": {
-    "full_sig": "Take 5 tablets PO every 6 hours",
-    "short_sig": "5 tablets every 6 hours",
-    "form": "tablet"
-  },
-  "5q8h": {
-    "full_sig": "Take 5 tablets PO every 8 hours",
-    "short_sig": "5 tablets every 8 hours",
-    "form": "tablet"
-  },
-  "5qid": {
-    "full_sig": "Take 5 tablets PO four times daily",
-    "short_sig": "5 tablets four times daily",
-    "form": "tablet"
-  },
-  "5qmo": {
-    "full_sig": "Take 5 tablets PO once monthly",
-    "short_sig": "5 tablets once monthly",
-    "form": "tablet"
-  },
-  "5qod": {
-    "full_sig": "Take 5 tablets PO every other day",
-    "short_sig": "5 tablets every other day",
-    "form": "tablet"
-  },
-  "5qwk": {
-    "full_sig": "Take 5 tablets PO once weekly",
-    "short_sig": "5 tablets once weekly",
-    "form": "tablet"
-  },
-  "5stat": {
-    "full_sig": "Take 5 tablets PO immediately",
-    "short_sig": "5 tablets immediately",
-    "form": "tablet"
-  },
-  "5tid": {
-    "full_sig": "Take 5 tablets PO three times daily",
-    "short_sig": "5 tablets three times daily",
-    "form": "tablet"
+  "1od_sl": {
+    "full_sig": "Place 1 tablet under the tongue once daily",
+    "short_sig": "1 tablet sl once daily",
+    "form": "sl"
+  },
+  "1bid_sl": {
+    "full_sig": "Place 1 tablet under the tongue twice daily",
+    "short_sig": "1 tablet sl twice daily",
+    "form": "sl"
+  },
+  "1tid_sl": {
+    "full_sig": "Place 1 tablet under the tongue three times daily",
+    "short_sig": "1 tablet sl three times daily",
+    "form": "sl"
+  },
+  "1qid_sl": {
+    "full_sig": "Place 1 tablet under the tongue four times daily",
+    "short_sig": "1 tablet sl four times daily",
+    "form": "sl"
+  },
+  "1q4h_sl": {
+    "full_sig": "Place 1 tablet under the tongue every 4 hours",
+    "short_sig": "1 tablet sl every 4 hours",
+    "form": "sl"
+  },
+  "1q6h_sl": {
+    "full_sig": "Place 1 tablet under the tongue every 6 hours",
+    "short_sig": "1 tablet sl every 6 hours",
+    "form": "sl"
+  },
+  "1q8h_sl": {
+    "full_sig": "Place 1 tablet under the tongue every 8 hours",
+    "short_sig": "1 tablet sl every 8 hours",
+    "form": "sl"
+  },
+  "1q12h_sl": {
+    "full_sig": "Place 1 tablet under the tongue every 12 hours",
+    "short_sig": "1 tablet sl every 12 hours",
+    "form": "sl"
+  },
+  "1hs_sl": {
+    "full_sig": "Place 1 tablet under the tongue at bedtime",
+    "short_sig": "1 tablet sl at bedtime",
+    "form": "sl"
+  },
+  "1prn_sl": {
+    "full_sig": "Place 1 tablet under the tongue as needed",
+    "short_sig": "1 tablet sl as needed",
+    "form": "sl"
+  },
+  "1od_buc": {
+    "full_sig": "Place 1 tablet between the gum and cheek once daily",
+    "short_sig": "1 tablet buc once daily",
+    "form": "buc"
+  },
+  "1bid_buc": {
+    "full_sig": "Place 1 tablet between the gum and cheek twice daily",
+    "short_sig": "1 tablet buc twice daily",
+    "form": "buc"
+  },
+  "1tid_buc": {
+    "full_sig": "Place 1 tablet between the gum and cheek three times daily",
+    "short_sig": "1 tablet buc three times daily",
+    "form": "buc"
+  },
+  "1qid_buc": {
+    "full_sig": "Place 1 tablet between the gum and cheek four times daily",
+    "short_sig": "1 tablet buc four times daily",
+    "form": "buc"
+  },
+  "1q4h_buc": {
+    "full_sig": "Place 1 tablet between the gum and cheek every 4 hours",
+    "short_sig": "1 tablet buc every 4 hours",
+    "form": "buc"
+  },
+  "1q6h_buc": {
+    "full_sig": "Place 1 tablet between the gum and cheek every 6 hours",
+    "short_sig": "1 tablet buc every 6 hours",
+    "form": "buc"
+  },
+  "1q8h_buc": {
+    "full_sig": "Place 1 tablet between the gum and cheek every 8 hours",
+    "short_sig": "1 tablet buc every 8 hours",
+    "form": "buc"
+  },
+  "1q12h_buc": {
+    "full_sig": "Place 1 tablet between the gum and cheek every 12 hours",
+    "short_sig": "1 tablet buc every 12 hours",
+    "form": "buc"
+  },
+  "1hs_buc": {
+    "full_sig": "Place 1 tablet between the gum and cheek at bedtime",
+    "short_sig": "1 tablet buc at bedtime",
+    "form": "buc"
+  },
+  "1prn_buc": {
+    "full_sig": "Place 1 tablet between the gum and cheek as needed",
+    "short_sig": "1 tablet buc as needed",
+    "form": "buc"
+  },
+  "1od_im": {
+    "full_sig": "Inject 1 mL into the muscle once daily",
+    "short_sig": "1 mL im once daily",
+    "form": "im"
+  },
+  "1bid_im": {
+    "full_sig": "Inject 1 mL into the muscle twice daily",
+    "short_sig": "1 mL im twice daily",
+    "form": "im"
+  },
+  "1tid_im": {
+    "full_sig": "Inject 1 mL into the muscle three times daily",
+    "short_sig": "1 mL im three times daily",
+    "form": "im"
+  },
+  "1qid_im": {
+    "full_sig": "Inject 1 mL into the muscle four times daily",
+    "short_sig": "1 mL im four times daily",
+    "form": "im"
+  },
+  "1q4h_im": {
+    "full_sig": "Inject 1 mL into the muscle every 4 hours",
+    "short_sig": "1 mL im every 4 hours",
+    "form": "im"
+  },
+  "1q6h_im": {
+    "full_sig": "Inject 1 mL into the muscle every 6 hours",
+    "short_sig": "1 mL im every 6 hours",
+    "form": "im"
+  },
+  "1q8h_im": {
+    "full_sig": "Inject 1 mL into the muscle every 8 hours",
+    "short_sig": "1 mL im every 8 hours",
+    "form": "im"
+  },
+  "1q12h_im": {
+    "full_sig": "Inject 1 mL into the muscle every 12 hours",
+    "short_sig": "1 mL im every 12 hours",
+    "form": "im"
+  },
+  "1hs_im": {
+    "full_sig": "Inject 1 mL into the muscle at bedtime",
+    "short_sig": "1 mL im at bedtime",
+    "form": "im"
+  },
+  "1prn_im": {
+    "full_sig": "Inject 1 mL into the muscle as needed",
+    "short_sig": "1 mL im as needed",
+    "form": "im"
+  },
+  "1od_subq": {
+    "full_sig": "Inject 1 mL under the skin once daily",
+    "short_sig": "1 mL subq once daily",
+    "form": "subq"
+  },
+  "1bid_subq": {
+    "full_sig": "Inject 1 mL under the skin twice daily",
+    "short_sig": "1 mL subq twice daily",
+    "form": "subq"
+  },
+  "1tid_subq": {
+    "full_sig": "Inject 1 mL under the skin three times daily",
+    "short_sig": "1 mL subq three times daily",
+    "form": "subq"
+  },
+  "1qid_subq": {
+    "full_sig": "Inject 1 mL under the skin four times daily",
+    "short_sig": "1 mL subq four times daily",
+    "form": "subq"
+  },
+  "1q4h_subq": {
+    "full_sig": "Inject 1 mL under the skin every 4 hours",
+    "short_sig": "1 mL subq every 4 hours",
+    "form": "subq"
+  },
+  "1q6h_subq": {
+    "full_sig": "Inject 1 mL under the skin every 6 hours",
+    "short_sig": "1 mL subq every 6 hours",
+    "form": "subq"
+  },
+  "1q8h_subq": {
+    "full_sig": "Inject 1 mL under the skin every 8 hours",
+    "short_sig": "1 mL subq every 8 hours",
+    "form": "subq"
+  },
+  "1q12h_subq": {
+    "full_sig": "Inject 1 mL under the skin every 12 hours",
+    "short_sig": "1 mL subq every 12 hours",
+    "form": "subq"
+  },
+  "1hs_subq": {
+    "full_sig": "Inject 1 mL under the skin at bedtime",
+    "short_sig": "1 mL subq at bedtime",
+    "form": "subq"
+  },
+  "1prn_subq": {
+    "full_sig": "Inject 1 mL under the skin as needed",
+    "short_sig": "1 mL subq as needed",
+    "form": "subq"
+  },
+  "1od_topical": {
+    "full_sig": "Apply a thin layer to the affected area once daily",
+    "short_sig": "topical once daily",
+    "form": "topical"
+  },
+  "1bid_topical": {
+    "full_sig": "Apply a thin layer to the affected area twice daily",
+    "short_sig": "topical twice daily",
+    "form": "topical"
+  },
+  "1tid_topical": {
+    "full_sig": "Apply a thin layer to the affected area three times daily",
+    "short_sig": "topical three times daily",
+    "form": "topical"
+  },
+  "1qid_topical": {
+    "full_sig": "Apply a thin layer to the affected area four times daily",
+    "short_sig": "topical four times daily",
+    "form": "topical"
+  },
+  "1q4h_topical": {
+    "full_sig": "Apply a thin layer to the affected area every 4 hours",
+    "short_sig": "topical every 4 hours",
+    "form": "topical"
+  },
+  "1q6h_topical": {
+    "full_sig": "Apply a thin layer to the affected area every 6 hours",
+    "short_sig": "topical every 6 hours",
+    "form": "topical"
+  },
+  "1q8h_topical": {
+    "full_sig": "Apply a thin layer to the affected area every 8 hours",
+    "short_sig": "topical every 8 hours",
+    "form": "topical"
+  },
+  "1q12h_topical": {
+    "full_sig": "Apply a thin layer to the affected area every 12 hours",
+    "short_sig": "topical every 12 hours",
+    "form": "topical"
+  },
+  "1hs_topical": {
+    "full_sig": "Apply a thin layer to the affected area at bedtime",
+    "short_sig": "topical at bedtime",
+    "form": "topical"
+  },
+  "1prn_topical": {
+    "full_sig": "Apply a thin layer to the affected area as needed",
+    "short_sig": "topical as needed",
+    "form": "topical"
+  },
+  "1od_transdermal": {
+    "full_sig": "Apply 1 patch to the skin once daily",
+    "short_sig": "1 patch transdermal once daily",
+    "form": "transdermal"
+  },
+  "1bid_transdermal": {
+    "full_sig": "Apply 1 patch to the skin twice daily",
+    "short_sig": "1 patch transdermal twice daily",
+    "form": "transdermal"
+  },
+  "1tid_transdermal": {
+    "full_sig": "Apply 1 patch to the skin three times daily",
+    "short_sig": "1 patch transdermal three times daily",
+    "form": "transdermal"
+  },
+  "1qid_transdermal": {
+    "full_sig": "Apply 1 patch to the skin four times daily",
+    "short_sig": "1 patch transdermal four times daily",
+    "form": "transdermal"
+  },
+  "1q4h_transdermal": {
+    "full_sig": "Apply 1 patch to the skin every 4 hours",
+    "short_sig": "1 patch transdermal every 4 hours",
+    "form": "transdermal"
+  },
+  "1q6h_transdermal": {
+    "full_sig": "Apply 1 patch to the skin every 6 hours",
+    "short_sig": "1 patch transdermal every 6 hours",
+    "form": "transdermal"
+  },
+  "1q8h_transdermal": {
+    "full_sig": "Apply 1 patch to the skin every 8 hours",
+    "short_sig": "1 patch transdermal every 8 hours",
+    "form": "transdermal"
+  },
+  "1q12h_transdermal": {
+    "full_sig": "Apply 1 patch to the skin every 12 hours",
+    "short_sig": "1 patch transdermal every 12 hours",
+    "form": "transdermal"
+  },
+  "1hs_transdermal": {
+    "full_sig": "Apply 1 patch to the skin at bedtime",
+    "short_sig": "1 patch transdermal at bedtime",
+    "form": "transdermal"
+  },
+  "1prn_transdermal": {
+    "full_sig": "Apply 1 patch to the skin as needed",
+    "short_sig": "1 patch transdermal as needed",
+    "form": "transdermal"
+  },
+  "1od_ophthalmic": {
+    "full_sig": "Instill 1 drop(s) into the affected eye once daily",
+    "short_sig": "1 drop ophthalmic once daily",
+    "form": "ophthalmic"
+  },
+  "1bid_ophthalmic": {
+    "full_sig": "Instill 1 drop(s) into the affected eye twice daily",
+    "short_sig": "1 drop ophthalmic twice daily",
+    "form": "ophthalmic"
+  },
+  "1tid_ophthalmic": {
+    "full_sig": "Instill 1 drop(s) into the affected eye three times daily",
+    "short_sig": "1 drop ophthalmic three times daily",
+    "form": "ophthalmic"
+  },
+  "1qid_ophthalmic": {
+    "full_sig": "Instill 1 drop(s) into the affected eye four times daily",
+    "short_sig": "1 drop ophthalmic four times daily",
+    "form": "ophthalmic"
+  },
+  "1q4h_ophthalmic": {
+    "full_sig": "Instill 1 drop(s) into the affected eye every 4 hours",
+    "short_sig": "1 drop ophthalmic every 4 hours",
+    "form": "ophthalmic"
+  },
+  "1q6h_ophthalmic": {
+    "full_sig": "Instill 1 drop(s) into the affected eye every 6 hours",
+    "short_sig": "1 drop ophthalmic every 6 hours",
+    "form": "ophthalmic"
+  },
+  "1q8h_ophthalmic": {
+    "full_sig": "Instill 1 drop(s) into the affected eye every 8 hours",
+    "short_sig": "1 drop ophthalmic every 8 hours",
+    "form": "ophthalmic"
+  },
+  "1q12h_ophthalmic": {
+    "full_sig": "Instill 1 drop(s) into the affected eye every 12 hours",
+    "short_sig": "1 drop ophthalmic every 12 hours",
+    "form": "ophthalmic"
+  },
+  "1hs_ophthalmic": {
+    "full_sig": "Instill 1 drop(s) into the affected eye at bedtime",
+    "short_sig": "1 drop ophthalmic at bedtime",
+    "form": "ophthalmic"
+  },
+  "1prn_ophthalmic": {
+    "full_sig": "Instill 1 drop(s) into the affected eye as needed",
+    "short_sig": "1 drop ophthalmic as needed",
+    "form": "ophthalmic"
+  },
+  "1od_otic": {
+    "full_sig": "Instill 1 drop(s) into the affected ear once daily",
+    "short_sig": "1 drop otic once daily",
+    "form": "otic"
+  },
+  "1bid_otic": {
+    "full_sig": "Instill 1 drop(s) into the affected ear twice daily",
+    "short_sig": "1 drop otic twice daily",
+    "form": "otic"
+  },
+  "1tid_otic": {
+    "full_sig": "Instill 1 drop(s) into the affected ear three times daily",
+    "short_sig": "1 drop otic three times daily",
+    "form": "otic"
+  },
+  "1qid_otic": {
+    "full_sig": "Instill 1 drop(s) into the affected ear four times daily",
+    "short_sig": "1 drop otic four times daily",
+    "form": "otic"
+  },
+  "1q4h_otic": {
+    "full_sig": "Instill 1 drop(s) into the affected ear every 4 hours",
+    "short_sig": "1 drop otic every 4 hours",
+    "form": "otic"
+  },
+  "1q6h_otic": {
+    "full_sig": "Instill 1 drop(s) into the affected ear every 6 hours",
+    "short_sig": "1 drop otic every 6 hours",
+    "form": "otic"
+  },
+  "1q8h_otic": {
+    "full_sig": "Instill 1 drop(s) into the affected ear every 8 hours",
+    "short_sig": "1 drop otic every 8 hours",
+    "form": "otic"
+  },
+  "1q12h_otic": {
+    "full_sig": "Instill 1 drop(s) into the affected ear every 12 hours",
+    "short_sig": "1 drop otic every 12 hours",
+    "form": "otic"
+  },
+  "1hs_otic": {
+    "full_sig": "Instill 1 drop(s) into the affected ear at bedtime",
+    "short_sig": "1 drop otic at bedtime",
+    "form": "otic"
+  },
+  "1prn_otic": {
+    "full_sig": "Instill 1 drop(s) into the affected ear as needed",
+    "short_sig": "1 drop otic as needed",
+    "form": "otic"
+  },
+  "1od_nasal": {
+    "full_sig": "Spray 1 spray(s) into each nostril once daily",
+    "short_sig": "1 spray nasal once daily",
+    "form": "nasal"
+  },
+  "1bid_nasal": {
+    "full_sig": "Spray 1 spray(s) into each nostril twice daily",
+    "short_sig": "1 spray nasal twice daily",
+    "form": "nasal"
+  },
+  "1tid_nasal": {
+    "full_sig": "Spray 1 spray(s) into each nostril three times daily",
+    "short_sig": "1 spray nasal three times daily",
+    "form": "nasal"
+  },
+  "1qid_nasal": {
+    "full_sig": "Spray 1 spray(s) into each nostril four times daily",
+    "short_sig": "1 spray nasal four times daily",
+    "form": "nasal"
+  },
+  "1q4h_nasal": {
+    "full_sig": "Spray 1 spray(s) into each nostril every 4 hours",
+    "short_sig": "1 spray nasal every 4 hours",
+    "form": "nasal"
+  },
+  "1q6h_nasal": {
+    "full_sig": "Spray 1 spray(s) into each nostril every 6 hours",
+    "short_sig": "1 spray nasal every 6 hours",
+    "form": "nasal"
+  },
+  "1q8h_nasal": {
+    "full_sig": "Spray 1 spray(s) into each nostril every 8 hours",
+    "short_sig": "1 spray nasal every 8 hours",
+    "form": "nasal"
+  },
+  "1q12h_nasal": {
+    "full_sig": "Spray 1 spray(s) into each nostril every 12 hours",
+    "short_sig": "1 spray nasal every 12 hours",
+    "form": "nasal"
+  },
+  "1hs_nasal": {
+    "full_sig": "Spray 1 spray(s) into each nostril at bedtime",
+    "short_sig": "1 spray nasal at bedtime",
+    "form": "nasal"
+  },
+  "1prn_nasal": {
+    "full_sig": "Spray 1 spray(s) into each nostril as needed",
+    "short_sig": "1 spray nasal as needed",
+    "form": "nasal"
+  },
+  "1od_inhaled": {
+    "full_sig": "Inhale 1 puff(s) by mouth once daily",
+    "short_sig": "1 puff inhaled once daily",
+    "form": "inhaled"
+  },
+  "1bid_inhaled": {
+    "full_sig": "Inhale 1 puff(s) by mouth twice daily",
+    "short_sig": "1 puff inhaled twice daily",
+    "form": "inhaled"
+  },
+  "1tid_inhaled": {
+    "full_sig": "Inhale 1 puff(s) by mouth three times daily",
+    "short_sig": "1 puff inhaled three times daily",
+    "form": "inhaled"
+  },
+  "1qid_inhaled": {
+    "full_sig": "Inhale 1 puff(s) by mouth four times daily",
+    "short_sig": "1 puff inhaled four times daily",
+    "form": "inhaled"
+  },
+  "1q4h_inhaled": {
+    "full_sig": "Inhale 1 puff(s) by mouth every 4 hours",
+    "short_sig": "1 puff inhaled every 4 hours",
+    "form": "inhaled"
+  },
+  "1q6h_inhaled": {
+    "full_sig": "Inhale 1 puff(s) by mouth every 6 hours",
+    "short_sig": "1 puff inhaled every 6 hours",
+    "form": "inhaled"
+  },
+  "1q8h_inhaled": {
+    "full_sig": "Inhale 1 puff(s) by mouth every 8 hours",
+    "short_sig": "1 puff inhaled every 8 hours",
+    "form": "inhaled"
+  },
+  "1q12h_inhaled": {
+    "full_sig": "Inhale 1 puff(s) by mouth every 12 hours",
+    "short_sig": "1 puff inhaled every 12 hours",
+    "form": "inhaled"
+  },
+  "1hs_inhaled": {
+    "full_sig": "Inhale 1 puff(s) by mouth at bedtime",
+    "short_sig": "1 puff inhaled at bedtime",
+    "form": "inhaled"
+  },
+  "1prn_inhaled": {
+    "full_sig": "Inhale 1 puff(s) by mouth as needed",
+    "short_sig": "1 puff inhaled as needed",
+    "form": "inhaled"
+  },
+  "1od_vaginal": {
+    "full_sig": "Insert 1 suppository into the vagina once daily",
+    "short_sig": "1 suppository vaginal once daily",
+    "form": "vaginal"
+  },
+  "1bid_vaginal": {
+    "full_sig": "Insert 1 suppository into the vagina twice daily",
+    "short_sig": "1 suppository vaginal twice daily",
+    "form": "vaginal"
+  },
+  "1tid_vaginal": {
+    "full_sig": "Insert 1 suppository into the vagina three times daily",
+    "short_sig": "1 suppository vaginal three times daily",
+    "form": "vaginal"
+  },
+  "1qid_vaginal": {
+    "full_sig": "Insert 1 suppository into the vagina four times daily",
+    "short_sig": "1 suppository vaginal four times daily",
+    "form": "vaginal"
+  },
+  "1q4h_vaginal": {
+    "full_sig": "Insert 1 suppository into the vagina every 4 hours",
+    "short_sig": "1 suppository vaginal every 4 hours",
+    "form": "vaginal"
+  },
+  "1q6h_vaginal": {
+    "full_sig": "Insert 1 suppository into the vagina every 6 hours",
+    "short_sig": "1 suppository vaginal every 6 hours",
+    "form": "vaginal"
+  },
+  "1q8h_vaginal": {
+    "full_sig": "Insert 1 suppository into the vagina every 8 hours",
+    "short_sig": "1 suppository vaginal every 8 hours",
+    "form": "vaginal"
+  },
+  "1q12h_vaginal": {
+    "full_sig": "Insert 1 suppository into the vagina every 12 hours",
+    "short_sig": "1 suppository vaginal every 12 hours",
+    "form": "vaginal"
+  },
+  "1hs_vaginal": {
+    "full_sig": "Insert 1 suppository into the vagina at bedtime",
+    "short_sig": "1 suppository vaginal at bedtime",
+    "form": "vaginal"
+  },
+  "1prn_vaginal": {
+    "full_sig": "Insert 1 suppository into the vagina as needed",
+    "short_sig": "1 suppository vaginal as needed",
+    "form": "vaginal"
+  },
+  "1od_rectal": {
+    "full_sig": "Insert 1 suppository into the rectum once daily",
+    "short_sig": "1 suppository rectal once daily",
+    "form": "rectal"
+  },
+  "1bid_rectal": {
+    "full_sig": "Insert 1 suppository into the rectum twice daily",
+    "short_sig": "1 suppository rectal twice daily",
+    "form": "rectal"
+  },
+  "1tid_rectal": {
+    "full_sig": "Insert 1 suppository into the rectum three times daily",
+    "short_sig": "1 suppository rectal three times daily",
+    "form": "rectal"
+  },
+  "1qid_rectal": {
+    "full_sig": "Insert 1 suppository into the rectum four times daily",
+    "short_sig": "1 suppository rectal four times daily",
+    "form": "rectal"
+  },
+  "1q4h_rectal": {
+    "full_sig": "Insert 1 suppository into the rectum every 4 hours",
+    "short_sig": "1 suppository rectal every 4 hours",
+    "form": "rectal"
+  },
+  "1q6h_rectal": {
+    "full_sig": "Insert 1 suppository into the rectum every 6 hours",
+    "short_sig": "1 suppository rectal every 6 hours",
+    "form": "rectal"
+  },
+  "1q8h_rectal": {
+    "full_sig": "Insert 1 suppository into the rectum every 8 hours",
+    "short_sig": "1 suppository rectal every 8 hours",
+    "form": "rectal"
+  },
+  "1q12h_rectal": {
+    "full_sig": "Insert 1 suppository into the rectum every 12 hours",
+    "short_sig": "1 suppository rectal every 12 hours",
+    "form": "rectal"
+  },
+  "1hs_rectal": {
+    "full_sig": "Insert 1 suppository into the rectum at bedtime",
+    "short_sig": "1 suppository rectal at bedtime",
+    "form": "rectal"
+  },
+  "1prn_rectal": {
+    "full_sig": "Insert 1 suppository into the rectum as needed",
+    "short_sig": "1 suppository rectal as needed",
+    "form": "rectal"
+  },
+  "1od_oral rinse": {
+    "full_sig": "Rinse mouth with 1 mL and spit once daily",
+    "short_sig": "1 mL oral rinse once daily",
+    "form": "oral rinse"
+  },
+  "1bid_oral rinse": {
+    "full_sig": "Rinse mouth with 1 mL and spit twice daily",
+    "short_sig": "1 mL oral rinse twice daily",
+    "form": "oral rinse"
+  },
+  "1tid_oral rinse": {
+    "full_sig": "Rinse mouth with 1 mL and spit three times daily",
+    "short_sig": "1 mL oral rinse three times daily",
+    "form": "oral rinse"
+  },
+  "1qid_oral rinse": {
+    "full_sig": "Rinse mouth with 1 mL and spit four times daily",
+    "short_sig": "1 mL oral rinse four times daily",
+    "form": "oral rinse"
+  },
+  "1q4h_oral rinse": {
+    "full_sig": "Rinse mouth with 1 mL and spit every 4 hours",
+    "short_sig": "1 mL oral rinse every 4 hours",
+    "form": "oral rinse"
+  },
+  "1q6h_oral rinse": {
+    "full_sig": "Rinse mouth with 1 mL and spit every 6 hours",
+    "short_sig": "1 mL oral rinse every 6 hours",
+    "form": "oral rinse"
+  },
+  "1q8h_oral rinse": {
+    "full_sig": "Rinse mouth with 1 mL and spit every 8 hours",
+    "short_sig": "1 mL oral rinse every 8 hours",
+    "form": "oral rinse"
+  },
+  "1q12h_oral rinse": {
+    "full_sig": "Rinse mouth with 1 mL and spit every 12 hours",
+    "short_sig": "1 mL oral rinse every 12 hours",
+    "form": "oral rinse"
+  },
+  "1hs_oral rinse": {
+    "full_sig": "Rinse mouth with 1 mL and spit at bedtime",
+    "short_sig": "1 mL oral rinse at bedtime",
+    "form": "oral rinse"
+  },
+  "1prn_oral rinse": {
+    "full_sig": "Rinse mouth with 1 mL and spit as needed",
+    "short_sig": "1 mL oral rinse as needed",
+    "form": "oral rinse"
   }
 }
