@@ -8,8 +8,8 @@ import sys # Import sys for checking Python version if needed
 
 # --- Configuration ---
 HC_API_BASE_URI = 'https://health-products.canada.ca/api/drug'
-OUTPUT_FILENAME = 'compiled_drug_data.json'
-RESTRICTED_JSON = 'restricted_drugs.json'  # Ensure this file exists and is correct
+OUTPUT_FILENAME = 'https://raw.githubusercontent.com/irfanrajani/CliniStream-OscarEMR/refs/heads/main/compiled_drug_data.json'
+RESTRICTED_JSON = 'https://raw.githubusercontent.com/irfanrajani/CliniStream-OscarEMR/refs/heads/main/build_compiled_drug_data.py'  # Ensure this file exists and is correct
 REQUEST_TIMEOUT = 45  # Increased timeout slightly
 ENDPOINTS = {
     "schedule":         "/schedule/?lang=en&type=json",
