@@ -1,0 +1,990 @@
+{
+  "Schedule I": [
+    {
+      "name": "Opium"
+    },
+    {
+      "name": "Codeine",
+      "aliases": [
+        "methylmorphine"
+      ]
+    },
+    {
+      "name": "Morphine",
+      "aliases": [
+        "7,8-didehydro-4,5-epoxy-17-methylmorphinan-3,6-diol"
+      ]
+    },
+    {
+      "name": "Thebaine",
+      "aliases": [
+        "paramorphine"
+      ]
+    },
+    {
+      "name": "Acetorphine",
+      "aliases": [
+        "acetyletorphine"
+      ]
+    },
+    {
+      "name": "Acetyldihydrocodeine",
+      "aliases": [
+        "4,5-epoxy-3-methoxy-17-methylmorphinan-6-ol acetate"
+      ]
+    },
+    {
+      "name": "Desomorphine",
+      "aliases": [
+        "dihydrodeoxymorphine"
+      ]
+    },
+    {
+      "name": "Diacetylmorphine",
+      "aliases": [
+        "heroin"
+      ]
+    },
+    {
+      "name": "Dihydrocodeine",
+      "aliases": [
+        "4,5-epoxy-3-methoxy-17-methylmorphinan-6-ol"
+      ]
+    },
+    {
+      "name": "Dihydromorphine",
+      "aliases": [
+        "4,5-epoxy-17-methylmorphinan-3,6-diol"
+      ]
+    },
+    {
+      "name": "Ethylmorphine",
+      "aliases": [
+        "7,8-didehydro-4,5-epoxy-3-ethoxy-17-methylmorphinan-6-ol"
+      ]
+    },
+    {
+      "name": "Hydrocodone",
+      "aliases": [
+        "dihydrocodeinone"
+      ]
+    },
+    {
+      "name": "Hydromorphinol",
+      "aliases": [
+        "dihydro-14-hydroxymorphine"
+      ]
+    },
+    {
+      "name": "Hydromorphone",
+      "aliases": [
+        "dihydromorphinone"
+      ]
+    },
+    {
+      "name": "Methyldesorphine",
+      "aliases": [
+        "\u03946-deoxy-6-methylmorphine"
+      ]
+    },
+    {
+      "name": "Methyldihydromorphine",
+      "aliases": [
+        "dihydro-6-methylmorphine"
+      ]
+    },
+    {
+      "name": "Metopon",
+      "aliases": [
+        "dihydromethylmorphinone"
+      ]
+    },
+    {
+      "name": "Morphine-N-oxide",
+      "aliases": [
+        "morphine oxide"
+      ]
+    },
+    {
+      "name": "Myrophine",
+      "aliases": [
+        "benzylmorphine myristate"
+      ]
+    },
+    {
+      "name": "Nalorphine",
+      "aliases": [
+        "N-allylnormorphine"
+      ]
+    },
+    {
+      "name": "Nicocodine",
+      "aliases": [
+        "6-nicotinylcodeine"
+      ]
+    },
+    {
+      "name": "Nicomorphine",
+      "aliases": [
+        "dinicotinylmorphine"
+      ]
+    },
+    {
+      "name": "Norcodeine",
+      "aliases": [
+        "N-desmethylcodeine"
+      ]
+    },
+    {
+      "name": "Normorphine",
+      "aliases": [
+        "N-desmethylmorphine"
+      ]
+    },
+    {
+      "name": "Oxycodone",
+      "aliases": [
+        "dihydrohydroxycodeinone"
+      ]
+    },
+    {
+      "name": "Oxymorphone",
+      "aliases": [
+        "dihydrohydroxymorphinone"
+      ]
+    },
+    {
+      "name": "Thebacon",
+      "aliases": [
+        "acetyldihydrocodeinone"
+      ]
+    },
+    {
+      "name": "Poppy seed"
+    },
+    {
+      "name": "Coca leaves"
+    },
+    {
+      "name": "Cocaine",
+      "aliases": [
+        "benzoylmethylecgonine"
+      ]
+    },
+    {
+      "name": "Ecgonine",
+      "aliases": [
+        "3-hydroxy-2-tropane carboxylic acid"
+      ]
+    },
+    {
+      "name": "123l-ioflupane"
+    },
+    {
+      "name": "Allylprodine",
+      "aliases": [
+        "3-allyl-1-methyl-4-phenyl-4-piperidinol propionate"
+      ]
+    },
+    {
+      "name": "Alphameprodine",
+      "aliases": [
+        "\u03b1-3-ethyl-1-methyl-4-phenyl-4-piperidinol propionate"
+      ]
+    },
+    {
+      "name": "Alphaprodine",
+      "aliases": [
+        "\u03b1-1,3-dimethyl-4-phenyl-4-piperidinol propionate"
+      ]
+    },
+    {
+      "name": "Betameprodine",
+      "aliases": [
+        "\u03b2-3-ethyl-1-methyl-4-phenyl-4-piperidinol propionate"
+      ]
+    },
+    {
+      "name": "Betaprodine",
+      "aliases": [
+        "\u03b2-1,3-dimethyl-4-phenyl-4-piperidinol propionate"
+      ]
+    },
+    {
+      "name": "Methylphenylisonipecotonitrile",
+      "aliases": [
+        "4-cyano-1-methyl-4-phenylpiperidine"
+      ]
+    },
+    {
+      "name": "Norpethidine",
+      "aliases": [
+        "ethyl 4-phenylpiperidine-4-carboxylate"
+      ]
+    },
+    {
+      "name": "Pethidine",
+      "aliases": [
+        "ethyl 1-methyl-4-phenylpiperidine-4-carboxylate"
+      ]
+    },
+    {
+      "name": "Properidine",
+      "aliases": [
+        "isopropyl 1-methyl-4-phenylpiperidine-4-carboxylate"
+      ]
+    },
+    {
+      "name": "Trimeperidine",
+      "aliases": [
+        "1,2,5-trimethyl-4-phenyl-4-piperidinol propionate"
+      ]
+    },
+    {
+      "name": "Pethidine Intermediate C",
+      "aliases": [
+        "1-methyl-4-phenylpiperidine-4-carboxylate"
+      ]
+    },
+    {
+      "name": "Proheptazine",
+      "aliases": [
+        "hexahydro-1,3-dimethyl-4-phenyl-1H-azepin-4-ol propionate"
+      ]
+    },
+    {
+      "name": "Dimethylaminodiphenylbutanonitrile",
+      "aliases": [
+        "4-cyano-2-dimethylamino-4,4-diphenylbutane"
+      ]
+    },
+    {
+      "name": "Dipipanone",
+      "aliases": [
+        "4,4-diphenyl-6-piperidino-3-heptanone"
+      ]
+    },
+    {
+      "name": "Isomethadone",
+      "aliases": [
+        "6-dimethylamino-5-methyl-4,4-diphenyl-3-hexanone"
+      ]
+    },
+    {
+      "name": "Methadone",
+      "aliases": [
+        "6-dimethylamino-4,4-diphenyl-3-heptanone"
+      ]
+    },
+    {
+      "name": "Normethadone",
+      "aliases": [
+        "6-dimethylamino-4,4-diphenyl-3-hexanone"
+      ]
+    },
+    {
+      "name": "Norpipanone",
+      "aliases": [
+        "4,4-diphenyl-6-piperidino-3-hexanone"
+      ]
+    },
+    {
+      "name": "Phenadoxone",
+      "aliases": [
+        "6-morpholino-4,4-diphenyl-3-heptanone"
+      ]
+    },
+    {
+      "name": "Acetylmethadol",
+      "aliases": [
+        "6-dimethylamino-4,4-diphenyl-3-heptanol acetate"
+      ]
+    },
+    {
+      "name": "Alphacetylmethadol",
+      "aliases": [
+        "\u03b1-6-dimethylamino-4,4-diphenyl-3-heptanol acetate"
+      ]
+    },
+    {
+      "name": "Alphamethadol",
+      "aliases": [
+        "\u03b1-6-dimethylamino-4,4-diphenyl-3-heptanol"
+      ]
+    },
+    {
+      "name": "Betacetylmethadol",
+      "aliases": [
+        "\u03b2-6-dimethylamino-4,4-diphenyl-3-heptanol acetate"
+      ]
+    },
+    {
+      "name": "Betamethadol",
+      "aliases": [
+        "\u03b2-6-dimethylamino-4,4-diphenyl-3-heptanol"
+      ]
+    },
+    {
+      "name": "Dimepheptanol",
+      "aliases": [
+        "6-dimethylamino-4,4-diphenyl-3-heptanol"
+      ]
+    },
+    {
+      "name": "Noracymethadol",
+      "aliases": [
+        "\u03b1-6-methylamino-4,4-diphenyl-3-heptanol acetate"
+      ]
+    },
+    {
+      "name": "Dimenoxadol",
+      "aliases": [
+        "dimethylaminoethyl 1-ethoxy-1,1-diphenylacetate"
+      ]
+    },
+    {
+      "name": "Dioxaphetyl butyrate",
+      "aliases": [
+        "ethyl 2,2-diphenyl-4-morpholinobutyrate"
+      ]
+    },
+    {
+      "name": "Diethylthiambutene",
+      "aliases": [
+        "N,N-diethyl-1-methyl-3,3-di-2-thienylallylamine"
+      ]
+    },
+    {
+      "name": "Dimethylthiambutene",
+      "aliases": [
+        "N,N,1-trimethyl-3,3-di-2-thienylallylamine"
+      ]
+    },
+    {
+      "name": "Ethylmethylthiambutene",
+      "aliases": [
+        "N-ethyl-N,1-dimethyl-3,3-di-2-thienylallylamine"
+      ]
+    },
+    {
+      "name": "Diphenylmorpholinoisovaleric acid",
+      "aliases": [
+        "2-methyl-3-morpholino-1,1-diphenylpropionic acid"
+      ]
+    },
+    {
+      "name": "Drotebanol",
+      "aliases": [
+        "6\u03b2,14-dihydroxy-3,4-dimethoxy-17-methylmorphinan"
+      ]
+    },
+    {
+      "name": "Levomethorphan",
+      "aliases": [
+        "l-3-methoxy-17-methylmorphinan"
+      ]
+    },
+    {
+      "name": "Levorphanol",
+      "aliases": [
+        "l-3-hydroxy-17-methylmorphinan"
+      ]
+    },
+    {
+      "name": "Levophenacylmorphan",
+      "aliases": [
+        "l-3-hydroxy-17-phenacylmorphinan"
+      ]
+    },
+    {
+      "name": "Norlevorphanol",
+      "aliases": [
+        "l-3-hydroxymorphinan"
+      ]
+    },
+    {
+      "name": "Racemethorphan",
+      "aliases": [
+        "d,1-3-methoxy-17-methylmorphinan"
+      ]
+    },
+    {
+      "name": "Racemorphan",
+      "aliases": [
+        "d,l-3-hydroxy-N-methylmorphinan"
+      ]
+    },
+    {
+      "name": "Phenazocine",
+      "aliases": [
+        "1,2,3,4,5,6-hexahydro-6,11-dimethyl-3-phenethyl-2,6-methano-3-benzazocin-8-ol"
+      ]
+    },
+    {
+      "name": "Metazocine",
+      "aliases": [
+        "1,2,3,4,5,6-hexahydro-3,6,11-trimethyl-2,6-methano-3-benzazocin-8-ol"
+      ]
+    },
+    {
+      "name": "Amphetamine",
+      "aliases": [
+        "\u03b1-methylbenzene-ethanamine"
+      ]
+    },
+    {
+      "name": "N-ethylamphetamine",
+      "aliases": [
+        "N-ethyl-\u03b1-methylbenzeneethanamine"
+      ]
+    },
+    {
+      "name": "4-methoxyamphetamine",
+      "aliases": [
+        "4-methoxy-\u03b1-methylbenzeneethanamine"
+      ]
+    },
+    {
+      "name": "4-ethoxyamphetamine",
+      "aliases": [
+        "4-ethoxy-\u03b1-methylbenzeneethanamine"
+      ]
+    },
+    {
+      "name": "Benzphetamine",
+      "aliases": [
+        "N-benzyl-N,\u03b1-dimethylbenzeneethanamine"
+      ]
+    }
+  ],
+  "Schedule II": [
+    {
+      "name": "Parahexyl",
+      "aliases": [
+        "3-hexyl-6,6,9-trimethyl-7,8,9,10-tetrahydro-6H-dibenzo[b,d]pyran-1-ol"
+      ]
+    },
+    {
+      "name": "1-pentyl-8-quinolinyl ester-1H-indole-3-carboxylic acid",
+      "aliases": [
+        "PB-22"
+      ]
+    }
+  ],
+  "Schedule III": [],
+  "Schedule IV": [
+    {
+      "name": "Allobarbital",
+      "aliases": [
+        "5,5-diallylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Alphenal",
+      "aliases": [
+        "5-allyl-5-phenylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Aprobarbital",
+      "aliases": [
+        "5-allyl-5-isopropylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Barbital",
+      "aliases": [
+        "5,5-diethylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Butabarbital",
+      "aliases": [
+        "5-sec-butyl-5-ethylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Butalbital",
+      "aliases": [
+        "5-allyl-5-isobutylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Butethal",
+      "aliases": [
+        "5-butyl-5-ethylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Hexethal",
+      "aliases": [
+        "5-ethyl-5-hexylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Mephobarbital",
+      "aliases": [
+        "5-ethyl-1-methyl-5-phenylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Methabarbital",
+      "aliases": [
+        "5,5-diethyl-1-methylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Methylphenobarbital",
+      "aliases": [
+        "5-ethyl-1-methyl-5-phenylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Phenobarbital",
+      "aliases": [
+        "5-ethyl-5-phenylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Probarbital",
+      "aliases": [
+        "5-ethyl-5-isopropylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Phenylmethylbarbituric acid",
+      "aliases": [
+        "5-methyl-5-phenylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Talbutal",
+      "aliases": [
+        "5-allyl-5-sec-butylbarbituric acid"
+      ]
+    },
+    {
+      "name": "Thiobarbituric acid",
+      "aliases": [
+        "2-thiobarbituric acid"
+      ]
+    },
+    {
+      "name": "Glutethimide",
+      "aliases": [
+        "2-ethyl-2-phenylglutarimide"
+      ]
+    },
+    {
+      "name": "Ethchlorvynol",
+      "aliases": [
+        "ethyl-2-chlorovinyl ethynyl carbinol"
+      ]
+    },
+    {
+      "name": "Ethinamate",
+      "aliases": [
+        "1-ethynylcyclohexanol carbamate"
+      ]
+    },
+    {
+      "name": "Meprobamate",
+      "aliases": [
+        "2-methyl-2-propyl-1,3-propanediol dicarbamate"
+      ]
+    },
+    {
+      "name": "Methyprylon",
+      "aliases": [
+        "3,3-diethyl-5-methyl-2,4-piperidinedione"
+      ]
+    },
+    {
+      "name": "Alprazolam",
+      "aliases": [
+        "8-chloro-1-methyl-6-phenyl-4H-s-triazolo[4,3-a][1,4] benzodiazepine"
+      ]
+    },
+    {
+      "name": "Clorazepate",
+      "aliases": [
+        "7-chloro-2,3-dihydro-2,2-dihydroxy-5-phenyl-1H-1,4-benzodiazepine-3-carboxylic acid"
+      ]
+    },
+    {
+      "name": "Diazepam",
+      "aliases": [
+        "7-chloro-1,3-dihydro-1-methyl-5-phenyl-2H-1,4-benzodiazepin-2-one"
+      ]
+    },
+    {
+      "name": "Estazolam",
+      "aliases": [
+        "8-chloro-6-phenyl-4H-s-triazolo [4,3-a][1,4]benzodiazepine"
+      ]
+    },
+    {
+      "name": "Medazepam",
+      "aliases": [
+        "7-chloro-2,3-dihydro-1-methyl-5-phenyl-1H-1,4-benzodiazepine"
+      ]
+    },
+    {
+      "name": "Nimetazepam",
+      "aliases": [
+        "1,3-dihydro-1-methyl-7-nitro-5-phenyl-2H-1,4-benzodiazepin-2-one"
+      ]
+    },
+    {
+      "name": "Nitrazepam",
+      "aliases": [
+        "1,3-dihydro-7-nitro-5-phenyl-2H-1,4-benzodiazepin-2-one"
+      ]
+    },
+    {
+      "name": "Nordazepam",
+      "aliases": [
+        "7-chloro-1,3-dihydro-5-phenyl-2H-1,4-benzodiazepin-2-one"
+      ]
+    },
+    {
+      "name": "Oxazepam",
+      "aliases": [
+        "7-chloro-1,3-dihydro-3-hydroxy-5-phenyl-2H-1,4-benzodiazepin-2-one"
+      ]
+    },
+    {
+      "name": "Temazepam",
+      "aliases": [
+        "7-chloro-1,3-dihydro-3-hydroxy-1-methyl-5-phenyl-2H-1,4-benzodiazepin-2-one"
+      ]
+    },
+    {
+      "name": "Cathine",
+      "aliases": [
+        "d-threo-2-amino-1-hydroxy-1-phenylpropane"
+      ]
+    },
+    {
+      "name": "Androisoxazole",
+      "aliases": [
+        "17\u00df-hydroxy-17\u03b1-methylandrostano [3,2-c]isoxazole"
+      ]
+    },
+    {
+      "name": "Androstanolone",
+      "aliases": [
+        "17\u00df-hydroxy-5\u03b1-androstan-3-one"
+      ]
+    },
+    {
+      "name": "Androstenediol",
+      "aliases": [
+        "androst-5-ene-3\u00df,17\u00df-diol"
+      ]
+    },
+    {
+      "name": "Bolandiol",
+      "aliases": [
+        "estr-4-ene-3\u00df,17\u00df-diol"
+      ]
+    },
+    {
+      "name": "Bolasterone",
+      "aliases": [
+        "17\u00df-hydroxy-7\u03b1,17-dimethylandrost-4-en-3-one"
+      ]
+    },
+    {
+      "name": "Bolazine",
+      "aliases": [
+        "17\u00df-hydroxy-2\u03b1-methyl-5\u03b1-androstan-3-one azine"
+      ]
+    },
+    {
+      "name": "Boldenone",
+      "aliases": [
+        "17\u00df-hydroxyandrosta-1,4-dien-3-one"
+      ]
+    },
+    {
+      "name": "Bolenol",
+      "aliases": [
+        "19-nor-17\u03b1-pregn-5-en-17-ol"
+      ]
+    },
+    {
+      "name": "Calusterone",
+      "aliases": [
+        "17\u00df-hydroxy-7\u00df,17-dimethylandrost-4-en-3-one"
+      ]
+    },
+    {
+      "name": "Clostebol",
+      "aliases": [
+        "4-chloro-17\u00df-hydroxyandrost-4-en-3-one"
+      ]
+    },
+    {
+      "name": "Drostanolone",
+      "aliases": [
+        "17\u00df-hydroxy-2\u03b1-methyl-5\u03b1-androstan-3-one"
+      ]
+    },
+    {
+      "name": "Enestebol",
+      "aliases": [
+        "4, 17\u00df-dihydroxy-17-methylandrosta-1,4-dien-3-one"
+      ]
+    },
+    {
+      "name": "Epitiostanol",
+      "aliases": [
+        "2\u03b1, 3\u03b1-epithio-5\u03b1-androstan-17\u00df-ol"
+      ]
+    },
+    {
+      "name": "Ethylestrenol",
+      "aliases": [
+        "19-nor-17\u03b1-pregn-4-en-17-ol"
+      ]
+    },
+    {
+      "name": "4-Hydroxy-19-nor testosterone",
+      "aliases": [
+        "4-HO-Nandrolone"
+      ]
+    },
+    {
+      "name": "Fluoxymesterone",
+      "aliases": [
+        "9-fluoro-11\u00df,17\u00df-dihydroxy-17-methylandrost-4-en-3-one"
+      ]
+    },
+    {
+      "name": "Formebolone",
+      "aliases": [
+        "11\u03b1, 17\u00df-dihydroxy-17-methyl-3-oxoandrosta-1,4 di-en-2-carboxaldehyde"
+      ]
+    },
+    {
+      "name": "Furazabol",
+      "aliases": [
+        "17-methyl-5\u03b1-androstano[2,3-c] furazan-17\u00df-ol"
+      ]
+    },
+    {
+      "name": "Mebolazine",
+      "aliases": [
+        "17\u00df-hydroxy-2\u03b1,17-dimethyl-5\u03b1-androstan-3-one azine"
+      ]
+    },
+    {
+      "name": "Mesterolone",
+      "aliases": [
+        "17\u00df-hydroxy-1\u03b1-methyl-5\u03b1-androstan-3-one"
+      ]
+    },
+    {
+      "name": "Metandienone",
+      "aliases": [
+        "17\u00df-hydroxy-17-methylandrosta-1,4-dien-3-one"
+      ]
+    },
+    {
+      "name": "Metenolone",
+      "aliases": [
+        "17\u00df-hydroxy-1-methyl-5\u03b1-androst-1-en-3-one"
+      ]
+    },
+    {
+      "name": "Methandriol",
+      "aliases": [
+        "17\u03b1-methylandrost-5-ene-3\u00df,17\u00df-diol"
+      ]
+    },
+    {
+      "name": "Methyltestosterone",
+      "aliases": [
+        "17\u00df-hydroxy-17-methylandrost-4-en-3-one"
+      ]
+    },
+    {
+      "name": "Metribolone",
+      "aliases": [
+        "17\u00df-hydroxy-17-methylestra-4, 9,11-trien-3-one"
+      ]
+    },
+    {
+      "name": "Mibolerone",
+      "aliases": [
+        "17\u00df-hydroxy-7\u03b1,17-dimethylestr-4-en-3-one"
+      ]
+    },
+    {
+      "name": "Nandrolone",
+      "aliases": [
+        "17\u00df-hydroxyestr-4-en-3-one"
+      ]
+    },
+    {
+      "name": "Norboletone",
+      "aliases": [
+        "13-ethyl-17\u00df-hydroxy-18, 19-dinorpregn-4-en-3-one"
+      ]
+    },
+    {
+      "name": "Norclostebol",
+      "aliases": [
+        "4-chloro-17\u00df-hydroxyestr-4-en-3-one"
+      ]
+    },
+    {
+      "name": "Norethandrolone",
+      "aliases": [
+        "17\u03b1-ethyl-17\u00df-hydroxyestr-4-en-3-one"
+      ]
+    },
+    {
+      "name": "Oxabolone",
+      "aliases": [
+        "4,17\u00df-dihydroxyestr-4-en-3-one"
+      ]
+    },
+    {
+      "name": "Oxandrolone",
+      "aliases": [
+        "17\u00df-hydroxy-17-methyl-2-oxa-5\u03b1-androstan-3-one"
+      ]
+    },
+    {
+      "name": "Oxymesterone",
+      "aliases": [
+        "4,17\u00df-dihydroxy-17-methylandrost-4-en-3-one"
+      ]
+    },
+    {
+      "name": "Prasterone",
+      "aliases": [
+        "3\u00df-hydroxyandrost-5-en-17-one"
+      ]
+    },
+    {
+      "name": "Stanozolol",
+      "aliases": [
+        "17\u00df-hydroxy-17-methyl-5\u03b1-androstano [3,2-c]pyrazole"
+      ]
+    },
+    {
+      "name": "Stenbolone",
+      "aliases": [
+        "17\u00df-hydroxy-2-methyl-5\u03b1-androst-1-en-3-one"
+      ]
+    },
+    {
+      "name": "Testosterone",
+      "aliases": [
+        "17\u00df-hydroxyandrost-4-en-3-one"
+      ]
+    },
+    {
+      "name": "Trenbolone",
+      "aliases": [
+        "17\u00df-hydroxyestra-4,9,11-trien-3-one"
+      ]
+    },
+    {
+      "name": "Zeranol",
+      "aliases": [
+        "3,4,5,6,7,8,9,10,11,12-decahydro-7,14,16-trihydroxy-3-methyl-1H-2-benzoxacyclotetradecin-1-one"
+      ]
+    }
+  ],
+  "Schedule V": [],
+  "Schedule VI": [
+    {
+      "name": "PART 1"
+    },
+    {
+      "name": "Acetic anhydride"
+    },
+    {
+      "name": "methyl 2-methyl-3-phenyloxirane-2-carboxylate",
+      "aliases": [
+        "BMK methyl glycidate"
+      ]
+    },
+    {
+      "name": "3-oxo-2-phenylbutanamide",
+      "aliases": [
+        "\u03b1- phenylacetoacetamide-APAA"
+      ]
+    },
+    {
+      "name": "Phenylacetic acid and its salts"
+    },
+    {
+      "name": "Piperidine and its salts"
+    },
+    {
+      "name": "Piperonal",
+      "aliases": [
+        "1,3-benzodioxole-5-carboxaldehyde"
+      ]
+    },
+    {
+      "name": "Potassium permanganate"
+    },
+    {
+      "name": "Red Phosphorus"
+    },
+    {
+      "name": "White Phosphorus"
+    },
+    {
+      "name": "Hydriodic acid"
+    },
+    {
+      "name": "Propionyl chloride"
+    },
+    {
+      "name": "1-Phenethyl-4-piperidone and its salts"
+    },
+    {
+      "name": "4-Piperidone and its salts"
+    },
+    {
+      "name": "1-Phenethylpiperidin-4-ylidenephenylamine and its salts"
+    },
+    {
+      "name": "PART 2"
+    },
+    {
+      "name": "Acetone"
+    },
+    {
+      "name": "Diethyl ether"
+    },
+    {
+      "name": "Hydrochloric acid"
+    },
+    {
+      "name": "Methyl ethyl ketone"
+    },
+    {
+      "name": "Sulfuric acid"
+    },
+    {
+      "name": "Toluene"
+    },
+    {
+      "name": "PART 3"
+    },
+    {
+      "name": "Preparations and Mixtures"
+    }
+  ],
+  "Schedule VII": [],
+  "Schedule VIII": [],
+  "Schedule IX": []
+}
