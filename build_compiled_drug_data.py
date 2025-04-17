@@ -8,6 +8,13 @@ import gzip
 from collections import defaultdict
 import sys
 
+# Enable debugging based on environment variable
+DEBUG = os.getenv("DEBUG") == "true"
+
+def log_debug(message):
+    if DEBUG:
+        print(f"[DEBUG] {message}")
+        
 # --- Configuration ---
 HC_API_BASE_URI = 'https://health-products.canada.ca/api/drug'
 OUTPUT_FILENAME = 'compiled_drug_data.json'
