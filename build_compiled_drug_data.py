@@ -10,8 +10,8 @@ import sys # Import sys for checking Python version if needed
 # --- Configuration ---
 HC_API_BASE_URI = 'https://health-products.canada.ca/api/drug'
 # *** CORRECTED LOCAL FILE PATHS ***
-OUTPUT_FILENAME = 'compiled_drug_data.json' # Local filename to WRITE output
-RESTRICTED_JSON = 'restricted_drugs.json'  # Local filename to READ restrictions
+OUTPUT_FILENAME = 'https://raw.githubusercontent.com/irfanrajani/CliniStream-OscarEMR/refs/heads/main/compiled_drug_data.json' # Local filename to WRITE output
+RESTRICTED_JSON = 'https://raw.githubusercontent.com/irfanrajani/CliniStream-OscarEMR/refs/heads/main/restricted_drugs.json'  # Local filename to READ restrictions
 # **********************************
 REQUEST_TIMEOUT = 45  # Increased timeout slightly
 ENDPOINTS = {
