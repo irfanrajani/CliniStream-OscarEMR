@@ -755,23 +755,26 @@
       setupKeyboardNavigation();
 
       // fetch JSON
-      $.getJSON(COMPILED_DATA_URL)
-        .done(data => {
-          compiledDrugData = Array.isArray(data) ? data : [];
-          $('#loadingMessage').hide();
-          if (!compiledDrugData.length) {
-            $('#errorMessage').text("No medication data available.").show();
-            return;
-          }
-          $('#medicationDrugField_0')
-            .prop('disabled', false)
-            .attr('placeholder', 'Start typing medication name…');
-          attachMedAutocomplete($('#medicationDrugField_0'));
-        })
-        .fail(() => {
-          $('#loadingMessage').hide();
-          $('#errorMessage').show();
-        });
+// fetch JSON
+    $.getJSON(COMPILED_DATA_URL)
+      .done(data => {
+        compiledDrugData = Array.isArray(data) ? data : [];
+        $('#loadingMessage').hide();
+        if (!compiledDrugData.length) {
+          $('#errorMessage').text("No medication data available.").show();
+          return;
+        }
+        
+        // THIS IS THE CRITICAL PART - MAKE SURE THE INPUT IS ENABLED
+        $('#medicationDrugField_0')
+          .removeAttr('disabled')  // Explicitly remove the disabled attribute
+          .prop('disabled', false) // Double check by setting the property to false
+          .attr('placeholder', 'Start typing medication name…');
+        
+        console.log("Enabling medication field"); // Add this debug line
+        
+        attachMedAutocomplete($('#medicationDrugField_0'));
+      })
 
       // populate units on form change
       $('#medicationEntryArea').on('change', '.medication-dosage-form', function() {
