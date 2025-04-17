@@ -3,7 +3,6 @@ import requests
 import json
 import os
 import time
-# import re # Removed as it was unused
 import gzip
 from collections import defaultdict
 import sys
@@ -28,21 +27,38 @@ ENDPOINTS = {
     "form": "/form/?lang=en&type=json",
     # Add other endpoints if needed (e.g., company, packaging)
 }
-# Prefixes to identify controlled/narcotic schedules
+
+# Update controlled schedule prefixes to be more comprehensive
 CONTROLLED_SCHEDULE_PREFIXES = [
-    "schedule f", # Prescription Drug List often includes items needing careful handling, but not strictly CDSA
+    "schedule f", 
+    "schedule g",
     "schedule i",
     "schedule ii",
     "schedule iii",
     "schedule iv",
     "schedule v",
     "narcotic",
-    "controlled part i",
-    "controlled part ii",
-    "controlled part iii",
-    "targeted substance", # Added based on common restriction types
-    "benzodiazepine", # Often listed specifically
+    "controlled",  # More general to catch any controlled designation
+    "targeted substance",
+    "benzodiazepine",
+    "cdsa",        # To catch any CDSA references
+    "prescription", # Some controlled medications may be labeled as prescription
 ]
+
+# List of known controlled substances that should always be flagged
+ALWAYS_RESTRICTED_INGREDIENTS = {
+    "methylphenidate", "apomorphine", "codeine", "morphine", "oxycodone", 
+    "hydrocodone", "fentanyl", "amphetamine", "dextroamphetamine", 
+    "buprenorphine", "methadone", "tramadol", "tapentadol", "opium",
+    "alprazolam", "diazepam", "lorazepam", "clonazepam", "temazepam", 
+    "zolpidem", "zopiclone", "eszopiclone", "modafinil", "armodafinil",
+    "lisdexamfetamine", "phentermine", "ketamine", "ghb", "cannabis",
+    "marijuana", "thc", "cbd", "cocaine", "hydromorphone", "oxymorphone",
+    "meperidine", "pentazocine", "butorphanol", "levorphanol", "carisoprodol", 
+    "pentobarbital", "phenobarbital", "secobarbital", "glutethimide",
+    "midazolam", "triazolam", "estazolam", "flurazepam", "quazepam",
+    "bromazepam", "chlordiazepoxide", "prazepam", "flunitrazepam"
+}
 
 # --- Helper Functions ---
 def fetch_data(name, path):
@@ -75,9 +91,6 @@ def fetch_data(name, path):
     except requests.exceptions.HTTPError as e:
         print(f"  ❌ HTTP Error fetching {name}: {e.response.status_code} {e.response.reason}")
         print(f"     URL: {url}")
-        # Optionally print response text for debugging certain errors (like 4xx)
-        # if 400 <= e.response.status_code < 500:
-        #     print(f"     Response text: {e.response.text[:200]}...")
         return None # Indicate critical failure
     except requests.exceptions.RequestException as e:
         print(f"  ❌ Network/Request Error fetching {name}: {e}")
@@ -141,42 +154,57 @@ def build_compiled_data():
 
     if fetch_failed:
         print("\n⚠️ WARNING: One or more data fetches failed. Output data may be incomplete.")
-        # Optionally exit here if all data sources are considered mandatory:
-        # print("🛑 Aborting due to data fetch failures.")
-        # sys.exit(1)
 
     # --- Load restricted drug list ---
     print("\n--- Loading Restricted Drug List ---")
-    restricted_product_aliases = set()
-    restricted_ingredient_aliases = set() # Separate set for ingredients if needed
+    restricted_names = set()
+    restricted_aliases = set()
     restricted_json_path = os.path.join(script_dir, RESTRICTED_JSON)
+    
     try:
         with open(restricted_json_path, 'r', encoding='utf-8') as f:
-            restricted_data = json.load(f) # Expecting a specific format now
-            # Assuming format like: {"products": ["Name 1", "Name 2"], "ingredients": ["Ing 1"]}
-            # Adjust parsing based on the actual structure of RESTRICTED_JSON
-            if isinstance(restricted_data, list): # Handle old format (list of names)
-                 for item in restricted_data:
-                     normalized_item = normalize_text(item)
-                     restricted_product_aliases.add(normalized_item)
-                     restricted_ingredient_aliases.add(normalized_item) # Add to both if format is generic
-                 print(f"  ✓ Loaded {len(restricted_product_aliases)} restricted aliases (simple list format)")
+            restricted_data = json.load(f)
+            
+            # Handle the structure where each drug has a name and aliases array
+            if isinstance(restricted_data, list) and all(isinstance(item, dict) for item in restricted_data):
+                for drug in restricted_data:
+                    # Add the main name
+                    if drug.get('name'):
+                        restricted_names.add(normalize_text(drug['name']))
+                    
+                    # Add all aliases
+                    for alias in drug.get('aliases', []):
+                        if alias:
+                            restricted_aliases.add(normalize_text(alias))
+                
+                print(f"  ✓ Loaded {len(restricted_data)} restricted drugs with {len(restricted_names)} names and {len(restricted_aliases)} aliases")
+            
+            # Handle simple list format (backward compatibility)
+            elif isinstance(restricted_data, list):
+                for item in restricted_data:
+                    if isinstance(item, str):
+                        restricted_names.add(normalize_text(item))
+                print(f"  ✓ Loaded {len(restricted_names)} restricted drug names (simple list format)")
+            
+            # Handle dictionary format 
             elif isinstance(restricted_data, dict):
                 product_names = restricted_data.get('products', [])
                 ingredient_names = restricted_data.get('ingredients', [])
                 for item in product_names:
-                    restricted_product_aliases.add(normalize_text(item))
+                    restricted_names.add(normalize_text(item))
                 for item in ingredient_names:
-                    restricted_ingredient_aliases.add(normalize_text(item))
-                print(f"  ✓ Loaded {len(restricted_product_aliases)} restricted product aliases.")
-                print(f"  ✓ Loaded {len(restricted_ingredient_aliases)} restricted ingredient aliases.")
+                    restricted_names.add(normalize_text(item))
+                print(f"  ✓ Loaded {len(restricted_names)} restricted drug names from products/ingredients dict")
+            
             else:
-                print(f"  ⚠️ Unexpected format in {RESTRICTED_JSON}. Expected list or dict.")
+                print(f"  ⚠️ Unexpected format in {RESTRICTED_JSON}. Expected list of drugs with names/aliases or simple list.")
 
     except FileNotFoundError:
         print(f"  ⚠️ WARNING: Restricted drug file not found: {restricted_json_path}. Restriction checks will be limited.")
     except json.JSONDecodeError as e:
-        print(f"  ❌ ERROR: Could not parse JSON from {restricted_json_path}: {e}. Restriction checks may fail.")
+        print(f"  ❌ ERROR: Could not parse JSON from {restricted_json_path}: {e}")
+        print(f"      The JSON file appears to be malformed. Please fix the errors and try again.")
+        print(f"      Common issues: missing commas, unclosed quotes, or invalid escape characters.")
     except Exception as e:
         print(f"  ❌ ERROR: Unexpected error loading restricted drugs: {e}")
 
@@ -212,7 +240,6 @@ def build_compiled_data():
             drug_code = item.get('drug_code')
             if drug_code:
                 # Assuming one primary schedule per drug code from this endpoint
-                # If multiple are possible, change schedule_by_code to defaultdict(list)
                 schedule_name = item.get('schedule_name', '').strip()
                 if schedule_name:
                      schedule_by_code[drug_code] = schedule_name
@@ -220,18 +247,19 @@ def build_compiled_data():
 
     print(f"--- Pre-processing finished in {time.time() - start_preprocess:.2f}s ---")
 
-
     # --- Combine data ---
     print("\n--- Combining Data ---")
     start_combine = time.time()
     compiled = []
-    drug_products = all_data.get('drugproduct', []) # Get the list correctly
+    drug_products = all_data.get('drugproduct', [])
 
     if not drug_products:
         print("  ⚠️ No drug products found or fetched. Output will be empty.")
     else:
         print(f"  Processing {len(drug_products):,} drug products...")
         processed_count = 0
+        restricted_count = 0
+        
         for product in drug_products:
             drug_code = product.get('drug_code')
             if not drug_code:
@@ -251,52 +279,73 @@ def build_compiled_data():
             restriction_reason = []
 
             # 1. Check schedule against controlled prefixes
-            for prefix in CONTROLLED_SCHEDULE_PREFIXES:
-                if normalized_schedule.startswith(prefix):
+            if schedule:
+                for prefix in CONTROLLED_SCHEDULE_PREFIXES:
+                    if prefix in normalized_schedule:  # Use 'in' instead of 'startswith'
+                        is_restricted = True
+                        restriction_reason.append(f"Schedule ({schedule})")
+                        break
+
+            # 2. Check product name against restricted names and aliases
+            if not is_restricted:
+                if normalized_brand_name in restricted_names or normalized_brand_name in restricted_aliases:
                     is_restricted = True
-                    restriction_reason.append(f"Schedule ({schedule})")
-                    break # Found a match, no need to check other prefixes
+                    restriction_reason.append("Restricted Product Name")
 
-            # 2. Check manual restricted product alias list
-            if not is_restricted and normalized_brand_name in restricted_product_aliases:
-                is_restricted = True
-                restriction_reason.append("Manual Product List")
-
-            # 3. Check manual restricted ingredient alias list
+            # 3. Check each active ingredient name against restricted lists
             if not is_restricted:
                 for ingredient_info in active_ingredients:
-                    normalized_ingredient = normalize_text(ingredient_info.get("name"))
-                    if normalized_ingredient in restricted_ingredient_aliases:
+                    ingredient_name = normalize_text(ingredient_info.get("name", ""))
+                    if ingredient_name in restricted_names or ingredient_name in restricted_aliases:
                         is_restricted = True
-                        restriction_reason.append(f"Manual Ingredient List ({ingredient_info.get('name')})")
-                        break # Found a match
+                        restriction_reason.append(f"Restricted Ingredient ({ingredient_info.get('name')})")
+                        break
 
+            # 4. Check for specific known controlled ingredients that might be missed
+            if not is_restricted:
+                for ingredient_info in active_ingredients:
+                    ingredient_name = normalize_text(ingredient_info.get("name", ""))
+                    # Check if any of the always-restricted ingredients appear in the name
+                    for restricted_ingredient in ALWAYS_RESTRICTED_INGREDIENTS:
+                        if restricted_ingredient in ingredient_name:
+                            is_restricted = True
+                            restriction_reason.append(f"Common Controlled Ingredient ({ingredient_info.get('name')})")
+                            break
+                    if is_restricted:
+                        break
+
+            # Add debugging output for schedules that aren't being detected properly
+            if DEBUG:
+                if normalized_schedule and any(term in normalized_schedule for term in ["cdsa", "controlled", "narcotic"]) and not is_restricted:
+                    log_debug(f"Potential missed controlled substance: '{brand_name}' with schedule '{schedule}'")
 
             entry = {
                 "drug_code": drug_code,
                 "brand_name": brand_name,
-                "descriptor": product.get('descriptor', '').strip(), # Add descriptor if available
+                "descriptor": product.get('descriptor', '').strip(),
                 "active_ingredients": active_ingredients,
                 "forms": forms,
                 "schedule": schedule,
                 "is_restricted": is_restricted,
-                # "restriction_reason": ", ".join(restriction_reason) if restriction_reason else "", # Optional: Add reason
-                # Add other relevant fields from drugproduct if needed:
-                # "company_name": product.get('company_name', '').strip(),
-                # "product_categorization": product.get('product_categorization', '').strip(),
-                 "status": product.get('status', '').strip(), # e.g., MARKETED, DORMANT
-                 "history_date": product.get('history_date', '').strip(), # Date of last status update
+                "restriction_reason": ", ".join(restriction_reason) if restriction_reason else "",  # Include for debugging
+                "status": product.get('status', '').strip(),
+                "history_date": product.get('history_date', '').strip(),
             }
+            
             compiled.append(entry)
             processed_count += 1
-            # Optional: Print progress periodically for large datasets
+            if is_restricted:
+                restricted_count += 1
+                
+            # Print progress periodically for large datasets
             if processed_count % 10000 == 0:
                 print(f"    Processed {processed_count:,}/{len(drug_products):,} products...")
 
         print(f"\n  ✓ Processed {processed_count:,} product entries.")
+        print(f"  ✓ Identified {restricted_count:,} restricted medications.")
         print(f"  ✓ Built {len(compiled):,} final entries for JSON output.")
+    
     print(f"--- Combining finished in {time.time() - start_combine:.2f}s ---")
-
 
     # --- Save uncompressed JSON ---
     print("\n--- Saving Output Files ---")
@@ -308,11 +357,8 @@ def build_compiled_data():
         print(f"✅ Uncompressed JSON saved to {out_path} ({os.path.getsize(out_path)/1024/1024:.2f} MB)")
     except IOError as e:
         print(f"  ❌ ERROR: Could not write uncompressed file '{out_path}'. Error: {e}")
-        # Decide if script should terminate if saving fails
-        # sys.exit(1)
     except Exception as e:
         print(f"  ❌ ERROR: Unexpected error saving uncompressed file '{out_path}'. Error: {e}")
-
 
     # --- Save compressed JSON ---
     compressed_out_path = os.path.join(script_dir, COMPRESSED_OUTPUT_FILENAME)
