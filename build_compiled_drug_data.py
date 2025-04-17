@@ -42,7 +42,6 @@ CONTROLLED_SCHEDULE_PREFIXES = [
     "targeted substance",
     "benzodiazepine",
     "cdsa",        # To catch any CDSA references
-    "prescription", # Some controlled medications may be labeled as prescription
 ]
 
 # List of known controlled substances that should always be flagged
