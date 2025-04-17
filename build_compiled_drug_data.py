@@ -3,301 +3,314 @@ import requests
 import json
 import os
 import time
-import re
+# import re # Removed as it was unused
+import gzip
 from collections import defaultdict
-import sys # Import sys for checking Python version if needed
+import sys
 
 # --- Configuration ---
 HC_API_BASE_URI = 'https://health-products.canada.ca/api/drug'
-# *** CORRECTED LOCAL FILE PATHS ***
-OUTPUT_FILENAME = 'https://raw.githubusercontent.com/irfanrajani/CliniStream-OscarEMR/refs/heads/main/compiled_drug_data.json' # Local filename to WRITE output
-RESTRICTED_JSON = 'https://raw.githubusercontent.com/irfanrajani/CliniStream-OscarEMR/refs/heads/main/restricted_drugs.json'  # Local filename to READ restrictions
-# **********************************
-REQUEST_TIMEOUT = 45  # Increased timeout slightly
+OUTPUT_FILENAME = 'compiled_drug_data.json'
+COMPRESSED_OUTPUT_FILENAME = 'compiled_drug_data.json.gz'
+RESTRICTED_JSON = 'restricted_drugs.json'
+REQUEST_TIMEOUT = 60 # Slightly increased timeout for potentially larger datasets
 ENDPOINTS = {
-    "schedule":         "/schedule/?lang=en&type=json",
-    "drugproduct":      "/drugproduct/?lang=en&type=json",
+    "schedule": "/schedule/?lang=en&type=json",
+    "drugproduct": "/drugproduct/?lang=en&type=json",
     "activeingredient": "/activeingredient/?lang=en&type=json",
-    "form":             "/form/?lang=en&type=json",
+    "form": "/form/?lang=en&type=json",
+    # Add other endpoints if needed (e.g., company, packaging)
 }
-
-# Only these lowercase schedule prefixes count as CDSA I–V (Narcotic, Controlled I/II/III, Benzodiazepine/Targeted)
-CDSA_PREFIXES = [
-    "schedule i", "schedule ii", "schedule iii",
-    "schedule iv", "schedule v",
-    "narcotic", # From Narcotic Control Regulations
+# Prefixes to identify controlled/narcotic schedules
+CONTROLLED_SCHEDULE_PREFIXES = [
+    "schedule f", # Prescription Drug List often includes items needing careful handling, but not strictly CDSA
+    "schedule i",
+    "schedule ii",
+    "schedule iii",
+    "schedule iv",
+    "schedule v",
+    "narcotic",
     "controlled part i",
     "controlled part ii",
     "controlled part iii",
-    "benzodiazepine"
+    "targeted substance", # Added based on common restriction types
+    "benzodiazepine", # Often listed specifically
 ]
 
 # --- Helper Functions ---
-
 def fetch_data(name, path):
     """Fetches data from the Health Canada API endpoint."""
     url = HC_API_BASE_URI + path
     print(f"\n🔗 Fetching {name} from {url}")
-    headers = {'User-Agent': 'RefillRequestFormApp/1.0 (GitHub Action)'} # Identify client
+    # Use a more descriptive user agent if possible
+    headers = {'User-Agent': 'DrugDataCompiler/1.1 (Python Script; +https://github.com/YourRepo/YourProject)'}
     try:
         response = requests.get(url, timeout=REQUEST_TIMEOUT, headers=headers)
         response.raise_for_status()
+        # Handle empty response body before JSON decoding
+        if not response.content:
+            print(f"  ✓ Retrieved 0 records for {name} (API returned empty response)")
+            return []
         data = response.json()
-
         if isinstance(data, list):
-             print(f"  ✓ Retrieved {len(data)} records for {name}")
-             return data
-        elif data is None:
-             print(f"  ✓ Retrieved 0 records for {name} (API returned null)")
-             return []
-        else: # Includes empty dict {} which API sometimes returns
-             print(f"  ⚠️ API returned non-list data for {name}: {type(data)}. Treating as empty.")
-             return []
-
+            print(f"  ✓ Retrieved {len(data):,} records for {name}")
+            return data
+        elif data is None: # Explicitly check for null returned by API
+            print(f"  ✓ Retrieved 0 records for {name} (API returned null)")
+            return []
+        else:
+            # Log unexpected types, return empty list for consistency
+            print(f"  ⚠️ API returned non-list data for {name}: {type(data)}. Treating as empty.")
+            return []
     except requests.exceptions.Timeout:
         print(f"  ❌ Timeout Error fetching {name} after {REQUEST_TIMEOUT} seconds.")
-        return [] # Return empty list on timeout
+        return None # Indicate critical failure vs. empty list
+    except requests.exceptions.HTTPError as e:
+        print(f"  ❌ HTTP Error fetching {name}: {e.response.status_code} {e.response.reason}")
+        print(f"     URL: {url}")
+        # Optionally print response text for debugging certain errors (like 4xx)
+        # if 400 <= e.response.status_code < 500:
+        #     print(f"     Response text: {e.response.text[:200]}...")
+        return None # Indicate critical failure
     except requests.exceptions.RequestException as e:
         print(f"  ❌ Network/Request Error fetching {name}: {e}")
-        return []
+        return None # Indicate critical failure
     except json.JSONDecodeError as e:
         print(f"  ❌ JSON Decode Error fetching {name}: {e}")
         print(f"     Response status: {response.status_code}")
-        print(f"     Response text: {response.text[:200]}...")
-        return []
+        # Avoid printing large non-JSON responses fully
+        print(f"     Response text (first 200 chars): {response.text[:200]}...")
+        return None # Indicate critical failure
     except Exception as e:
-        print(f"  ❌ Unexpected Error fetching {name}: {type(e).__name__} - {e}")
-        return []
+        # Catch any other unexpected exceptions during fetch/processing
+        print(f"  ❌ Unexpected Error during fetch/decode for {name}: {type(e).__name__} - {e}")
+        return None # Indicate critical failure
 
 def normalize_text(txt):
     """Converts text to lowercase and strips whitespace."""
     return str(txt).strip().lower() if txt is not None else ""
 
-# --- Main Data Building Function ---
+def save_compressed_json(data, output_file):
+    """Save JSON data to a compressed .gz file."""
+    try:
+        with gzip.open(output_file, 'wt', encoding='utf-8') as gz_file:
+            # Use indent=None and separators for smallest file size
+            json.dump(data, gz_file, ensure_ascii=False, separators=(',', ':'))
+        print(f"✅ Compressed JSON saved to {output_file} ({os.path.getsize(output_file)/1024/1024:.2f} MB)")
+    except IOError as e:
+        print(f"  ❌ ERROR: Could not write compressed file '{output_file}'. Error: {e}")
+    except Exception as e:
+        print(f"  ❌ ERROR: Unexpected error saving compressed file '{output_file}'. Error: {e}")
 
+
+# --- Main Data Building Function ---
 def build_compiled_data():
     """Fetches, processes, and combines Health Canada drug data."""
-    # Use absolute path for the script directory to resolve local files reliably
     script_dir = os.path.dirname(os.path.abspath(__file__))
     print(f"Script running in directory: {script_dir}")
     print(f"Python version: {sys.version}")
 
-    # 1) Fetch all endpoints
+    # --- Fetch data ---
     print("\n--- Starting Data Fetch ---")
     all_data = {}
-    fetch_success = True
+    fetch_failed = False
     start_fetch = time.time()
     for name, path in ENDPOINTS.items():
-         data = fetch_data(name, path)
-         if not isinstance(data, list):
-             print(f"  ❌ ERROR: Fetch for '{name}' did not return a list. Data fetching cannot proceed reliably.")
-             fetch_success = False
-             # Allow continuing to see if other fetches work, but flag it
-             # break # Or uncomment to stop immediately
-         all_data[name] = data if isinstance(data, list) else [] # Ensure it's a list
-         time.sleep(0.2)
-    print(f"--- Data Fetch finished in {time.time()-start_fetch:.2f}s ---")
+        data = fetch_data(name, path)
+        if data is None: # Check for critical fetch failure indicated by None
+            print(f"  ❌ CRITICAL FAILURE fetching '{name}'. Cannot proceed reliably.")
+            fetch_failed = True
+            # Decide whether to stop immediately or try fetching others
+            # For this script, let's assume we need all core parts, especially drugproduct
+            if name == 'drugproduct':
+                 print("  🛑 Aborting due to failure fetching essential 'drugproduct' data.")
+                 sys.exit(1) # Exit if primary data fails
+            all_data[name] = [] # Store empty list to avoid KeyError later, but note failure
+        else:
+            all_data[name] = data
+        time.sleep(0.2) # Keep small delay between requests
 
-    # Simple check if ALL fetches returned empty lists
-    if all(len(v) == 0 for v in all_data.values()):
-         print("\n❌ CRITICAL ERROR: All API fetch attempts returned empty data. Cannot build file.")
-         sys.exit(1)
-    elif not fetch_success:
-         print("\n⚠️ WARNING: One or more API fetches failed or returned unexpected data. Resulting file may be incomplete.")
-         # Proceed cautiously
+    print(f"--- Data Fetch finished in {time.time() - start_fetch:.2f}s ---")
 
-    # 2) Load external restricted names & aliases
+    if fetch_failed:
+        print("\n⚠️ WARNING: One or more data fetches failed. Output data may be incomplete.")
+        # Optionally exit here if all data sources are considered mandatory:
+        # print("🛑 Aborting due to data fetch failures.")
+        # sys.exit(1)
+
+    # --- Load restricted drug list ---
     print("\n--- Loading Restricted Drug List ---")
-    restricted_aliases = set()
-    # Construct absolute path to restricted json
+    restricted_product_aliases = set()
+    restricted_ingredient_aliases = set() # Separate set for ingredients if needed
     restricted_json_path = os.path.join(script_dir, RESTRICTED_JSON)
     try:
-        print(f"🔍 Loading restricted list from local file: {restricted_json_path}")
         with open(restricted_json_path, 'r', encoding='utf-8') as f:
-            schedules_or_drugs = json.load(f)
-
-        entries_to_process = []
-        if isinstance(schedules_or_drugs, dict):
-             for schedule_name, drugs in schedules_or_drugs.items():
-                 if isinstance(drugs, list): entries_to_process.extend(drugs)
-                 else: print(f"  ⚠️ Expected list for schedule '{schedule_name}', got {type(drugs)}. Skipping.")
-        elif isinstance(schedules_or_drugs, list):
-             entries_to_process = schedules_or_drugs
-        else:
-             print(f"  ⚠️ Expected dict or list in {RESTRICTED_JSON}, got {type(schedules_or_drugs)}. Cannot load restrictions.")
-
-        processed_count = 0
-        for entry in entries_to_process:
-             if isinstance(entry, dict):
-                 nm = normalize_text(entry.get('name'))
-                 if nm: restricted_aliases.add(nm); processed_count += 1
-                 for alias in entry.get('aliases', []):
-                     a = normalize_text(alias)
-                     if a: restricted_aliases.add(a); processed_count += 1
-             elif isinstance(entry, str):
-                  nm = normalize_text(entry)
-                  if nm: restricted_aliases.add(nm); processed_count += 1
-             else: print(f"  ⚠️ Skipping invalid entry type in restriction list: {type(entry)}")
-
-        if not restricted_aliases:
-             print(f"  ⚠️ WARNING: No restricted names/aliases were loaded. Name-based restriction checks will be skipped.")
-        else:
-             print(f"  ✓ Loaded {len(restricted_aliases)} unique restricted names/aliases from {processed_count} entries.")
+            restricted_data = json.load(f) # Expecting a specific format now
+            # Assuming format like: {"products": ["Name 1", "Name 2"], "ingredients": ["Ing 1"]}
+            # Adjust parsing based on the actual structure of RESTRICTED_JSON
+            if isinstance(restricted_data, list): # Handle old format (list of names)
+                 for item in restricted_data:
+                     normalized_item = normalize_text(item)
+                     restricted_product_aliases.add(normalized_item)
+                     restricted_ingredient_aliases.add(normalized_item) # Add to both if format is generic
+                 print(f"  ✓ Loaded {len(restricted_product_aliases)} restricted aliases (simple list format)")
+            elif isinstance(restricted_data, dict):
+                product_names = restricted_data.get('products', [])
+                ingredient_names = restricted_data.get('ingredients', [])
+                for item in product_names:
+                    restricted_product_aliases.add(normalize_text(item))
+                for item in ingredient_names:
+                    restricted_ingredient_aliases.add(normalize_text(item))
+                print(f"  ✓ Loaded {len(restricted_product_aliases)} restricted product aliases.")
+                print(f"  ✓ Loaded {len(restricted_ingredient_aliases)} restricted ingredient aliases.")
+            else:
+                print(f"  ⚠️ Unexpected format in {RESTRICTED_JSON}. Expected list or dict.")
 
     except FileNotFoundError:
-         print(f"  ❌ ERROR: Restricted drug file not found: {restricted_json_path}")
-         print("     Restricted drug checks based on name will be skipped.")
+        print(f"  ⚠️ WARNING: Restricted drug file not found: {restricted_json_path}. Restriction checks will be limited.")
     except json.JSONDecodeError as e:
-         print(f"  ❌ ERROR: Could not parse JSON from {restricted_json_path}: {e}")
-         print("     Restricted drug checks based on name will be skipped.")
+        print(f"  ❌ ERROR: Could not parse JSON from {restricted_json_path}: {e}. Restriction checks may fail.")
     except Exception as e:
-        print(f"  ❌ Unexpected Error loading {restricted_json_path}: {type(e).__name__} - {e}")
+        print(f"  ❌ ERROR: Unexpected error loading restricted drugs: {e}")
 
-    # 3) Index API schedule -> drug_code -> set of schedule names
-    print("\n--- Indexing Schedules ---")
-    schedules_by_code = defaultdict(set)
-    sched_count = 0
-    for item in all_data.get('schedule', []):
-        code = item.get('drug_code')
-        name = normalize_text(item.get('schedule_name'))
-        if code and name: schedules_by_code[code].add(name); sched_count += 1
-    print(f"🔗 Indexed {sched_count} schedule entries for {len(schedules_by_code)} unique drug codes")
+    # --- Pre-process supporting data for efficient lookup ---
+    print("\n--- Pre-processing Supporting Data ---")
+    start_preprocess = time.time()
 
-    # 4) Index products by drug_code
-    print("\n--- Indexing Drug Products ---")
-    products = {}
-    for p in all_data.get('drugproduct', []):
-        code = p.get('drug_code')
-        if code and code not in products: products[code] = p
-    print(f"📦 Indexed {len(products)} unique drug products")
-
-    # 5) Index ingredients by drug_code & normalize strength
-    print("\n--- Indexing Active Ingredients ---")
     ingredients_by_code = defaultdict(list)
-    ing_count = 0
-    for ing in all_data.get('activeingredient', []):
-        code = ing.get('drug_code')
-        if not code: continue
-        raw_name = ing.get('ingredient_name','')
-        cleaned_name = normalize_text(re.sub(r'\s*\([^)]*\)\s*', '', raw_name)).strip()
-        if not cleaned_name: continue
-        ing['cleaned_name'] = cleaned_name
+    if all_data.get('activeingredient'):
+        for item in all_data['activeingredient']:
+            drug_code = item.get('drug_code')
+            if drug_code:
+                ingredients_by_code[drug_code].append({
+                    "name": item.get('ingredient_name', '').strip(),
+                    "strength": item.get('strength', '').strip(),
+                    "unit": item.get('strength_unit', '').strip()
+                })
+    print(f"  ✓ Processed {len(all_data.get('activeingredient', []))} active ingredients into lookup table.")
 
-        raw_strength = str(ing.get('strength','')).strip()
-        normalized_strength = raw_strength
-        try:
-            if raw_strength:
-                f_strength = float(raw_strength)
-                if f_strength.is_integer(): normalized_strength = str(int(f_strength))
-                else: normalized_strength = str(f_strength)
-        except ValueError: pass # Keep original if not a simple number
-        ing['normalized_strength'] = normalized_strength
-        ing['normalized_strength_unit'] = normalize_text(ing.get('strength_unit',''))
-        ingredients_by_code[code].append(ing)
-        ing_count+=1
-    print(f"🧪 Indexed {ing_count} ingredient entries for {len(ingredients_by_code)} codes (with strength normalization)")
-
-    # 6) Index forms by drug_code
-    print("\n--- Indexing Dosage Forms ---")
     forms_by_code = defaultdict(list)
-    form_count = 0
-    found_forms = set()
-    for frm in all_data.get('form', []):
-        code = frm.get('drug_code')
-        if not code: continue
-        form_name = str(frm.get('pharmaceutical_form_name','')).strip()
-        if not form_name: continue
-        normalized = normalize_text(form_name)
-        frm['normalized_form'] = normalized
-        forms_by_code[code].append(frm)
-        found_forms.add(form_name)
-        form_count += 1
-    print(f"💊 Indexed {form_count} form entries for {len(forms_by_code)} codes")
-    print(f"  (Found {len(found_forms)} unique form names across all drugs)")
+    if all_data.get('form'):
+        for item in all_data['form']:
+            drug_code = item.get('drug_code')
+            if drug_code:
+                form_name = item.get('pharmaceutical_form_name', '').strip()
+                if form_name:
+                    forms_by_code[drug_code].append(form_name)
+    print(f"  ✓ Processed {len(all_data.get('form', []))} forms into lookup table.")
 
-    # 7) Combine data, flag restrictions, create unique entries
-    print("\n--- Combining Data & Generating Output ---")
+    schedule_by_code = {}
+    if all_data.get('schedule'):
+        for item in all_data['schedule']:
+            drug_code = item.get('drug_code')
+            if drug_code:
+                # Assuming one primary schedule per drug code from this endpoint
+                # If multiple are possible, change schedule_by_code to defaultdict(list)
+                schedule_name = item.get('schedule_name', '').strip()
+                if schedule_name:
+                     schedule_by_code[drug_code] = schedule_name
+    print(f"  ✓ Processed {len(all_data.get('schedule', []))} schedules into lookup table.")
+
+    print(f"--- Pre-processing finished in {time.time() - start_preprocess:.2f}s ---")
+
+
+    # --- Combine data ---
+    print("\n--- Combining Data ---")
+    start_combine = time.time()
     compiled = []
-    processed_keys = set()
-    skipped_missing_data = 0
-    skipped_duplicates = 0
+    drug_products = all_data.get('drugproduct', []) # Get the list correctly
 
-    for code, prod in products.items():
-        ings = ingredients_by_code.get(code, [])
-        forms = forms_by_code.get(code, [])
-        if not ings or not forms: skipped_missing_data += 1; continue
+    if not drug_products:
+        print("  ⚠️ No drug products found or fetched. Output will be empty.")
+    else:
+        print(f"  Processing {len(drug_products):,} drug products...")
+        processed_count = 0
+        for product in drug_products:
+            drug_code = product.get('drug_code')
+            if not drug_code:
+                continue # Skip products without a drug code
 
-        form0 = forms[0]
-        form_name = form0.get('pharmaceutical_form_name','').strip()
-        normalized_form = form0.get('normalized_form','')
-        if not form_name or not normalized_form: skipped_missing_data += 1; continue
+            brand_name = product.get('brand_name', '').strip()
+            normalized_brand_name = normalize_text(brand_name)
 
-        # Determine Restriction Status
-        api_schedule_names = schedules_by_code.get(code, set())
-        is_restricted_schedule = any(any(s.startswith(p) for p in CDSA_PREFIXES) for s in api_schedule_names)
-        is_restricted_name = any(i['cleaned_name'] in restricted_aliases for i in ings)
-        restricted_flag = is_restricted_schedule or is_restricted_name
+            # Get related data using pre-processed lookups
+            active_ingredients = ingredients_by_code.get(drug_code, [])
+            forms = forms_by_code.get(drug_code, [])
+            schedule = schedule_by_code.get(drug_code, '')
+            normalized_schedule = normalize_text(schedule)
 
-        # Build Display and Search Strings
-        ings.sort(key=lambda x: x['cleaned_name'])
-        display_list = []
-        search_terms = set()
-        ingredient_names_only = []
-        for i in ings:
-            nm = i['cleaned_name']
-            ingredient_names_only.append(nm)
-            strg = i['normalized_strength']
-            unt = i['normalized_strength_unit']
-            disp = nm + (f" {strg}" if strg else "") + (f"{unt}" if strg and unt else "")
-            display_list.append(disp)
-            search_terms.add(nm)
-            if strg: search_terms.add(strg)
+            # Determine if restricted
+            is_restricted = False
+            restriction_reason = []
 
-        # Create Unique Key & Deduplicate
-        ing_key = "|".join(sorted(display_list))
-        entry_key = f"{ing_key}::{normalized_form}"
-        if entry_key in processed_keys: skipped_duplicates += 1; continue
-        processed_keys.add(entry_key)
+            # 1. Check schedule against controlled prefixes
+            for prefix in CONTROLLED_SCHEDULE_PREFIXES:
+                if normalized_schedule.startswith(prefix):
+                    is_restricted = True
+                    restriction_reason.append(f"Schedule ({schedule})")
+                    break # Found a match, no need to check other prefixes
 
-        # Prepare final entry
-        first_ing = ings[0]
-        brand_name = str(prod.get('brand_name', '')).strip()
-        entry = {
-            "drug_code": code, # Reference
-            "brand_name": brand_name,
-            "ingredients": display_list,
-            "dosage_form": form_name,
-            "normalized_dosage_form": normalized_form,
-            "is_restricted": restricted_flag,
-            "_search_text": f"{brand_name.lower()} {' '.join(search_terms)} {normalized_form}",
-            "first_ingredient_name": first_ing['cleaned_name'],
-            "first_strength": first_ing['normalized_strength'],
-            "first_strength_unit": first_ing['normalized_strength_unit'],
-        }
-        compiled.append(entry)
+            # 2. Check manual restricted product alias list
+            if not is_restricted and normalized_brand_name in restricted_product_aliases:
+                is_restricted = True
+                restriction_reason.append("Manual Product List")
 
-    print(f"✓ Processed {len(products)} product codes.")
-    print(f"  - Skipped {skipped_missing_data} due to missing ingredient/form data.")
-    print(f"  - Skipped {skipped_duplicates} as duplicates (same ingredients/form).")
-    print(f"✔️ Built {len(compiled)} final unique entries for JSON output.")
+            # 3. Check manual restricted ingredient alias list
+            if not is_restricted:
+                for ingredient_info in active_ingredients:
+                    normalized_ingredient = normalize_text(ingredient_info.get("name"))
+                    if normalized_ingredient in restricted_ingredient_aliases:
+                        is_restricted = True
+                        restriction_reason.append(f"Manual Ingredient List ({ingredient_info.get('name')})")
+                        break # Found a match
 
-    # 8) Save Compiled Data to JSON
-    print("\n--- Saving Compiled Data ---")
-    # Construct absolute path for output file
+
+            entry = {
+                "drug_code": drug_code,
+                "brand_name": brand_name,
+                "descriptor": product.get('descriptor', '').strip(), # Add descriptor if available
+                "active_ingredients": active_ingredients,
+                "forms": forms,
+                "schedule": schedule,
+                "is_restricted": is_restricted,
+                # "restriction_reason": ", ".join(restriction_reason) if restriction_reason else "", # Optional: Add reason
+                # Add other relevant fields from drugproduct if needed:
+                # "company_name": product.get('company_name', '').strip(),
+                # "product_categorization": product.get('product_categorization', '').strip(),
+                 "status": product.get('status', '').strip(), # e.g., MARKETED, DORMANT
+                 "history_date": product.get('history_date', '').strip(), # Date of last status update
+            }
+            compiled.append(entry)
+            processed_count += 1
+            # Optional: Print progress periodically for large datasets
+            if processed_count % 10000 == 0:
+                print(f"    Processed {processed_count:,}/{len(drug_products):,} products...")
+
+        print(f"\n  ✓ Processed {processed_count:,} product entries.")
+        print(f"  ✓ Built {len(compiled):,} final entries for JSON output.")
+    print(f"--- Combining finished in {time.time() - start_combine:.2f}s ---")
+
+
+    # --- Save uncompressed JSON ---
+    print("\n--- Saving Output Files ---")
     out_path = os.path.join(script_dir, OUTPUT_FILENAME)
-    print(f"💾 Saving to local file: {out_path}")
     try:
         with open(out_path, 'w', encoding='utf-8') as f:
+            # Use separators for smaller file, indent=None for no pretty-printing
             json.dump(compiled, f, ensure_ascii=False, separators=(',', ':'))
-        print("✅ Save complete.")
-        if len(compiled) == 0:
-             print("⚠️ WARNING: The output file is empty. This might happen if all API calls failed or no valid drug data was processed.")
+        print(f"✅ Uncompressed JSON saved to {out_path} ({os.path.getsize(out_path)/1024/1024:.2f} MB)")
     except IOError as e:
-         print(f"  ❌ ERROR Saving JSON: Could not write to file '{out_path}'. Check permissions. Error: {e}")
-         sys.exit(1) # Exit if cannot save output
+        print(f"  ❌ ERROR: Could not write uncompressed file '{out_path}'. Error: {e}")
+        # Decide if script should terminate if saving fails
+        # sys.exit(1)
     except Exception as e:
-        print(f"  ❌ Unexpected Error saving JSON: {type(e).__name__} - {e}")
-        sys.exit(1) # Exit on other save errors
+        print(f"  ❌ ERROR: Unexpected error saving uncompressed file '{out_path}'. Error: {e}")
+
+
+    # --- Save compressed JSON ---
+    compressed_out_path = os.path.join(script_dir, COMPRESSED_OUTPUT_FILENAME)
+    save_compressed_json(compiled, compressed_out_path)
+
 
 # --- Main Execution Block ---
 if __name__ == "__main__":
