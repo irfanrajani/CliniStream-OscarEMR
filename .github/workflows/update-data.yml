@@ -2,32 +2,39 @@ name: Update drug data
 
 on:
   schedule:
-    - cron: '0 3 * * *'   # every day at 3 AM UTC
-  workflow_dispatch:     # also allow manual runs
+    - cron: '0 3 * * *'   # Run every day at 3 AM UTC
+  workflow_dispatch:       # Allow manual triggering of the workflow
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
 
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.9'  # Specify the Python version
 
+      # Step 3: Install Python dependencies (if needed)
       - name: Install dependencies
         run: pip install requests
 
-      - name: Fetch & compile drug data
-        run: python https://raw.githubusercontent.com/irfanrajani/CliniStream-OscarEMR/refs/heads/main/build_compiled_drug_data.py
+      # Step 4: Run the Python script
+      - name: Run drug data compilation script
+        run: python build_compiled_drug_data.py
 
-      - name: Commit updated JSON
+      # Step 5: Commit and push updated JSON files
+      - name: Commit updated JSON files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add compiled_drug_data.json
-          git commit -m "Auto‑update compiled_drug_data.json"
+          git add compiled_drug_data.json compiled_drug_data.json.gz
+          git commit -m "Auto-update compiled_drug_data.json and compiled_drug_data.json.gz"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
