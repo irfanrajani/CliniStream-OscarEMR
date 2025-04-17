@@ -2,834 +2,856 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CliniStream Medication Prescription</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Patient Refill Request</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* General styles */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
-            background-color: #f8f9fa;
-        }
-        
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        
-        h1 {
-            color: #0056b3;
-            margin-bottom: 30px;
-        }
-        
-        .form-label {
-            font-weight: 600;
-        }
-        
-        .prescription-row {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        
-        .btn-add-medication {
-            margin-top: 15px;
-        }
-        
-        /* Autocomplete suggestion box */
-        .suggestion-box {
-            position: absolute;
-            background-color: white;
-            max-height: 300px;
-            overflow-y: auto;
-            z-index: 1000;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            display: none;
-            max-width: 500px;
-        }
-        
-        /* Styles for the suggestion items */
-        .suggestion-item {
-            padding: 8px 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-        }
-        
-        .suggestion-item:hover {
-            background-color: #f0f0f0;
-        }
-        
-        /* Highlighted text in suggestions */
-        .highlight {
-            background-color: #ffeb3b;
-            font-weight: bold;
-        }
-        
-        /* Dosage form display */
-        .dosage-form {
-            color: #777;
-            font-size: 0.8em;
-            margin-left: 10px;
-            font-style: italic;
-        }
-        
-        /* Restricted badge */
-        .restricted-badge {
-            background-color: #dc3545;
-            color: white;
-            font-size: 0.7em;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-left: 8px;
-            font-weight: bold;
-        }
-        
-        /* Combination medication badge */
-        .combo-badge {
-            background-color: #17a2b8;
-            color: white;
-            font-size: 0.7em;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-left: 8px;
-            font-weight: bold;
-        }
-        
-        /* Combination medication highlighting */
-        .combination-medication {
-            background-color: rgba(23, 162, 184, 0.1);
-        }
-        
-        /* More brands button */
-        .more-brands-button {
-            color: #007bff;
-            font-size: 0.9em;
-            text-align: center;
-            border-top: 1px solid #eee;
-        }
-        
-        .more-brands-button:hover {
-            background-color: #e9f2ff;
-        }
-        
-        /* Alert message styling */
-        .alert {
-            display: none;
-            margin-top: 20px;
-        }
-        
-        /* History table styling */
-        .history-table {
-            margin-top: 30px;
-        }
-        
-        .history-table th {
-            background-color: #f8f9fa;
-        }
-        
-        .btn-history-action {
-            margin-right: 5px;
-        }
+        /* --- Core Styles --- */
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
+        h1, h2, h3 { color: #333; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); max-width: 800px; margin: auto; }
 
-        /* Responsive adaptations */
-        @media (max-width: 768px) {
-            .prescription-row .col-md-2,
-            .prescription-row .col-md-1 {
-                margin-top: 10px;
-            }
+        /* --- Patient Form --- */
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        input[type="text"], input[type="date"], input[type="number"], select, button {
+            padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; width: 100%;
+        }
+        input[readonly] { background-color: #e9ecef; }
+        button { cursor: pointer; background-color: #007bff; color: white; border: none; margin-top: 10px; }
+        button:hover { background-color: #0056b3; }
+
+        /* --- History Buttons --- */
+        #historyContainer { margin-bottom: 20px; }
+        .history-section { border-top: 1px solid #eee; padding-top: 10px; margin-top: 15px; }
+        .history-title { font-size: 16px; margin-bottom: 8px; color: #555; }
+        .history-btn { 
+            margin: 4px 4px 4px 0; padding: 8px 12px; font-size: 0.9em; 
+            background-color: #e6f7ff; border: 1px solid #b3e0ff; color: #0056b3;
+            border-radius: 4px; cursor: pointer; display: inline-block;
+        }
+        .history-btn:hover { background-color: #d0edff; }
+
+        /* --- Medication Entry --- */
+        .medication-entry-row { border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; background-color: #f9f9f9; border-radius: 5px; }
+        .medication-fields-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 20px; margin-bottom: 15px; }
+        .sig-structured-area { border-top: 1px dashed #ccc; margin-top: 15px; padding-top: 15px; }
+        .sig-structured-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; align-items: end; margin-bottom: 10px; }
+        .sig-additional-info { margin-top: 10px; }
+        .form-hint { color: #6c757d; font-size: 0.85em; margin-top: 3px; font-style: italic; }
+
+        /* --- Suggestion Box --- */
+        .suggestion-box { position: absolute; background: #fff; border: 1px solid #aaa; z-index: 9999; max-height: 300px; overflow-y: auto; min-width: 300px; max-width: 500px; display: none; border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); font-size: 14px; }
+        .suggestion-item { padding: 6px 12px; cursor: pointer; border-bottom: 1px solid #eee; }
+        .suggestion-item:last-child { border-bottom: none; }
+        .suggestion-item:hover, .suggestion-item.selected { background-color: #e9ecef; }
+        .suggestion-med-name { font-weight: 500; }
+        .suggestion-brands { font-size: 0.9em; color: #555; font-style: italic; }
+        .more-brands-link { text-decoration: underline; color: #0056b3; cursor: pointer; margin-left: 5px; }
+        .manual-entry { background-color: #f8f9fa; border-top: 1px solid #ddd; padding: 8px 12px; }
+        .manual-entry strong { color: #007bff; }
+        .suggestion-box .no-results { padding: 8px 12px; color:#666; font-style: italic; cursor: default; }
+
+        /* --- Medication List --- */
+        #medicationsListContainer { margin-top: 20px; border-top: 2px solid #007bff; padding-top: 15px; }
+        .added-medication-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 15px; margin-bottom: 12px; border-radius: 4px;
+            font-size: 14px; border: 1px solid; position: relative;
+        }
+        .added-medication-item.single-med { background-color: #e6f7ff; border-color: #b3e0ff; }
+        .added-medication-item.combination-med { background-color: #fff3cd; border-color: #ffeeba; }
+        .added-medication-item .med-info { flex-grow: 1; padding-right: 15px; }
+        .added-medication-item .med-controls { display: flex; gap: 5px; }
+        .added-medication-item .remove-btn {
+            padding: 4px 8px; font-size: 12px; background-color: #dc3545; 
+            width: auto; margin-top: 0; flex-shrink: 0;
+        }
+        .added-medication-item .remove-btn:hover { background-color: #c82333; }
+        .badge {
+            display: inline-block; padding: 3px 7px; font-size: 0.75em; 
+            border-radius: 3px; margin-right: 8px; font-weight: bold;
+        }
+        .badge.combo { background: #ffc107; color: #212529; }
+        .badge.dosage { background: #17a2b8; color: #fff; }
+
+        /* --- Messages --- */
+        #loadingMessage, #errorMessage, #successMessage { padding: 15px; border-radius: 4px; margin-bottom: 20px; text-align: center; display: none; }
+        #loadingMessage { background-color: #ffc107; border: 1px solid #dda700; }
+        #errorMessage   { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        #successMessage { background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        
+        /* --- Validation --- */
+        .validation-alert {
+            background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404;
+            padding: 10px; border-radius: 4px; margin: 10px 0; display: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Medication Prescription</h1>
-        
-        <div class="alert alert-success" id="successAlert" role="alert">
-            Prescription saved successfully!
-        </div>
-        
-        <div class="alert alert-danger" id="errorAlert" role="alert">
-            Please fill out all required fields.
-        </div>
-        
-        <form id="prescriptionForm">
-            <div class="row mb-4">
-                <div class="col-md-4">
-                    <label for="firstName" class="form-label">First Name:</label>
-                    <input type="text" class="form-control" id="firstName" required>
-                </div>
-                <div class="col-md-4">
-                    <label for="lastName" class="form-label">Last Name:</label>
-                    <input type="text" class="form-control" id="lastName" required>
-                </div>
-                <div class="col-md-4">
-                    <label for="DOB" class="form-label">Date of Birth:</label>
-                    <input type="date" class="form-control" id="DOB" required>
-                </div>
-            </div>
-            
-            <h3>Medications</h3>
-            <div id="medicationsContainer">
-                <!-- Initial medication row will be added by JavaScript -->
-            </div>
-            
-            <button type="button" class="btn btn-primary btn-add-medication" id="addMedicationBtn">
-                Add Another Medication
-            </button>
-            
-            <div class="row mt-4">
-                <div class="col-12">
-                    <button type="submit" class="btn btn-success" id="saveBtn">Save Prescription</button>
-                </div>
-            </div>
-        </form>
-        
-        <div class="history-table">
-            <h3>Prescription History</h3>
-            <table class="table table-striped" id="historyTable">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Patient</th>
-                        <th>Medications</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- History entries will be added by JavaScript -->
-                </tbody>
-            </table>
-        </div>
-    </div>
 
-    <script>
-        // Configuration
-        const COMPILED_DATA_URL = 'https://raw.githubusercontent.com/irfanrajani/CliniStream-OscarEMR/refs/heads/main/compiled_drug_data.json';
-        
-        // Global variables
-        let medicationData = [];
-        let medicationCount = 0;
-        let debounceTimeout;
-        
-        // Initialize the application when the DOM is fully loaded
-        $(document).ready(function() {
-            // Load medication data
-            loadMedicationData();
-            
-            // Add initial medication row
-            addMedicationRow();
-            
-            // Set up event listeners
-            $('#addMedicationBtn').on('click', addMedicationRow);
-            $('#prescriptionForm').on('submit', savePrescription);
-            
-            // Load and display prescription history
-            loadPrescriptionHistory();
-            
-            // Focus on first name field
-            $('#firstName').focus();
-        });
-        
-        // Load medication data from JSON file
-        function loadMedicationData() {
-            fetch(COMPILED_DATA_URL)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Network response was not ok: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    medicationData = data;
-                    console.log(`Loaded ${medicationData.length} medications`);
-                    // Enable all medication fields
-                    $('.medication-drug-field').prop('disabled', false);
-                })
-                .catch(error => {
-                    console.error('Error loading medication data:', error);
-                    // Still enable the fields so users can type
-                    $('.medication-drug-field').prop('disabled', false);
-                });
-        }
-        
-        // Add a new medication row to the form
-        function addMedicationRow() {
-            const index = medicationCount++;
-            
-            const row = `
-                <div class="row prescription-row" id="medicationRow_${index}">
-                    <div class="col-md-3">
-                        <label for="medicationDrugField_${index}" class="form-label">Medication:</label>
-                        <input type="text" class="form-control medication-drug-field" 
-                               id="medicationDrugField_${index}" placeholder="Start typing medication name..." 
-                               required autocomplete="off" disabled>
+<div class="container">
+    <h1>Refill Request</h1>
+
+    <!-- Loading / Error / Success Messages -->
+    <div id="loadingMessage">Loading medication data…</div>
+    <div id="errorMessage">Error loading data. Please try again later.</div>
+    <div id="successMessage">Your refill request has been submitted successfully!</div>
+
+    <!-- Patient Info -->
+    <h2>Patient Information</h2>
+    <form id="patientForm">
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required>
+        </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required>
+        </div>
+        <div class="form-group">
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" readonly>
+        </div>
+
+        <!-- History of last meds -->
+        <div id="historyContainer"></div>
+
+        <h2>Medication Entry</h2>
+        <div id="medicationEntryArea">
+            <div class="medication-entry-row" id="medicationRow_0">
+                <div class="medication-fields-grid">
+                    <div style="position: relative;">
+                        <label for="medicationDrugField_0">Medication:</label>
+                        <input type="text" id="medicationDrugField_0" class="medication-drug-input" autocomplete="off"
+                               placeholder="Loading drug data..." disabled>
+                        <div class="form-hint">Begin typing to see suggestions</div>
+                        <div class="suggestion-anchor" style="position: relative; height: 0;"></div>
                     </div>
-                    <div class="col-md-2">
-                        <label for="medicationFormField_${index}" class="form-label">Form:</label>
-                        <input type="text" class="form-control" id="medicationFormField_${index}" required>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="medicationDoseField_${index}" class="form-label">Dose:</label>
-                        <input type="text" class="form-control" id="medicationDoseField_${index}" required>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="medicationUnitField_${index}" class="form-label">Unit:</label>
-                        <input type="text" class="form-control" id="medicationUnitField_${index}" required>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="medicationFrequencyField_${index}" class="form-label">Frequency:</label>
-                        <select class="form-select" id="medicationFrequencyField_${index}" required>
-                            <option value="">Select...</option>
-                            <option value="Once daily">Once daily</option>
-                            <option value="Twice daily">Twice daily</option>
-                            <option value="Three times daily">Three times daily</option>
-                            <option value="Four times daily">Four times daily</option>
-                            <option value="Every 4 hours">Every 4 hours</option>
-                            <option value="Every 6 hours">Every 6 hours</option>
-                            <option value="Every 8 hours">Every 8 hours</option>
-                            <option value="Every 12 hours">Every 12 hours</option>
-                            <option value="As needed">As needed</option>
-                            <option value="At bedtime">At bedtime</option>
+                    <div>
+                        <label for="medicationDosageForm_0">Form:</label>
+                        <select id="medicationDosageForm_0" class="medication-dosage-form">
+                            <option value="" disabled selected>-- Select Form --</option>
+                            <option value="tablet">Tablet</option>
+                            <option value="capsule">Capsule</option>
+                            <option value="liquid">Liquid/Syrup</option>
+                            <option value="suspension">Suspension</option>
+                            <option value="injection">Injection</option>
+                            <option value="inhaler">Inhaler</option>
+                            <option value="topical">Topical</option>
+                            <option value="patch">Patch</option>
+                            <option value="suppository">Suppository</option>
+                            <option value="eye drop">Eye Drop</option>
+                            <option value="ear drop">Ear Drop</option>
+                            <option value="nasal spray">Nasal Spray</option>
                         </select>
                     </div>
-                    <div class="col-md-1">
-                        <label class="form-label">&nbsp;</label>
-                        <button type="button" class="btn btn-danger form-control" onclick="removeMedicationRow(${index})">
-                            &times;
-                        </button>
+                </div>
+
+                <div class="sig-structured-area">
+                    <label>Directions / SIG:</label>
+                    <div class="validation-alert" id="validationAlert_0"></div>
+                    <div class="sig-structured-grid">
+                        <div>
+                            <label for="sigQuantity_0">Quantity</label>
+                            <input type="number" id="sigQuantity_0" class="sig-quantity" min="0" step="0.1"
+                                   placeholder="e.g., 1">
+                        </div>
+                        <div>
+                            <label for="sigUnit_0">Unit</label>
+                            <select id="sigUnit_0" class="sig-unit" disabled>
+                                <option>-- Select Form First --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="sigFrequency_0">Frequency</label>
+                            <select id="sigFrequency_0" class="sig-frequency">
+                                <option value="" disabled selected>-- Select --</option>
+                                <option value="once daily">Once daily (QD)</option>
+                                <option value="twice daily">Twice daily (BID)</option>
+                                <option value="three times daily">Three times daily (TID)</option>
+                                <option value="four times daily">Four times daily (QID)</option>
+                                <option value="every morning">Every morning (QAM)</option>
+                                <option value="every evening">Every evening (QPM)</option>
+                                <option value="at bedtime">At bedtime (QHS)</option>
+                                <option value="every 4 hours">Every 4 hours</option>
+                                <option value="every 6 hours">Every 6 hours</option>
+                                <option value="every 8 hours">Every 8 hours</option>
+                                <option value="every 12 hours">Every 12 hours</option>
+                                <option value="every other day">Every other day</option>
+                                <option value="once weekly">Once weekly</option>
+                                <option value="as needed">As needed (PRN)</option>
+                                <option value="other">Other (Specify Below)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="sig-additional-info">
+                        <label for="sigAdditional_0">Additional Info</label>
+                        <input type="text" id="sigAdditional_0" class="sig-additional" 
+                            placeholder="e.g., for pain, with food, etc.">
                     </div>
                 </div>
-            `;
-            
-            $('#medicationsContainer').append(row);
-            
-            // Set up autocomplete for the new medication field
-            setupMedicationAutocomplete(index);
-        }
-        
-        // Remove a medication row from the form
-        function removeMedicationRow(index) {
-            $(`#medicationRow_${index}`).remove();
-        }
-        
-        // Set up autocomplete functionality for medication fields
-        function setupMedicationAutocomplete(index) {
-            const medicationField = $(`#medicationDrugField_${index}`);
-            
-            medicationField.on('input', function() {
-                const inputValue = $(this).val().trim();
+
+                <button type="button" class="add-current-med-button">Add Medication</button>
+            </div>
+        </div>
+
+        <h2>Your Medications</h2>
+        <div id="medicationsListContainer">
+            <p>No medications added.</p>
+        </div>
+
+        <hr>
+        <button type="submit">Submit Request</button>
+    </form>
+
+    <!-- Autocomplete Suggestions -->
+    <div class="suggestion-box" id="medicationSuggestionBox"></div>
+</div>
+
+<script>
+    // ---------------------------------------------------------
+    // CONFIG — replace with your GitHub Pages JSON URL below
+    // ---------------------------------------------------------
+    const COMPILED_DATA_URL = 'https://raw.githubusercontent.com/irfanrajani/CliniStream-OscarEMR/refs/heads/main/compiled_drug_data.json';
+
+    // Globals
+    let compiledDrugData = [];
+    let currentMedications = [];
+    const MAX_SUGGESTIONS = 10;
+    const MAX_BRANDS_DISPLAY = 3;
+    const MAX_HISTORY_ITEMS = 15;
+    const dosageFormUnits = {
+        tablet: ['tablet(s)'],
+        capsule: ['capsule(s)'],
+        liquid: ['mL','tsp (5mL)','tbsp (15mL)'],
+        suspension: ['mL','tsp (5mL)','tbsp (15mL)'],
+        injection: ['mL','unit(s)'],
+        inhaler: ['puff(s)','inhalation(s)'],
+        topical: ['application(s)','gram(s)'],
+        patch: ['patch(es)'],
+        suppository: ['suppository(ies)'],
+        'eye drop': ['drop(s) in eye(s)','drop(s) in left eye','drop(s) in right eye'],
+        'ear drop': ['drop(s) in ear(s)','drop(s) in left ear','drop(s) in right ear'],
+        'nasal spray': ['spray(s) in nostril(s)','spray(s) in left nostril','spray(s) in right nostril']
+    };
+
+    // ---------------------------------------------------------
+    // Utility: History per patient (based on name+DOB)
+    // ---------------------------------------------------------
+    function historyKey() {
+      const first = $('#firstName').val().trim();
+      const last = $('#lastName').val().trim();
+      const dob  = $('#dob').val();
+      if (!first || !dob) return null;
+      return `medHistory:${first}_${last || ''}_${dob}`;
+    }
+
+    function historyKeyPrevRequests() {
+      const first = $('#firstName').val().trim();
+      const last = $('#lastName').val().trim();
+      const dob  = $('#dob').val();
+      if (!first || !dob) return null;
+      return `prevRequests:${first}_${last || ''}_${dob}`;
+    }
+
+    function saveToHistory(med) {
+      const key = historyKey();
+      if (!key) return;
+      
+      let hist = JSON.parse(localStorage.getItem(key) || '[]');
+      // Add to top if not exists, or move to top if exists
+      hist = [med, ...hist.filter(m => m.drug !== med.drug)].slice(0, MAX_HISTORY_ITEMS);
+      localStorage.setItem(key, JSON.stringify(hist));
+    }
+
+    function savePreviousRequest() {
+      const key = historyKeyPrevRequests();
+      if (!key || !currentMedications.length) return;
+      
+      // Save current medications as a timestamped request
+      const request = {
+        timestamp: new Date().toISOString(),
+        medications: JSON.parse(JSON.stringify(currentMedications))
+      };
+      
+      let prevRequests = JSON.parse(localStorage.getItem(key) || '[]');
+      prevRequests.unshift(request);
+      // Keep only last 5 requests
+      if (prevRequests.length > 5) prevRequests = prevRequests.slice(0, 5);
+      
+      localStorage.setItem(key, JSON.stringify(prevRequests));
+    }
+
+    function loadHistoryList() {
+      // Clear history container
+      const $cont = $('#historyContainer').empty();
+      
+      // If no patient identity yet, exit
+      if (!$('#firstName').val() || !$('#dob').val()) return;
+      
+      // 1. Load previous individual medications
+      const key = historyKey();
+      if (key) {
+        const hist = JSON.parse(localStorage.getItem(key) || '[]');
+        if (hist.length) {
+          $cont.append('<div class="history-section"><div class="history-title">Your Recent Medications</div><div id="recentMedsHistory"></div></div>');
+          const $recentMeds = $('#recentMedsHistory');
+          
+          hist.forEach(med => {
+            const $btn = $('<button type="button" class="history-btn">')
+              .text(med.drug)
+              .on('click', () => {
+                $('#medicationDrugField_0').val(med.drug).trigger('change');
                 
-                // Clear any existing debounce timeout
-                clearTimeout(debounceTimeout);
-                
-                // Close suggestions if input is empty
-                if (inputValue === '') {
-                    closeSuggestions();
-                    return;
+                // Try to auto-fill other fields if available
+                const $row = $('#medicationRow_0');
+                if (med.dosageForm) {
+                  const $form = $row.find('.medication-dosage-form');
+                  $form.val(med.dosageForm);
+                  populateUnitOptions($form);
+                  
+                  if (med.sig_structured) {
+                    if (med.sig_structured.quantity) $row.find('.sig-quantity').val(med.sig_structured.quantity);
+                    if (med.sig_structured.unit) $row.find('.sig-unit').val(med.sig_structured.unit);
+                    if (med.sig_structured.frequency) $row.find('.sig-frequency').val(med.sig_structured.frequency);
+                    if (med.sig_structured.additional) $row.find('.sig-additional').val(med.sig_structured.additional);
+                  }
                 }
                 
-                // Debounce the search
-                debounceTimeout = setTimeout(() => {
-                    // Search for matching medications
-                    const matches = searchMedications(inputValue);
-                    
-                    // Display suggestions
-                    if (matches.length > 0) {
-                        displaySuggestions(matches, this, inputValue);
-                    } else {
-                        closeSuggestions();
-                    }
-                }, 300); // 300ms debounce delay
-            });
-            
-            // Close suggestions when clicking outside
-            $(document).on('click', function(e) {
-                if (!$(e.target).closest('.suggestion-box, .medication-drug-field').length) {
-                    closeSuggestions();
+                // Focus on first empty required field or add button
+                const $emptyField = $row.find('input:visible, select:visible').filter(function() {
+                  return !this.value && !$(this).prop('disabled');
+                }).first();
+                
+                if ($emptyField.length) {
+                  $emptyField.focus();
+                } else {
+                  $row.find('.sig-quantity').focus();
                 }
-            });
-            
-            // Navigate through suggestions with keyboard
-            medicationField.on('keydown', function(e) {
-                const suggestionBox = document.querySelector('.suggestion-box');
-                if (!suggestionBox || suggestionBox.style.display === 'none') return;
-                
-                const suggestions = suggestionBox.querySelectorAll('.suggestion-item:not(.more-brands-button)');
-                if (suggestions.length === 0) return;
-                
-                let focusedIndex = Array.from(suggestions).findIndex(item => item.classList.contains('focused'));
-                
-                switch (e.key) {
-                    case 'ArrowDown':
-                        e.preventDefault();
-                        focusedIndex = (focusedIndex < suggestions.length - 1) ? focusedIndex + 1 : 0;
-                        break;
-                    case 'ArrowUp':
-                        e.preventDefault();
-                        focusedIndex = (focusedIndex > 0) ? focusedIndex - 1 : suggestions.length - 1;
-                        break;
-                    case 'Enter':
-                        e.preventDefault();
-                        if (focusedIndex >= 0) {
-                            suggestions[focusedIndex].click();
-                        }
-                        return;
-                    case 'Escape':
-                        e.preventDefault();
-                        closeSuggestions();
-                        return;
-                    default:
-                        return;
+              });
+            $recentMeds.append($btn);
+          });
+        }
+      }
+      
+      // 2. Load previous complete requests
+      const prevKey = historyKeyPrevRequests();
+      if (prevKey) {
+        const prevRequests = JSON.parse(localStorage.getItem(prevKey) || '[]');
+        if (prevRequests.length) {
+          $cont.append('<div class="history-section"><div class="history-title">Your Previous Refill Requests</div><div id="previousRequestsList"></div></div>');
+          const $prevList = $('#previousRequestsList');
+          
+          prevRequests.forEach((req, i) => {
+            const date = new Date(req.timestamp);
+            const dateStr = date.toLocaleDateString();
+            const numMeds = req.medications.length;
+            const $btn = $('<button type="button" class="history-btn">')
+              .html(`${dateStr} (${numMeds} med${numMeds !== 1 ? 's' : ''})`)
+              .on('click', () => {
+                if (confirm(`Load all ${numMeds} medications from your ${dateStr} request?`)) {
+                  // Replace current medications with this previous request
+                  currentMedications = JSON.parse(JSON.stringify(req.medications));
+                  renderMedicationList();
                 }
-                
-                // Remove previous focus
-                suggestions.forEach(item => item.classList.remove('focused'));
-                
-                // Set new focus
-                if (focusedIndex >= 0) {
-                    suggestions[focusedIndex].classList.add('focused');
-                    suggestions[focusedIndex].scrollIntoView({ block: 'nearest' });
-                }
-            });
+              });
+            $prevList.append($btn);
+          });
+        }
+      }
+    }
+
+    // ---------------------------------------------------------
+    // Populate units based on form
+    // ---------------------------------------------------------
+    function populateUnitOptions($sel) {
+      const form = $sel.val();
+      const $unit = $sel.closest('.medication-entry-row').find('.sig-unit')
+                       .empty().prop('disabled', true);
+      if (dosageFormUnits[form]) {
+        $unit.append('<option disabled selected>-- Select Unit --</option>');
+        dosageFormUnits[form].forEach(u=> $unit.append($('<option>').val(u).text(u)));
+        $unit.prop('disabled',false);
+        // AUTO‑SELECT first unit
+        $unit.val($unit.find('option:not([disabled])').first().val());
+      } else {
+        $unit.append('<option>-- Select Form First --</option>');
+      }
+    }
+
+    // ---------------------------------------------------------
+    // Validate medication entry
+    // ---------------------------------------------------------
+    function validateMedicationEntry(medData, $alert) {
+      $alert.hide();
+      
+      // Check required fields
+      const { quantity, unit, frequency } = medData.sig_structured;
+      if (!medData.drug.trim()) {
+        $alert.text("Please select a medication").show();
+        return false;
+      }
+      
+      if (!quantity || !unit || !frequency) {
+        $alert.text("Please fill in Quantity, Unit, and Frequency").show();
+        return false;
+      }
+      
+      // Check reasonable amounts for tablets
+      if (unit.includes('tablet') && quantity > 4) {
+        $alert.html("⚠️ High dose alert: Taking more than 4 tablets at once may be unsafe.<br>Please confirm this is your prescribed dose.").show();
+        return true; // Still allow, but warn
+      }
+      
+      // Warning for high frequency
+      if ((frequency.includes('four times') || frequency.includes('every 4 hours')) && 
+          (unit.includes('tablet') || unit.includes('capsule'))) {
+        $alert.html("⚠️ Frequent dosing: Taking this medication 4+ times per day.<br>Please confirm this is your prescribed frequency.").show();
+        return true; // Still allow, but warn
+      }
+      
+      return true;
+    }
+
+    // ---------------------------------------------------------
+    // Render Med List with badges
+    // ---------------------------------------------------------
+    function renderMedicationList() {
+      const $c = $('#medicationsListContainer').empty();
+      if (!currentMedications.length) {
+        return $c.html('<p>No medications added.</p>');
+      }
+      
+      currentMedications.forEach((m, i) => {
+        const isCombo = m.drug.includes('/');
+        const cls = isCombo ? 'combination-med' : 'single-med';
+        const $item = $('<div>').addClass('added-medication-item').addClass(cls)
+                                .attr('data-index', i);
+        
+        // Info section
+        const $info = $('<div class="med-info">');
+        
+        // Add badges
+        if (isCombo) {
+          $info.append('<span class="badge combo">Combo</span>');
         }
         
-        // Search for medications matching the input text
-        function searchMedications(searchText) {
-            if (!medicationData || medicationData.length === 0) return [];
-            
-            const normalizedSearch = searchText.toLowerCase();
-            
-            // Search in both brand names and ingredients
-            return medicationData.filter(med => 
-                med._search_brand.includes(normalizedSearch) || 
-                med._search_ingredients.includes(normalizedSearch)
-            );
+        // Extract strength if present in the drug name (e.g., "acetaminophen 500mg")
+        const strengthMatch = m.drug.match(/\d+\s*(?:mg|mcg|g|ml|%)/i);
+        if (strengthMatch) {
+          $info.append(`<span class="badge dosage">${strengthMatch[0]}</span>`);
         }
         
-        // Display medication suggestions in a dropdown
-        function displaySuggestions(suggestions, inputField, searchTerm) {
-            const rowIndex = inputField.id.split('_')[1];
-            
-            // Create or get the suggestion box
-            let suggestionBox = document.querySelector('.suggestion-box');
-            if (!suggestionBox) {
-                suggestionBox = document.createElement('div');
-                suggestionBox.className = 'suggestion-box';
-                document.body.appendChild(suggestionBox);
+        // Main medication text
+        $info.append($('<span>').text(`${m.drug} – SIG: ${m.sig_string}`));
+        
+        // Control buttons
+        const $controls = $('<div class="med-controls">');
+        const $removeBtn = $('<button type="button" class="remove-btn">Remove</button>').on('click', () => {
+          if (confirm("Remove this medication from your list?")) {
+            currentMedications.splice(i, 1);
+            renderMedicationList();
+          }
+        });
+        
+        $controls.append($removeBtn);
+        $item.append($info, $controls);
+        $c.append($item);
+      });
+    }
+
+    // ---------------------------------------------------------
+    // Add med, with validation hint
+    // ---------------------------------------------------------
+    function addMedicationToList(medData, $row) {
+      const $alert = $row.find('.validation-alert');
+      
+      // Validate the entry
+      if (!validateMedicationEntry(medData, $alert)) {
+        return false;
+      }
+      
+      // Build SIG string
+      const { quantity, unit, frequency, additional } = medData.sig_structured;
+      let action = "Take";
+      const f = medData.dosageForm.toLowerCase();
+      if (f.includes('topical')) action = "Apply";
+      else if (f.includes('drop')) action = "Instill";
+      else if (f.includes('inhaler')) action = "Use";
+      else if (f.includes('injection')) action = "Inject";
+      else if (f.includes('suppository')) action = "Insert";
+      
+      let sig = `${action} ${quantity} ${unit}`;
+      if (frequency === 'other') {
+        sig += ` ${additional || 'as directed'}`;
+      } else { 
+        sig += ` ${frequency}`; 
+        if (additional) sig += ` ${additional}`; 
+      }
+      
+      medData.sig_string = sig.trim().replace(/\s+/g, ' ');
+      medData.drug = medData.drug.trim();
+      
+      // Add to medications list
+      currentMedications.push(medData);
+      saveToHistory(medData);
+      renderMedicationList();
+      loadHistoryList();
+      
+      // Reset the form
+      $row.find('.medication-drug-input').val('').focus();
+      $row.find('.medication-dosage-form').prop('selectedIndex', 0);
+      $row.find('.sig-quantity').val('');
+      $row.find('.sig-unit').empty().prop('disabled', true).append('<option>-- Select Form First --</option>');
+      $row.find('.sig-frequency').prop('selectedIndex', 0);
+      $row.find('.sig-additional').val('');
+      $alert.hide();
+      
+      return true;
+    }
+
+    // ---------------------------------------------------------
+    // Autocomplete with manual‑entry fallback
+    // ---------------------------------------------------------
+    function attachMedAutocomplete($input) {
+      if (!compiledDrugData.length) return;
+      const $box = $('#medicationSuggestionBox');
+      let suggestions = [], dataArr = [], idx = -1, debounce;
+
+      function positionBox() {
+        const r = $input[0].getBoundingClientRect(),
+              st = $(window).scrollTop(), sl = $(window).scrollLeft();
+        $box.css({
+          top: (r.bottom + st) + "px",
+          left: (r.left + sl) + "px",
+          minWidth: $input.outerWidth() + "px"
+        }).show();
+      }
+
+      function displaySuggestions(results) {
+        $box.empty(); suggestions = []; dataArr = []; idx = -1;
+        
+        if (!results.length) {
+          $box.html('<div class="no-results">No matching medications found.</div>');
+          positionBox();
+          return;
+        }
+        
+        // Filter out restricted medications
+        const filtered = results.filter(i => !i.is_restricted);
+        
+        if (!filtered.length) {
+          $box.html('<div class="no-results">No eligible medications (all restricted).</div>');
+          positionBox();
+          return;
+        }
+
+        // Group by key then slice
+        const map = new Map();
+        filtered.forEach(item => {
+          const key = (item.ingredients || []).join('|') + "|" + (item.normalized_dosage_form || '');
+          if (!map.has(key)) map.set(key, { p: item, brands: [] });
+          const entry = map.get(key);
+          (item.brand_name || "").split('/').forEach(b => {
+            if (b && !entry.brands.includes(b)) entry.brands.push(b);
+          });
+        });
+        
+        const list = Array.from(map.values()).slice(0, MAX_SUGGESTIONS);
+        list.forEach((e, i) => {
+          const item = e.p;
+          let main = (item.ingredients || []).join(' / ') + 
+                     (item.dosage_form ? ` (${item.dosage_form})` : '');
+
+          const $opt = $('<div class="suggestion-item">')
+            .data('medData', item)
+            .data('allBrands', e.brands)
+            .append($('<span class="suggestion-med-name">').text(main));
+
+          // Add brands if available
+          if (e.brands.length) {
+            const displayBrands = e.brands.slice(0, MAX_BRANDS_DISPLAY);
+            let brandText = 'Brands: ' + displayBrands.join(', ');
+            if (e.brands.length > MAX_BRANDS_DISPLAY) {
+              brandText += ` <span class="more-brands-link" data-idx="${i}">(+${e.brands.length - MAX_BRANDS_DISPLAY} more)</span>`;
+            }
+            $opt.append($('<span class="suggestion-brands">').html(brandText));
+          }
+
+          $opt.on('mousedown', ev => {
+            if ($(ev.target).hasClass('more-brands-link')) {
+              alert('All brands: ' + e.brands.join(', '));
+              return;
             }
             
-            // Clear previous suggestions
-            suggestionBox.innerHTML = '';
+            ev.preventDefault();
+            const d = $opt.data('medData');
+            const medName = (d.ingredients || []).join(' / ') + (d.dosage_form ? ` (${d.dosage_form})` : '');
+            $input.val(medName).trigger('change');
             
-            // Position the suggestion box below the input field
-            const inputRect = inputField.getBoundingClientRect();
-            suggestionBox.style.top = `${inputRect.bottom + window.scrollY}px`;
-            suggestionBox.style.left = `${inputRect.left + window.scrollX}px`;
-            suggestionBox.style.width = `${inputRect.width}px`;
+            // auto‑select form & unit
+            const $row = $input.closest('.medication-entry-row');
+            const $form = $row.find('.medication-dosage-form');
+            const normalized = (d.normalized_dosage_form || '').toLowerCase();
             
-            // Group brands by their ingredients
-            const groupedBrands = {};
-            
-            suggestions.forEach(suggestion => {
-                const key = suggestion.ingredients.join(', ');
-                if (!groupedBrands[key]) {
-                    groupedBrands[key] = [];
-                }
-                groupedBrands[key].push(suggestion);
-            });
-            
-            // Display suggestions
-            Object.values(groupedBrands).forEach(brands => {
-                // Sort brands by relevance or alphabetically
-                brands.sort((a, b) => a.brand_name.localeCompare(b.brand_name));
-                
-                // Create suggestion item for the first brand
-                const firstBrand = brands[0];
-                const item = document.createElement('div');
-                item.className = 'suggestion-item';
-                
-                // Add combination class if this is a combination medication (has multiple ingredients)
-                if (firstBrand.ingredients.length > 1) {
-                    item.classList.add('combination-medication');
-                }
-                
-                // Highlight matching text
-                const highlightedText = highlightMatch(firstBrand.brand_name, searchTerm);
-                item.innerHTML = highlightedText;
-                
-                // Add dosage form info
-                const dosageForm = document.createElement('span');
-                dosageForm.className = 'dosage-form';
-                dosageForm.textContent = firstBrand.dosage_form;
-                item.appendChild(dosageForm);
-                
-                // Add restricted badge if applicable
-                if (firstBrand.is_restricted) {
-                    const restrictedBadge = document.createElement('span');
-                    restrictedBadge.className = 'restricted-badge';
-                    restrictedBadge.textContent = 'Controlled';
-                    item.appendChild(restrictedBadge);
-                }
-                
-                // Add combination badge if it has multiple ingredients
-                if (firstBrand.ingredients.length > 1) {
-                    const comboBadge = document.createElement('span');
-                    comboBadge.className = 'combo-badge';
-                    comboBadge.textContent = 'Combination';
-                    item.appendChild(comboBadge);
-                }
-                
-                item.addEventListener('click', function() {
-                    selectMedication(firstBrand);
-                });
-                
-                suggestionBox.appendChild(item);
-                
-                // Add "More" button if there are additional brands with the same ingredients
-                if (brands.length > 1) {
-                    const moreButton = createMoreBrandsButton(brands, searchTerm);
-                    suggestionBox.appendChild(moreButton);
-                }
-            });
-            
-            // Show the suggestion box
-            suggestionBox.style.display = 'block';
-        }
-        
-        // Create "More" button for showing additional brand options
-        function createMoreBrandsButton(brands, searchTerm) {
-            const moreButton = document.createElement('div');
-            moreButton.className = 'suggestion-item more-brands-button';
-            moreButton.textContent = `Show more brands (${brands.length - 1} more)`;
-            
-            moreButton.addEventListener('click', function(e) {
-                e.stopPropagation(); // Prevent closing the dropdown
-                
-                // Remove the "more" button
-                this.remove();
-                
-                // Get the parent suggestion box
-                const suggestionBox = document.querySelector('.suggestion-box');
-                
-                // Add all other brands to the suggestion box
-                for (let i = 1; i < brands.length; i++) {
-                    const brand = brands[i];
-                    const item = document.createElement('div');
-                    item.className = 'suggestion-item';
-                    
-                    // Highlight matching text
-                    const highlightedText = highlightMatch(brand.brand_name, searchTerm);
-                    item.innerHTML = highlightedText;
-                    
-                    // Add dosage form info
-                    const dosageForm = document.createElement('span');
-                    dosageForm.className = 'dosage-form';
-                    dosageForm.textContent = brand.dosage_form;
-                    item.appendChild(dosageForm);
-                    
-                    // Add restricted badge if applicable
-                    if (brand.is_restricted) {
-                        const restrictedBadge = document.createElement('span');
-                        restrictedBadge.className = 'restricted-badge';
-                        restrictedBadge.textContent = 'Controlled';
-                        item.appendChild(restrictedBadge);
-                    }
-                    
-                    item.addEventListener('click', function() {
-                        selectMedication(brand);
-                    });
-                    
-                    suggestionBox.appendChild(item);
-                }
-            });
-            
-            return moreButton;
-        }
-        
-        // Highlight matching text in the suggestion
-        function highlightMatch(text, query) {
-            if (!query) return text;
-            
-            const regex = new RegExp(query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi');
-            return text.replace(regex, match => `<span class="highlight">${match}</span>`);
-        }
-        
-        // Select a medication from the suggestions
-        function selectMedication(medication) {
-            const currentField = document.activeElement;
-            const rowIndex = currentField.id.split('_')[1];
-            
-            // Set the medication name
-            $(`#medicationDrugField_${rowIndex}`).val(medication.brand_name);
-            
-            // Determine dosage form and set it
-            let dosageForm = medication.normalized_dosage_form || medication.dosage_form || '';
-            $(`#medicationFormField_${rowIndex}`).val(dosageForm);
-            
-            // Extract and set strength and units from first ingredient
-            if (medication.first_strength && medication.first_strength_unit) {
-                $(`#medicationDoseField_${rowIndex}`).val(medication.first_strength);
-                
-                // Handle units appropriately based on dosage form
-                let unit = medication.first_strength_unit || '';
-                
-                // Special handling for percentage-based dosage forms (creams, ointments, etc.)
-                if (unit === '%') {
-                    // For percentage strengths, keep the % unit
-                    $(`#medicationUnitField_${rowIndex}`).val('%');
-                } 
-                // Special handling for liquid dosage forms
-                else if (/solution|suspension|liquid|syrup|drops|elixir/i.test(dosageForm)) {
-                    if (/ML|L/i.test(unit)) {
-                        // Keep the volume unit for liquids
-                        $(`#medicationUnitField_${rowIndex}`).val(unit);
-                    } else {
-                        // For concentration units, append "/mL" or keep as is
-                        $(`#medicationUnitField_${rowIndex}`).val(unit + (!/\/ml/i.test(unit) ? '/mL' : ''));
-                    }
-                }
-                // Special handling for injections
-                else if (/injection|injectable/i.test(dosageForm)) {
-                    $(`#medicationUnitField_${rowIndex}`).val(unit);
-                }
-                // Default handling for tablets, capsules, etc.
-                else {
-                    $(`#medicationUnitField_${rowIndex}`).val(unit);
-                }
+            if (normalized) {
+              const match = $form.find('option').filter(function() {
+                return this.value.toLowerCase().includes(normalized);
+              }).first();
+              
+              if (match.length) {
+                $form.val(match.val());
+              }
             }
             
-            // Hide the suggestion box
-            closeSuggestions();
+            populateUnitOptions($form);
             
-            // Move focus to the next field (dose)
-            $(`#medicationDoseField_${rowIndex}`).focus();
-        }
+            // Focus on quantity field
+            $row.find('.sig-quantity').focus();
+            $box.hide();
+          });
+
+          $opt.on('mouseenter', () => {
+            $box.find('.suggestion-item').removeClass('selected');
+            $opt.addClass('selected'); 
+            idx = i;
+          });
+
+          $box.append($opt);
+          suggestions.push($opt);
+          dataArr.push(item);
+        });
         
-        // Close the suggestion dropdown
-        function closeSuggestions() {
-            const suggestionBox = document.querySelector('.suggestion-box');
-            if (suggestionBox) {
-                suggestionBox.style.display = 'none';
-            }
-        }
+        // Manual fallback
+        $box.append('<div class="suggestion-item manual-entry">Can\'t find your medication? <strong>Enter manually</strong></div>');
+          
+        positionBox();
+      }
+
+      $(document).on('mousedown', '.manual-entry', function() {
+        const custom = prompt("Enter medication name:");
+        if (custom) $input.val(custom).trigger('change');
+        $box.hide();
+      });
+
+      function findMatching(q) {
+        const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+        if (!terms.length) return displaySuggestions([]);
         
-        // Save the prescription
-        function savePrescription(e) {
+        const res = compiledDrugData.filter(i => {
+          const searchText = `${i._search_brand || ''} ${i._search_ingredients || ''} ${i.first_strength || ''}`.toLowerCase();
+          return terms.every(t => searchText.includes(t));
+        });
+        
+        displaySuggestions(res);
+      }
+
+      $input.on('input', () => {
+        clearTimeout(debounce);
+        const v = $input.val().trim();
+        if (v.length < 2) { 
+          $box.hide(); 
+          return; 
+        }
+        debounce = setTimeout(() => findMatching(v), 150);
+      });
+
+      // Keyboard navigation
+      $input.on('keydown', e => {
+        if ($box.is(':visible') && suggestions.length) {
+          if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
             e.preventDefault();
-            
-            // Validate form
-            if (!validateForm()) {
-                $('#errorAlert').fadeIn().delay(3000).fadeOut();
-                return;
+            if (e.key === 'ArrowDown') idx = (idx + 1) % suggestions.length;
+            if (e.key === 'ArrowUp') idx = (idx - 1 + suggestions.length) % suggestions.length;
+            if (e.key === 'Enter' && idx >= 0) suggestions[idx].trigger('mousedown');
+            $box.find('.suggestion-item').removeClass('selected');
+            if (idx >= 0) {
+              suggestions[idx].addClass('selected')[0].scrollIntoView({ block: 'nearest' });
             }
-            
-            // Collect patient info
-            const patientInfo = {
-                firstName: $('#firstName').val(),
-                lastName: $('#lastName').val(),
-                dob: $('#DOB').val(),
-                age: calculateAge($('#DOB').val())
-            };
-            
-            // Collect medications
-            const medications = [];
-            
-            for (let i = 0; i < medicationCount; i++) {
-                const row = $(`#medicationRow_${i}`);
-                if (row.length) {
-                    medications.push({
-                        drug: $(`#medicationDrugField_${i}`).val(),
-                        form: $(`#medicationFormField_${i}`).val(),
-                        dose: $(`#medicationDoseField_${i}`).val(),
-                        unit: $(`#medicationUnitField_${i}`).val(),
-                        frequency: $(`#medicationFrequencyField_${i}`).val()
-                    });
-                }
-            }
-            
-            // Create prescription object
-            const prescription = {
-                patient: patientInfo,
-                medications: medications,
-                date: new Date().toISOString()
-            };
-            
-            // Save to localStorage
-            savePrescriptionToStorage(prescription);
-            
-            // Show success message
-            $('#successAlert').fadeIn().delay(3000).fadeOut();
-            
-            // Reset medication fields but keep patient info
-            resetMedicationFields();
-            
-            // Refresh history table
-            loadPrescriptionHistory();
+          } else if (e.key === 'Escape') {
+            $box.hide();
+          } else if (e.key === 'Tab') {
+            $box.hide();
+          }
+        } else if (e.key === 'ArrowRight') {
+          // Jump to next field with arrow keys
+          const $form = $input.closest('.medication-entry-row');
+          const $next = $form.find('.medication-dosage-form');
+          if ($next.length) {
+            e.preventDefault();
+            $next.focus();
+          }
+        }
+      });
+
+      $input.on('focus', () => {
+        const v = $input.val().trim();
+        if (v.length >= 2) findMatching(v);
+      });
+
+      $input.on('blur', () => setTimeout(() => $box.hide(), 200));
+    }
+
+    // ---------------------------------------------------------
+    // Setup keyboard navigation within the form
+    // ---------------------------------------------------------
+    function setupKeyboardNavigation() {
+      $('#medicationEntryArea').on('keydown', '.medication-dosage-form', function(e) {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          $(this).closest('.medication-entry-row').find('.sig-quantity').focus();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          $(this).closest('.medication-entry-row').find('.medication-drug-input').focus();
+        }
+      });
+      
+      $('#medicationEntryArea').on('keydown', '.sig-quantity', function(e) {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          $(this).closest('.medication-entry-row').find('.sig-unit').focus();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          $(this).closest('.medication-entry-row').find('.medication-dosage-form').focus();
+        }
+      });
+      
+      $('#medicationEntryArea').on('keydown', '.sig-unit', function(e) {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          $(this).closest('.medication-entry-row').find('.sig-frequency').focus();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          $(this).closest('.medication-entry-row').find('.sig-quantity').focus();
+        }
+      });
+      
+      $('#medicationEntryArea').on('keydown', '.sig-frequency', function(e) {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          $(this).closest('.medication-entry-row').find('.sig-additional').focus();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          $(this).closest('.medication-entry-row').find('.sig-unit').focus();
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          $(this).closest('.medication-entry-row').find('.add-current-med-button').click();
+        }
+      });
+      
+      $('#medicationEntryArea').on('keydown', '.sig-additional', function(e) {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          $(this).closest('.medication-entry-row').find('.sig-frequency').focus();
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          $(this).closest('.medication-entry-row').find('.add-current-med-button').click();
+        }
+      });
+    }
+
+    // ---------------------------------------------------------
+    // Document Ready
+    // ---------------------------------------------------------
+    $(document).ready(() => {
+      $('#loadingMessage').show();
+      setupKeyboardNavigation();
+
+      // Age calc
+      $('#dob').on('change', function(){
+          const dob = new Date(this.value), today = new Date();
+          if (isNaN(dob) || dob > today) return $('#age').val('');
+          let age = today.getFullYear() - dob.getFullYear();
+          const m = today.getMonth() - dob.getMonth();
+          if (m<0 || (m===0 && today.getDate()<dob.getDate())) age--;
+          $('#age').val(age>=0?age:'');
+      });
+
+      // fetch JSON
+      $.getJSON(COMPILED_DATA_URL)
+        .done(data => {
+          compiledDrugData = Array.isArray(data) ? data : [];
+          $('#loadingMessage').hide();
+          if (!compiledDrugData.length) {
+            $('#errorMessage').text("No medication data available.").show();
+            return;
+          }
+          $('#medicationDrugField_0')
+            .prop('disabled', false)
+            .attr('placeholder', 'Start typing medication name…');
+          attachMedAutocomplete($('#medicationDrugField_0'));
+        })
+        .fail(() => {
+          $('#loadingMessage').hide();
+          $('#errorMessage').show();
+        });
+
+      // populate units on form change
+      $('#medicationEntryArea').on('change', '.medication-dosage-form', function() {
+        populateUnitOptions($(this));
+      });
+
+      // add med button
+      $('#medicationEntryArea').on('click', '.add-current-med-button', function() {
+        const $row = $(this).closest('.medication-entry-row');
+        const medData = {
+          drug: $row.find('.medication-drug-input').val(),
+          dosageForm: $row.find('.medication-dosage-form').val(),
+          sig_structured: {
+            quantity: $row.find('.sig-quantity').val(),
+            unit:     $row.find('.sig-unit').val(),
+            frequency: $row.find('.sig-frequency').val(),
+            additional: $row.find('.sig-additional').val()
+          }
+        };
+        addMedicationToList(medData, $row);
+      });
+
+      // form submit
+      $('#patientForm').on('submit', e => {
+        e.preventDefault();
+        
+        // Validation
+        if (!$('#firstName').val().trim() || !$('#lastName').val().trim() || !$('#dob').val()) {
+          return alert("Please fill in all patient information fields.");
         }
         
-        // Validate the form before submission
-        function validateForm() {
-            // Check patient info
-            if (!$('#firstName').val() || !$('#lastName').val() || !$('#DOB').val()) {
-                return false;
-            }
-            
-            // Check at least one medication is entered
-            let hasMedication = false;
-            
-            for (let i = 0; i < medicationCount; i++) {
-                const row = $(`#medicationRow_${i}`);
-                if (row.length) {
-                    const drugField = $(`#medicationDrugField_${i}`);
-                    const formField = $(`#medicationFormField_${i}`);
-                    const doseField = $(`#medicationDoseField_${i}`);
-                    const unitField = $(`#medicationUnitField_${i}`);
-                    const frequencyField = $(`#medicationFrequencyField_${i}`);
-                    
-                    if (drugField.val() && formField.val() && doseField.val() && 
-                        unitField.val() && frequencyField.val()) {
-                        hasMedication = true;
-                    } else if (drugField.val() || formField.val() || doseField.val() || 
-                             unitField.val() || frequencyField.val()) {
-                        // If any field in this row has a value but not all are filled
-                        return false;
-                    }
-                }
-            }
-            
-            return hasMedication;
+        if (!currentMedications.length) {
+          return alert("Please add at least one medication to your request.");
         }
         
-        // Calculate age from date of birth
-        function calculateAge(dob) {
-            const birthDate = new Date(dob);
-            const today = new Date();
-            
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const monthDiff = today.getMonth() - birthDate.getMonth();
-            
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-            
-            return age;
-        }
+        // Build payload
+        const payload = {
+          firstName: $('#firstName').val().trim(),
+          lastName: $('#lastName').val().trim(),
+          dob: $('#dob').val(),
+          age: $('#age').val(),
+          medications: currentMedications,
+          timestamp: new Date().toISOString()
+        };
         
-        // Reset medication fields after submission
-        function resetMedicationFields() {
-            // Remove all medication rows except the first one
-            $('#medicationsContainer').empty();
-            
-            // Reset medication count
-            medicationCount = 0;
-            
-            // Add a fresh medication row
-            addMedicationRow();
-        }
+        console.log("Submitting:", payload);
         
-        // Save prescription to localStorage
-        function savePrescriptionToStorage(prescription) {
-            // Get existing prescriptions
-            const prescriptions = JSON.parse(localStorage.getItem('prescriptions') || '[]');
-            
-            // Add new prescription
-            prescriptions.push(prescription);
-            
-            // Save back to localStorage
-            localStorage.setItem('prescriptions', JSON.stringify(prescriptions));
-        }
+        // Save request to history
+        savePreviousRequest();
         
-        // Load prescription history from localStorage
-        function loadPrescriptionHistory() {
-            const prescriptions = JSON.parse(localStorage.getItem('prescriptions') || '[]');
-            
-            // Clear the history table
-            $('#historyTable tbody').empty();
-            
-            // Add prescriptions to the table
-            prescriptions.forEach((prescription, index) => {
-                const date = new Date(prescription.date).toLocaleDateString();
-                const patient = `${prescription.patient.firstName} ${prescription.patient.lastName} (${prescription.patient.age})`;
-                
-                const medications = prescription.medications.map(med => 
-                    `${med.drug} ${med.dose}${med.unit} ${med.frequency}`
-                ).join('<br>');
-                
-                const row = `
-                    <tr>
-                        <td>${date}</td>
-                        <td>${patient}</td>
-                        <td>${medications}</td>
-                        <td>
-                            <button class="btn btn-sm btn-primary btn-history-action" 
-                                onclick="viewPrescription(${index})">View</button>
-                            <button class="btn btn-sm btn-danger btn-history-action" 
-                                onclick="deletePrescription(${index})">Delete</button>
-                        </td>
-                    </tr>
-                `;
-                
-                $('#historyTable tbody').append(row);
-            });
-        }
+        // Show success message (in a real app, you'd send to server here)
+        $('#successMessage').fadeIn().delay(3000).fadeOut();
         
-        // View a saved prescription
-        function viewPrescription(index) {
-            const prescriptions = JSON.parse(localStorage.getItem('prescriptions') || '[]');
-            const prescription = prescriptions[index];
-            
-            if (!prescription) return;
-            
-            // Populate patient info
-            $('#firstName').val(prescription.patient.firstName);
-            $('#lastName').val(prescription.patient.lastName);
-            $('#DOB').val(prescription.patient.dob);
-            
-            // Reset medication fields
-            resetMedicationFields();
-            
-            // Remove the initial row
-            $('#medicationsContainer').empty();
-            medicationCount = 0;
-            
-            // Add medication rows for each medication in the prescription
-            prescription.medications.forEach(med => {
-                addMedicationRow();
-                const index = medicationCount - 1;
-                
-                $(`#medicationDrugField_${index}`).val(med.drug);
-                $(`#medicationFormField_${index}`).val(med.form);
-                $(`#medicationDoseField_${index}`).val(med.dose);
-                $(`#medicationUnitField_${index}`).val(med.unit);
-                $(`#medicationFrequencyField_${index}`).val(med.frequency);
-            });
-        }
-        
-        // Delete a saved prescription
-        function deletePrescription(index) {
-            if (!confirm('Are you sure you want to delete this prescription?')) return;
-            
-            const prescriptions = JSON.parse(localStorage.getItem('prescriptions') || '[]');
-            
-            // Remove the prescription
-            prescriptions.splice(index, 1);
-            
-            // Save back to localStorage
-            localStorage.setItem('prescriptions', JSON.stringify(prescriptions));
-            
-            // Refresh history table
-            loadPrescriptionHistory();
-        }
-    </script>
+        // Clear medications but keep patient info
+        currentMedications = [];
+        renderMedicationList();
+      });
+
+      // reload history when patient info changes
+      $('#firstName, #lastName, #dob').on('change', loadHistoryList);
+      renderMedicationList();
+      loadHistoryList();
+    });
+</script>
 </body>
 </html>
