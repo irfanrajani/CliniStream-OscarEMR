@@ -62,9 +62,8 @@ COPY conf/drugref.properties.template /etc/oscar/drugref.properties.template
 # Copy database initialization scripts
 COPY --from=builder /build/oscar-source/database/mysql /oscar-db
 
-# NextScript branding and custom pages
-COPY webapp/login.jsp /usr/local/tomcat/webapps/oscar/login.jsp
-COPY webapp/index.jsp /usr/local/tomcat/webapps/ROOT/index.jsp
+# Copy integration schema
+COPY sql/integration_schema.sql /sql/
 
 # Create required directories
 RUN mkdir -p /var/lib/OscarDocument/oscar_nextscript/document \

@@ -1,181 +1,52 @@
-# NextScript OSCAR EMR - Self-Configuring Deployment
+# NextScript OSCAR EMR - Docker Deployment
 
-## Quick Start (QNAP Deployment)
+Production-ready OSCAR EMR for British Columbia clinics. Self-configuring with web-based setup wizard.
 
-### 1. One-Command Deployment
-
-```bash
-docker-compose up -d
-```
-
-That's it! The system will:
-- Start all services
-- Create databases
-- Launch setup wizard at http://your-qnap:3000
-
-### 2. Complete First-Run Setup
-
-Visit **http://your-qnap-ip:3000** and configure:
-
-1. **Clinic Details**
-   - Clinic name (default: NextScript)
-   - Address, phone, email
-   - Timezone (default: America/Vancouver)
-
-2. **BC Teleplan Billing**
-   - Billing location (Victoria)
-   - Payee number
-   - Group number
-   - Provider billing numbers
-
-3. **RingCentral Integration**
-   - API credentials
-   - Fax number
-   - SMS number
-   - Auto-configuration of fax/SMS services
-
-4. **OceanMD eReferral**
-   - Site ID
-   - API key
-   - Auto-configuration for specialist referrals
-
-5. **Lab Integration**
-   - PathNet/LifeLabs credentials (via Expedius)
-   - Lab provider selection
-   - Result routing preferences
-
-6. **Administrator Account**
-   - Primary admin username
-   - Secure password
-   - Email for alerts
-
-### 3. Access OSCAR EMR
-
-After setup completes:
-- **OSCAR EMR:** http://your-qnap-ip:8080/oscar
-- **Settings:** http://your-qnap-ip:8080/oscar/admin/settings
-
-All integrations (fax, SMS, labs, eReferral) are configurable in Settings at any time.
-
----
-
-## Services
-
-| Service | Port | Purpose |
-|---------|------|---------|
-| oscar | 8080, 8443 | Main EMR application |
-| setup-wizard | 3000 | First-run configuration (auto-stops after setup) |
-| db | 3306 (internal) | MariaDB database |
-| expedius | 8081 | Lab auto-downloader |
-| drugref | 8080 (internal) | Drug reference database |
-| integrations | - | RingCentral, Ocean, SMS services |
-| backup | - | Automated backups |
-
----
-
-## Configuration Files
-
-All configuration is stored in the database and editable via Settings UI.
-
-**First-run only:** Create `.env` from `.env.example`
+## 🚀 Quick Start (3 commands)
 
 ```bash
-cp .env.example .env
-# Edit .env and set random passwords
+cd deployment
+chmod +x deploy.sh
+./deploy.sh
 ```
 
----
+That's it! The script will:
+1. Generate secure random passwords
+2. Create `.env` configuration file
+3. Build and start all containers
 
-## Backup & Restore
+## 📋 What Gets Deployed
 
-### Automatic Backups
-- Daily at 2 AM (configurable via `BACKUP_SCHEDULE`)
-- Stored in Docker volume `backup-data`
-- Optional S3 upload (set `S3_BACKUP_BUCKET`)
+- **OSCAR EMR** - BC-specific with Teleplan billing
+- **MariaDB 10.5** - Database with automatic schema initialization
+- **DrugRef** - Canadian drug reference database
+- **Setup Wizard** - Web-based first-run configuration
+- **Integration Services** - RingCentral, OceanMD, BC Labs
+- **Backup Service** - Automated daily backups with optional S3
 
-### Manual Backup
-```bash
-docker-compose exec backup /backup.sh manual
-```
+## 🔧 First-Time Setup
 
-### Restore from Backup
-```bash
-docker-compose exec backup /restore.sh /backups/backup-YYYY-MM-DD.tar.gz
-```
+After running `./deploy.sh`, wait 2-3 minutes for services to start, then:
 
----
+### 1. Complete Setup Wizard
 
-## Updating
+Visit: **http://localhost:8568**
 
-```bash
-docker-compose pull
-docker-compose up -d
-```
+Configure:
+- Clinic details (name, address, contact)
+- BC Teleplan billing (payee number, group, location)
+- RingCentral (fax & SMS credentials)
+- OceanMD (Site ID, API key)
+- Lab integration (Excelleris/LifeLabs SFTP)
 
-All data persists in Docker volumes.
+### 2. Access OSCAR
 
----
+Visit: **http://localhost:8567/oscar**
 
-## Reconfiguring Integrations
+Default credentials:
+- Username: `oscardoc`
+- Password: `mac2002`
+- PIN: `1117`
 
-Don't edit config files. Use the Settings UI:
+**⚠️ IMPORTANT**: Change these credentials immediately after first login!
 
-1. Login to OSCAR as admin
-2. Go to **Administration → NextScript Settings**
-3. Edit any integration:
-   - RingCentral credentials
-   - Ocean API keys
-   - Lab provider settings
-   - Billing configuration
-   - Clinic details
-
-Changes apply immediately (no restart required).
-
----
-
-## Support
-
-For issues, check logs:
-
-```bash
-# OSCAR logs
-docker-compose logs oscar
-
-# Integration logs
-docker-compose logs integrations
-
-# Database logs
-docker-compose logs db
-```
-
----
-
-## Architecture
-
-```
-┌─────────────────────────────────────┐
-│  First-Run Setup Wizard (Port 3000) │ ← Configure everything here
-└──────────────┬──────────────────────┘
-               │
-               ▼
-┌─────────────────────────────────────┐
-│  OSCAR EMR (Port 8080/8443)        │
-│  ┌─────────────────────────────┐   │
-│  │ Settings UI                  │   │ ← Reconfigure anytime
-│  │ - Clinic details             │   │
-│  │ - Integrations               │   │
-│  │ - Billing                    │   │
-│  │ - Labs                       │   │
-│  └─────────────────────────────┘   │
-└──────────────┬──────────────────────┘
-               │
-    ┌──────────┼──────────┐
-    │          │          │
-    ▼          ▼          ▼
-┌────────┐ ┌────────┐ ┌────────────┐
-│RingCent│ │ Ocean  │ │ Expedius   │
-│Fax/SMS │ │eReferral│ │BC Labs     │
-└────────┘ └────────┘ └────────────┘
-```
-
-No hardcoded config. Everything database-driven and hot-reloadable.

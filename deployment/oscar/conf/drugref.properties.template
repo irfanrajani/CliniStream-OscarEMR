@@ -1,0 +1,15 @@
+# DrugRef Configuration
+# Auto-generated from environment variables
+
+# Database Configuration
+db_driver=com.mysql.cj.jdbc.Driver
+db_url=jdbc:mysql://${MYSQL_HOST}:3306/drugref?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+db_user=${MYSQL_USER}
+db_password=${MYSQL_PASSWORD}
+
+# DrugRef Settings
+drugref.url=http://localhost:8080/drugref2
+oscar.url=http://localhost:8080/oscar
+
+# Integration with OSCAR
+integration.enabled=true

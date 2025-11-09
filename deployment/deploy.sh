@@ -26,7 +26,7 @@ fi
 
 echo ""
 echo "🐳 Starting Docker services..."
-docker-compose up -d
+docker-compose --profile setup up -d
 
 echo ""
 echo "==========================================="
@@ -41,10 +41,12 @@ echo "1. Wait for services to initialize:"
 echo "   docker-compose logs -f oscar"
 echo ""
 echo "2. Complete setup wizard:"
-echo "   http://$(hostname -I | awk '{print $1}'):3000"
+echo "   http://$(hostname -I | awk '{print $1}'):8568"
+echo "   OR http://localhost:8568"
 echo ""
 echo "3. Access OSCAR EMR:"
-echo "   http://$(hostname -I | awk '{print $1}'):8080/oscar"
+echo "   http://$(hostname -I | awk '{print $1}'):8567/oscar"
+echo "   OR http://localhost:8567/oscar"
 echo "   Default login: oscardoc / mac2002 / PIN: 1117"
 echo ""
 echo "==========================================="

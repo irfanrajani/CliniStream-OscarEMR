@@ -87,47 +87,9 @@ services:
     profiles:
       - setup
 
-  # Lab Auto-Downloader (Expedius)
-  expedius:
-    image: nextscript/expedius:latest
-    container_name: nextscript-expedius
-    build:
-      context: ./expedius
-      dockerfile: Dockerfile
-    environment:
-      TZ: America/Vancouver
-      OSCAR_API_URL: http://oscar:8080/oscar
-      OSCAR_API_USER: ${EXPEDIUS_USER}
-      OSCAR_API_PASSWORD: ${EXPEDIUS_PASSWORD}
-    volumes:
-      - expedius-data:/var/lib/expedius
-    ports:
-      - "8081:8081"
-    networks:
-      - oscar-network
-    depends_on:
-      - oscar
-    restart: unless-stopped
-
-  # DrugRef Service
-  drugref:
-    image: nextscript/drugref:latest
-    container_name: nextscript-drugref
-    build:
-      context: ./drugref
-      dockerfile: Dockerfile
-    environment:
-      DB_HOST: db
-      DB_DATABASE: drugref
-      DB_USER: oscar
-      DB_PASSWORD: ${MYSQL_PASSWORD}
-    networks:
-      - oscar-network
-    depends_on:
-      - db
-    restart: unless-stopped
-
-  # Integration Services (RingCentral, Ocean, SMS)
+  # Integration Services (RingCentral, Ocean, SMS, Labs)
+  # Note: DrugRef is included in the main OSCAR container
+  # Note: Lab integration (Expedius) runs within this container
   integrations:
     image: nextscript/integrations:latest
     container_name: nextscript-integrations
@@ -157,16 +119,22 @@ services:
       context: ./backup
       dockerfile: Dockerfile
     environment:
-      DB_HOST: db
-      DB_DATABASE: oscar_nextscript
-      DB_USER: root
-      DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_HOST: db
+      MYSQL_DATABASE: oscar_nextscript
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       BACKUP_SCHEDULE: ${BACKUP_SCHEDULE:-0 2 * * *}
-      S3_BUCKET: ${S3_BACKUP_BUCKET:-}
+      BACKUP_DIR: /backups
+      DOCUMENT_DIR: /var/lib/OscarDocument
       BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-30}
+      # Optional S3 backup
+      S3_BACKUP_ENABLED: ${S3_BACKUP_ENABLED:-false}
+      S3_BUCKET: ${S3_BACKUP_BUCKET:-}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      AWS_REGION: ${AWS_REGION:-us-west-2}
     volumes:
       - backup-data:/backups
-      - db-data:/var/lib/mysql:ro
       - oscar-documents:/var/lib/OscarDocument:ro
     networks:
       - oscar-network
@@ -184,8 +152,6 @@ volumes:
   oscar-documents:
     driver: local
   oscar-config:
-    driver: local
-  expedius-data:
     driver: local
   integration-logs:
     driver: local
