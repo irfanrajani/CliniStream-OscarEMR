@@ -86,6 +86,11 @@ if(!authed) {
             e.preventDefault();
             testOcean();
         });
+
+        $("#testLabs").click(function(e) {
+            e.preventDefault();
+            testLabs();
+        });
     });
 
     function loadConfig() {
@@ -133,6 +138,9 @@ if(!authed) {
             $("#labs_provider").val(config.labs.provider || "");
             $("#labs_username").val(config.labs.username || "");
             $("#labs_password").val(config.labs.password ? "**********" : "");
+            $("#labs_host").val(config.labs.host || "sftp.excelleris.com");
+            $("#labs_port").val(config.labs.port || "22");
+            $("#labs_remote_path").val(config.labs.remote_path || "/inbox");
         }
 
         // System
@@ -163,6 +171,9 @@ if(!authed) {
             data.labs_provider = $("#labs_provider").val();
             data.labs_username = $("#labs_username").val();
             data.labs_password = $("#labs_password").val();
+            data.labs_host = $("#labs_host").val();
+            data.labs_port = $("#labs_port").val();
+            data.labs_remote_path = $("#labs_remote_path").val();
         } else if (section === 'system') {
             data.clinic_name = $("#clinic_name").val();
             data.clinic_timezone = $("#clinic_timezone").val();
@@ -234,6 +245,36 @@ if(!authed) {
             },
             error: function() {
                 $("#ocean_test_result").html("Connection test failed").removeClass("alert-info alert-success").addClass("alert-error");
+            }
+        });
+    }
+
+    function testLabs() {
+        var data = {
+            provider: $("#labs_provider").val(),
+            host: $("#labs_host").val(),
+            port: $("#labs_port").val(),
+            username: $("#labs_username").val(),
+            password: $("#labs_password").val(),
+            remote_path: $("#labs_remote_path").val()
+        };
+
+        $("#labs_test_result").html("Testing SFTP connection...").removeClass("alert-success alert-error").addClass("alert-info").show();
+
+        $.ajax({
+            url: "<%=request.getContextPath() %>/admin/NextScriptConfig.do?method=testLabs",
+            method: 'POST',
+            data: data,
+            dataType: "json",
+            success: function(response) {
+                if (response.success) {
+                    $("#labs_test_result").html(response.message).removeClass("alert-info alert-error").addClass("alert-success");
+                } else {
+                    $("#labs_test_result").html(response.message).removeClass("alert-info alert-success").addClass("alert-error");
+                }
+            },
+            error: function() {
+                $("#labs_test_result").html("Connection test failed").removeClass("alert-info alert-success").addClass("alert-error");
             }
         });
     }
@@ -392,18 +433,44 @@ if(!authed) {
 
             <div class="row">
                 <div class="span6">
-                    <label for="labs_username">Username</label>
+                    <label for="labs_username">SFTP Username</label>
                     <input class="span6" type="text" id="labs_username" name="labs_username" />
                 </div>
                 <div class="span6">
-                    <label for="labs_password">Password</label>
+                    <label for="labs_password">SFTP Password</label>
                     <input class="span6" type="password" id="labs_password" name="labs_password" />
                 </div>
             </div>
 
             <div class="row">
+                <div class="span6">
+                    <label for="labs_host">SFTP Host</label>
+                    <input class="span6" type="text" id="labs_host" name="labs_host" placeholder="sftp.excelleris.com" />
+                </div>
+                <div class="span6">
+                    <label for="labs_port">SFTP Port</label>
+                    <input class="span6" type="text" id="labs_port" name="labs_port" placeholder="22" value="22" />
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="span12">
+                    <label for="labs_remote_path">Remote Path</label>
+                    <input class="span12" type="text" id="labs_remote_path" name="labs_remote_path" placeholder="/inbox" value="/inbox" />
+                    <span class="help-block">Path on SFTP server where lab results are stored</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="span12">
+                    <button type="button" id="testLabs" class="btn">Test Connection</button>
                     <button type="submit" id="saveLabs" class="btn btn-primary">Save Lab Settings</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="span12">
+                    <div id="labs_test_result" class="alert test-result"></div>
                 </div>
             </div>
         </form>

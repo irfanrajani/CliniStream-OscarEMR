@@ -5,3 +5,4 @@ python-dotenv==1.0.0
 ringcentral==0.7.14
 schedule==1.2.0
 cryptography==41.0.7
+paramiko==3.4.0

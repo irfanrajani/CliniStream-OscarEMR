@@ -273,6 +273,9 @@ public class NextScriptConfigAction extends JSONAction {
         String provider = request.getParameter("labs_provider");
         String username = request.getParameter("labs_username");
         String password = request.getParameter("labs_password");
+        String host = request.getParameter("labs_host");
+        String port = request.getParameter("labs_port");
+        String remotePath = request.getParameter("labs_remote_path");
 
         configDao.saveConfig("labs", "enabled", enabled, false, true);
 
@@ -287,6 +290,56 @@ public class NextScriptConfigAction extends JSONAction {
         if (StringUtils.isNotBlank(password) && !PASSWORD_BLANKET.equals(password)) {
             configDao.saveConfig("labs", "password", password, true, true);
         }
+
+        if (StringUtils.isNotBlank(host)) {
+            configDao.saveConfig("labs", "host", host, false, true);
+        }
+
+        if (StringUtils.isNotBlank(port)) {
+            configDao.saveConfig("labs", "port", port, false, true);
+        }
+
+        if (StringUtils.isNotBlank(remotePath)) {
+            configDao.saveConfig("labs", "remote_path", remotePath, false, true);
+        }
+    }
+
+    /**
+     * Test Labs (Expedius) connection
+     */
+    public ActionForward testLabs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        if (!securityInfoManager.hasPrivilege(LoggedInInfo.getLoggedInInfoFromSession(request), "_admin", "r", null)) {
+            throw new SecurityException("missing required security object (_admin)");
+        }
+
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            String provider = request.getParameter("provider");
+            String host = request.getParameter("host");
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+
+            if (StringUtils.isNotBlank(host) && StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password)) {
+                jsonObject.put("success", true);
+                jsonObject.put("message", "Lab SFTP configuration validated. Connection will be tested on first poll.");
+            } else {
+                jsonObject.put("success", false);
+                jsonObject.put("message", "Missing required fields (host, username, password)");
+            }
+
+        } catch (Exception ex) {
+            jsonObject.put("success", false);
+            jsonObject.put("message", "Connection test failed: " + ex.getMessage());
+            MiscUtils.getLogger().error("LABS CONNECTION TEST FAILED", ex);
+        }
+
+        try {
+            jsonObject.write(response.getWriter());
+        } catch (IOException e) {
+            MiscUtils.getLogger().error("JSON WRITER ERROR", e);
+        }
+        return null;
     }
 
     private void saveSystemConfig(HttpServletRequest request) throws Exception {

@@ -20,6 +20,7 @@ from integrations.ringcentral_service import RingCentralService
 from integrations.ocean_service import OceanService
 from integrations.fax_processor import FaxProcessor
 from integrations.sms_sender import SMSSender
+from integrations.expedius_service import ExpediusService
 
 # Setup logging
 logging.basicConfig(
@@ -44,7 +45,8 @@ services = {
     'ringcentral': None,
     'ocean': None,
     'fax': None,
-    'sms': None
+    'sms': None,
+    'expedius': None
 }
 
 def get_db_connection():
@@ -111,6 +113,15 @@ def initialize_services():
         except Exception as e:
             logger.error(f"❌ Failed to initialize Ocean: {e}")
 
+    # Expedius (BC Labs)
+    labs_config = load_integration_config('labs')
+    if labs_config and labs_config.get('enabled') == 'true' and labs_config.get('provider') == 'excelleris':
+        try:
+            services['expedius'] = ExpediusService(labs_config, db_config)
+            logger.info("✅ Expedius lab service initialized")
+        except Exception as e:
+            logger.error(f"❌ Failed to initialize Expedius: {e}")
+
     logger.info("Service initialization complete")
 
 def reload_services():
@@ -144,10 +155,19 @@ def process_sms_queue():
         except Exception as e:
             logger.error(f"Error processing SMS queue: {e}")
 
+def poll_lab_results():
+    """Poll for new lab results from Expedius"""
+    if services['expedius']:
+        try:
+            services['expedius'].process_labs()
+        except Exception as e:
+            logger.error(f"Error polling lab results: {e}")
+
 # Schedule jobs
 schedule.every(5).minutes.do(poll_inbound_faxes)
 schedule.every(1).minutes.do(process_outbound_fax_queue)
 schedule.every(1).minutes.do(process_sms_queue)
+schedule.every(15).minutes.do(poll_lab_results)  # Poll labs every 15 minutes
 schedule.every(10).minutes.do(reload_services)  # Hot reload config
 
 def run_scheduler():
@@ -168,7 +188,8 @@ def health():
             'ringcentral': services['ringcentral'] is not None,
             'ocean': services['ocean'] is not None,
             'fax': services['fax'] is not None,
-            'sms': services['sms'] is not None
+            'sms': services['sms'] is not None,
+            'expedius': services['expedius'] is not None
         },
         'timestamp': datetime.now().isoformat()
     }
