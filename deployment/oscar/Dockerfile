@@ -6,6 +6,13 @@ WORKDIR /build
 # Copy Open-O source code
 COPY ../../open-o-source ./oscar-source
 
+# Copy NextScript extensions and customizations
+COPY ../oscar-extensions/src ./oscar-source/src
+COPY ../oscar-extensions/apply-modifications.sh ./
+
+# Apply modifications to base OSCAR files
+RUN chmod +x apply-modifications.sh && ./apply-modifications.sh ./oscar-source
+
 # Build with Maven
 WORKDIR /build/oscar-source
 RUN mvn clean package -DskipTests -Dcheckstyle.skip=true
