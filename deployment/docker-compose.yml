@@ -1,0 +1,159 @@
+version: '3.8'
+
+# NextScript OSCAR EMR Deployment
+# Self-configuring, production-ready OSCAR EMR for Victoria, BC
+
+services:
+  # MariaDB Database
+  db:
+    image: mariadb:10.5
+    container_name: nextscript-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: oscar_nextscript
+      MYSQL_USER: oscar
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: America/Vancouver
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - oscar-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # OSCAR EMR Application
+  oscar:
+    image: nextscript/oscar-emr:latest
+    container_name: nextscript-oscar
+    build:
+      context: ./oscar
+      dockerfile: Dockerfile
+    environment:
+      TZ: America/Vancouver
+      MYSQL_HOST: db
+      MYSQL_DATABASE: oscar_nextscript
+      MYSQL_USER: oscar
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      CLINIC_NAME: ${CLINIC_NAME:-NextScript}
+      FIRST_RUN: ${FIRST_RUN:-true}
+      # Cloudflare proxy configuration
+      TRUST_PROXY: "true"
+      CLOUDFLARE_PROXY: "true"
+    volumes:
+      - oscar-documents:/var/lib/OscarDocument
+      - oscar-config:/etc/oscar
+      - ./config:/config
+    ports:
+      - "8567:8080"  # Cloudflare reverse proxy -> localhost:8567
+    networks:
+      - oscar-network
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/oscar/"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+  # First-Run Setup Wizard
+  setup-wizard:
+    image: nextscript/setup-wizard:latest
+    container_name: nextscript-setup
+    build:
+      context: ./setup-wizard
+      dockerfile: Dockerfile
+    environment:
+      OSCAR_API_URL: http://oscar:8080/oscar
+      DB_HOST: db
+      DB_DATABASE: oscar_nextscript
+      DB_USER: oscar
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8568:3000"  # Setup wizard on separate port
+    networks:
+      - oscar-network
+    depends_on:
+      - db
+      - oscar
+    restart: unless-stopped
+    profiles:
+      - setup
+
+  # Integration Services (RingCentral, Ocean, SMS, Labs)
+  # Note: DrugRef is included in the main OSCAR container
+  # Note: Lab integration (Expedius) runs within this container
+  integrations:
+    image: nextscript/integrations:latest
+    container_name: nextscript-integrations
+    build:
+      context: ./integrations
+      dockerfile: Dockerfile
+    environment:
+      OSCAR_API_URL: http://oscar:8080/oscar
+      DB_HOST: db
+      DB_DATABASE: oscar_nextscript
+      DB_USER: oscar
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - integration-logs:/var/log/integrations
+      - oscar-documents:/var/lib/OscarDocument:rw
+    networks:
+      - oscar-network
+    depends_on:
+      - oscar
+    restart: unless-stopped
+
+  # Backup Service
+  backup:
+    image: nextscript/backup:latest
+    container_name: nextscript-backup
+    build:
+      context: ./backup
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_HOST: db
+      MYSQL_DATABASE: oscar_nextscript
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      BACKUP_SCHEDULE: ${BACKUP_SCHEDULE:-0 2 * * *}
+      BACKUP_DIR: /backups
+      DOCUMENT_DIR: /var/lib/OscarDocument
+      BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-30}
+      # Optional S3 backup
+      S3_BACKUP_ENABLED: ${S3_BACKUP_ENABLED:-false}
+      S3_BUCKET: ${S3_BACKUP_BUCKET:-}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      AWS_REGION: ${AWS_REGION:-us-west-2}
+    volumes:
+      - backup-data:/backups
+      - oscar-documents:/var/lib/OscarDocument:ro
+    networks:
+      - oscar-network
+    depends_on:
+      - db
+    restart: unless-stopped
+
+networks:
+  oscar-network:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
+  oscar-documents:
+    driver: local
+  oscar-config:
+    driver: local
+  integration-logs:
+    driver: local
+  backup-data:
+    driver: local

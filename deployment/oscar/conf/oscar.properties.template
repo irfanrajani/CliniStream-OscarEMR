@@ -1,0 +1,94 @@
+# NextScript OSCAR EMR - Configuration Template
+# Auto-generated from environment variables and database settings
+
+# ===== Database Configuration =====
+db_name=${MYSQL_DATABASE}
+db_username=${MYSQL_USER}
+db_password=${MYSQL_PASSWORD}
+db_type=mysql
+db_driver=com.mysql.cj.jdbc.Driver
+db_uri=jdbc:mysql://${MYSQL_HOST}:3306/
+db_max_active=32
+
+# ===== BC Billing Configuration =====
+billregion=BC
+NEW_BC_TELEPLAN=yes
+TELEPLAN_URL=https://teleplan.hnet.bc.ca/TeleplanBroker
+# TELEPLAN_URL=https://tlpt2.moh.hnet.bc.ca/TeleplanBroker  # Test environment
+
+# BC Visit Types
+visit_type=Clinic Visit
+visittype=A|Practitioner's Office - In Community
+visitlocation=00|VICTORIA
+dataCenterId=00000
+
+# Province Configuration
+province_names=AB|AB-Alberta|BC|BC-British Columbia|MB|MB-Manitoba|NB|NB-New Brunswick|NL|NL-Newfoundland & Labrador|NT|NT-Northwest Territories|NS|NS-Nova Scotia|NU|NU-Nunavut|ON|ON-Ontario|PE|PE-Prince Edward Island|QC|QC-Quebec|SK|SK-Saskatchewan|YT|YT-Yukon Territory|US|US-United States|US-AK|Alaska|US-AL|Alabama|US-AR|Arkansas|US-AZ|Arizona|US-CA|California|US-CO|Colorado|US-CT|Connecticut|US-DC|District of Columbia|US-DE|Delaware|US-FL|Florida|US-GA|Georgia|US-HI|Hawaii|US-IA|Iowa|US-ID|Idaho|US-IL|Illinois|US-IN|Indiana|US-KS|Kansas|US-KY|Kentucky|US-LA|Louisiana|US-MA|Massachusetts|US-MD|Maryland|US-ME|Maine|US-MI|Michigan|US-MN|Minnesota|US-MO|Missouri|US-MS|Mississippi|US-MT|Montana|US-NC|North Carolina|US-ND|North Dakota|US-NE|Nebraska|US-NH|New Hampshire|US-NJ|New Jersey|US-NM|New Mexico|US-NV|Nevada|US-NY|New York|US-OH|Ohio|US-OK|Oklahoma|US-OR|Oregon|US-PA|Pennsylvania|US-RI|Rhode Island|US-SC|South Carolina|US-SD|South Dakota|US-TN|Tennessee|US-TX|Texas|US-UT|Utah|US-VA|Virginia|US-VT|Vermont|US-WA|Washington|US-WI|Wisconsin|US-WV|West Virginia|US-WY|Wyoming|OT|OT-Other
+hctype=BC
+
+# ===== Lab Configuration =====
+# BC PathNet Labs
+lab.handler.PATHL7.enabled=true
+lab.handler.IHA.enabled=true
+lab.handler.EXCELLERIS.enabled=true
+lab.handler.OSCAR_TO_OSCAR_HL7_V2.enabled=true
+lab.handler.OTHER.enabled=true
+
+HL7TEXT_LABS=no
+LAB_NOMATCH_NAMES=yes
+
+# ===== Prescription Configuration =====
+RX3=yes
+RX_ALLERGY_CHECKING=yes
+RENAL_DOSING_DS=yes
+RXFAX=yes
+rx_signature_enabled=true
+rx_fax_enabled=true
+showRxChartNo=false
+
+# DrugRef Integration
+drugref_url=http://drugref:8080/drugref2/DrugrefService
+drugref_route_search=off
+RX_INTERACTION_WARNING=true
+
+# ===== Document Storage =====
+DOCUMENT_DIR=/var/lib/OscarDocument/oscar_nextscript/document/
+INCOMINGDOCUMENT_DIR=/var/lib/OscarDocument/oscar_nextscript/incomingdocs
+INVOICE_DIR=/var/lib/OscarDocument/oscar_nextscript/billing/invoices
+
+# ===== Integration Configuration =====
+# These are database-driven and configured via Settings UI
+# Integration service will read from database tables
+
+# Integrator (BC Health Data Exchange)
+INTEGRATOR_OUTPUT_DIR=/var/lib/bc-integrator/export
+INTEGRATOR_COMPRESSION_ENABLED=true
+INTEGRATOR_LOGGING_ENABLED=true
+
+# ===== UI Configuration =====
+USE_NEW_ECHART=yes
+CASEMANAGEMENT=all
+PREVENTION=yes
+IMMUNIZATION_IN_PREVENTION=yes
+multisites=on
+DEMOGRAPHIC_PATIENT_CLINIC_STATUS=true
+DEMOGRAPHIC_PATIENT_ROSTERING=true
+NEW_CONTACTS_UI=true
+
+# ===== Security Configuration =====
+password_min_length=8
+password_min_groups=3
+login_max_failed_times=3
+mandatory_password_reset=true
+mfa.enabled=true
+mfa.legacy.pin.enable=true
+
+# ===== Logging =====
+-Dlog4j2.formatMsgNoLookups=true
+
+# ===== Clinic Branding (Database-driven) =====
+SUPPORT_LINK=http://integrations:8080/admin/settings
+SUPPORT_TEXT=NextScript EMR Support
+CLINIC_LINK=
+CLINIC_TEXT=${CLINIC_NAME}
+TAB_NAME=${CLINIC_NAME} EMR
