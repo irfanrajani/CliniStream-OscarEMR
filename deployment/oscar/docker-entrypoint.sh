@@ -48,6 +48,9 @@ if [ "$FIRST_RUN" = "true" ]; then
         echo "Loading BC specialists..."
         mariadb -h"${MYSQL_HOST}" -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" "${MYSQL_DATABASE}" < /oscar-db/bc_professionalSpecialists.sql
 
+        echo "Loading NextScript integration tables..."
+        mariadb -h"${MYSQL_HOST}" -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" "${MYSQL_DATABASE}" < /sql/integration_schema.sql
+
         echo "Database initialized!"
 
         echo ""
