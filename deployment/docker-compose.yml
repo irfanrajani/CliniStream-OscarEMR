@@ -1,5 +1,3 @@
-version: '3.8'
-
 # NextScript OSCAR EMR Deployment
 # Self-configuring, production-ready OSCAR EMR for Victoria, BC
 
@@ -31,8 +29,8 @@ services:
     image: nextscript/oscar-emr:latest
     container_name: nextscript-oscar
     build:
-      context: ./oscar
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: oscar/Dockerfile
     environment:
       TZ: America/Vancouver
       MYSQL_HOST: db
