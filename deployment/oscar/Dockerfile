@@ -1,7 +1,7 @@
 FROM maven:3.8-openjdk-8 AS builder
 
-# Install git for cloning OSCAR source
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+# Install git and python3 for cloning OSCAR source and running scripts
+RUN apt-get update && apt-get install -y git python3 && rm -rf /var/lib/apt/lists/*
 
 # Build OSCAR from Open-O source
 WORKDIR /build
@@ -28,8 +28,16 @@ EOF
 COPY oscar-extensions/src ./oscar-source/src
 COPY oscar-extensions/apply-modifications.sh ./
 
-# Apply modifications to base OSCAR files
-RUN chmod +x apply-modifications.sh && ./apply-modifications.sh ./oscar-source
+# Apply modifications to base OSCAR files (if script exists)
+RUN if [ -f apply-modifications.sh ]; then \
+      chmod +x apply-modifications.sh && ./apply-modifications.sh ./oscar-source; \
+    else \
+      echo "apply-modifications.sh not found, skipping modifications"; \
+    fi
+
+# Copy Maven settings.xml to configure repositories and checksum policies
+RUN mkdir -p /root/.m2
+COPY oscar/settings.xml /root/.m2/settings.xml
 
 # Build with Maven
 WORKDIR /build/oscar-source
