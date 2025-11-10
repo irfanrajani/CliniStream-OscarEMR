@@ -29,8 +29,8 @@ services:
     image: nextscript/oscar-emr:latest
     container_name: nextscript-oscar
     build:
-      context: ..
-      dockerfile: deployment/oscar/Dockerfile
+      context: .
+      dockerfile: oscar/Dockerfile
     environment:
       TZ: America/Vancouver
       MYSQL_HOST: db

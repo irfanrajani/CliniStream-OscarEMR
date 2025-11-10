@@ -1,14 +1,17 @@
 FROM maven:3.8-openjdk-8 AS builder
 
+# Install git for cloning OSCAR source
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
 # Build OSCAR from Open-O source
 WORKDIR /build
 
-# Copy Open-O source code
-COPY open-o-source ./oscar-source
+# Clone OSCAR source code from OpenOSP (BC-ready fork)
+RUN git clone --depth 1 https://github.com/open-osp/Open-O.git oscar-source
 
 # Copy NextScript extensions and customizations
-COPY deployment/oscar-extensions/src ./oscar-source/src
-COPY deployment/oscar-extensions/apply-modifications.sh ./
+COPY oscar-extensions/src ./oscar-source/src
+COPY oscar-extensions/apply-modifications.sh ./
 
 # Apply modifications to base OSCAR files
 RUN chmod +x apply-modifications.sh && ./apply-modifications.sh ./oscar-source
@@ -51,19 +54,19 @@ COPY --from=builder /build/oscar-source/target/oscar-*.war /usr/local/tomcat/web
 COPY --from=builder /build/drugref2.war /usr/local/tomcat/webapps/drugref2.war
 
 # Copy NextScript customizations
-COPY deployment/oscar/conf/server.xml /usr/local/tomcat/conf/
-COPY deployment/oscar/conf/logging.properties /usr/local/tomcat/conf/
-COPY deployment/oscar/conf/web.xml /usr/local/tomcat/conf/
+COPY oscar/conf/server.xml /usr/local/tomcat/conf/
+COPY oscar/conf/logging.properties /usr/local/tomcat/conf/
+COPY oscar/conf/web.xml /usr/local/tomcat/conf/
 
 # Configuration template (will be populated by environment variables)
-COPY deployment/oscar/conf/oscar.properties.template /etc/oscar/oscar.properties.template
-COPY deployment/oscar/conf/drugref.properties.template /etc/oscar/drugref.properties.template
+COPY oscar/conf/oscar.properties.template /etc/oscar/oscar.properties.template
+COPY oscar/conf/drugref.properties.template /etc/oscar/drugref.properties.template
 
 # Copy database initialization scripts
 COPY --from=builder /build/oscar-source/database/mysql /oscar-db
 
 # Copy integration schema
-COPY deployment/oscar/sql/integration_schema.sql /sql/
+COPY oscar/sql/integration_schema.sql /sql/
 
 # Create required directories
 RUN mkdir -p /var/lib/OscarDocument/oscar_nextscript/document \
@@ -75,7 +78,7 @@ RUN mkdir -p /var/lib/OscarDocument/oscar_nextscript/document \
     /etc/oscar
 
 # Copy entrypoint script
-COPY deployment/oscar/docker-entrypoint.sh /
+COPY oscar/docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
 # Expose ports
