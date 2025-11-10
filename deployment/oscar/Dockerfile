@@ -9,6 +9,9 @@ WORKDIR /build
 # Clone OSCAR source code from OpenOSP (BC-ready fork)
 RUN git clone --depth 1 https://github.com/open-osp/Open-O.git oscar-source
 
+# Remove dependency lock plugin from pom.xml to avoid version conflicts
+RUN sed -i '/<plugin>/,/<\/plugin>/{ /<artifactId>dependency-lock-maven-plugin<\/artifactId>/,/<\/plugin>/d; }' oscar-source/pom.xml
+
 # Copy NextScript extensions and customizations
 COPY oscar-extensions/src ./oscar-source/src
 COPY oscar-extensions/apply-modifications.sh ./
@@ -18,7 +21,7 @@ RUN chmod +x apply-modifications.sh && ./apply-modifications.sh ./oscar-source
 
 # Build with Maven
 WORKDIR /build/oscar-source
-RUN mvn clean package -DskipTests -Dcheckstyle.skip=true -Ddependency-lock.skip=true
+RUN mvn clean package -DskipTests -Dcheckstyle.skip=true
 
 # Download DrugRef
 WORKDIR /build
