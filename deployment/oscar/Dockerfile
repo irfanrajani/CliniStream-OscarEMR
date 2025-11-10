@@ -10,7 +10,19 @@ WORKDIR /build
 RUN git clone --depth 1 https://github.com/open-osp/Open-O.git oscar-source
 
 # Remove dependency lock plugin from pom.xml to avoid version conflicts
-RUN sed -i '/<plugin>/,/<\/plugin>/{ /<artifactId>dependency-lock-maven-plugin<\/artifactId>/,/<\/plugin>/d; }' oscar-source/pom.xml
+RUN python3 << 'EOF'
+import re
+
+with open('oscar-source/pom.xml', 'r') as f:
+    content = f.read()
+
+# Remove the entire dependency-lock-maven-plugin block
+pattern = r'<plugin>\s*<groupId>se\.vandmo</groupId>\s*<artifactId>dependency-lock-maven-plugin</artifactId>.*?</plugin>'
+content = re.sub(pattern, '', content, flags=re.DOTALL)
+
+with open('oscar-source/pom.xml', 'w') as f:
+    f.write(content)
+EOF
 
 # Copy NextScript extensions and customizations
 COPY oscar-extensions/src ./oscar-source/src
