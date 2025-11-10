@@ -31,4 +31,5 @@ jobs:
           context: deployment
           file: deployment/oscar/Dockerfile
           push: true
-          tags: ghcr.io/${{ toLower(github.repository) }}/oscar-emr:latest
+          tags: ghcr.io/irfanrajani/clinistream-oscaremr/oscar-emr:latest
+
