@@ -1,5 +1,5 @@
-# NextScript OSCAR EMR Deployment
-# Self-configuring, production-ready OSCAR EMR for Victoria, BC
+# NextScript OSCAR EMR Deployment - Production (Pre-built Images)
+# Uses pre-built images from GitHub Container Registry - NO LOCAL BUILD REQUIRED
 
 services:
   # MariaDB Database
@@ -24,13 +24,11 @@ services:
       timeout: 10s
       retries: 5
 
-  # OSCAR EMR Application
+  # OSCAR EMR Application (PRE-BUILT IMAGE - NO BUILD TIME!)
   oscar:
-    image: nextscript/oscar-emr:latest
+    image: ghcr.io/irfanrajani/clinistream-oscaremr/oscar-emr:latest
     container_name: nextscript-oscar
-    build:
-      context: .
-      dockerfile: oscar/Dockerfile
+    pull_policy: always
     environment:
       TZ: America/Vancouver
       MYSQL_HOST: db
@@ -39,7 +37,6 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       CLINIC_NAME: ${CLINIC_NAME:-NextScript}
       FIRST_RUN: ${FIRST_RUN:-true}
-      # Cloudflare proxy configuration
       TRUST_PROXY: "true"
       CLOUDFLARE_PROXY: "true"
     volumes:
@@ -47,7 +44,7 @@ services:
       - oscar-config:/etc/oscar
       - ./config:/config
     ports:
-      - "8567:8080"  # Cloudflare reverse proxy -> localhost:8567
+      - "8567:8080"
     networks:
       - oscar-network
     depends_on:
@@ -63,11 +60,9 @@ services:
 
   # First-Run Setup Wizard
   setup-wizard:
-    image: nextscript/setup-wizard:latest
+    image: ghcr.io/irfanrajani/clinistream-oscaremr/setup-wizard:latest
     container_name: nextscript-setup
-    build:
-      context: ./setup-wizard
-      dockerfile: Dockerfile
+    pull_policy: always
     environment:
       OSCAR_API_URL: http://oscar:8080/oscar
       DB_HOST: db
@@ -75,7 +70,7 @@ services:
       DB_USER: oscar
       DB_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "8568:3000"  # Setup wizard on separate port
+      - "8568:3000"
     networks:
       - oscar-network
     depends_on:
@@ -85,15 +80,11 @@ services:
     profiles:
       - setup
 
-  # Integration Services (RingCentral, Ocean, SMS, Labs)
-  # Note: DrugRef is included in the main OSCAR container
-  # Note: Lab integration (Expedius) runs within this container
+  # Integration Services
   integrations:
-    image: nextscript/integrations:latest
+    image: ghcr.io/irfanrajani/clinistream-oscaremr/integrations:latest
     container_name: nextscript-integrations
-    build:
-      context: ./integrations
-      dockerfile: Dockerfile
+    pull_policy: always
     environment:
       OSCAR_API_URL: http://oscar:8080/oscar
       DB_HOST: db
@@ -111,11 +102,9 @@ services:
 
   # Backup Service
   backup:
-    image: nextscript/backup:latest
+    image: ghcr.io/irfanrajani/clinistream-oscaremr/backup:latest
     container_name: nextscript-backup
-    build:
-      context: ./backup
-      dockerfile: Dockerfile
+    pull_policy: always
     environment:
       MYSQL_HOST: db
       MYSQL_DATABASE: oscar_nextscript
@@ -125,7 +114,6 @@ services:
       BACKUP_DIR: /backups
       DOCUMENT_DIR: /var/lib/OscarDocument
       BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-30}
-      # Optional S3 backup
       S3_BACKUP_ENABLED: ${S3_BACKUP_ENABLED:-false}
       S3_BUCKET: ${S3_BACKUP_BUCKET:-}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}

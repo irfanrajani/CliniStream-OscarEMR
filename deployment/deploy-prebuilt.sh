@@ -2,6 +2,7 @@
 
 echo "==========================================="
 echo "NextScript OSCAR EMR - Quick Deploy"
+echo "Using PRE-BUILT images (no build time!)"
 echo "==========================================="
 echo ""
 
@@ -33,8 +34,12 @@ else
 fi
 
 echo ""
+echo "📥 Pulling pre-built images from GitHub..."
+docker compose -f docker-compose.production.yml pull
+
+echo ""
 echo "🐳 Starting Docker services..."
-docker-compose --profile setup up -d
+docker compose -f docker-compose.production.yml --profile setup up -d
 
 echo ""
 echo "==========================================="
@@ -46,7 +51,7 @@ echo ""
 echo "📋 Next Steps:"
 echo ""
 echo "1. Wait for services to initialize:"
-echo "   docker-compose logs -f oscar"
+echo "   docker compose -f docker-compose.production.yml logs -f oscar"
 echo ""
 echo "2. Complete setup wizard:"
 echo "   http://localhost:8568"
@@ -57,5 +62,5 @@ echo "   Default login: oscardoc / mac2002 / PIN: 1117"
 echo ""
 echo "==========================================="
 echo ""
-echo "💡 Tip: Run 'docker-compose logs -f' to view all logs"
+echo "💡 Tip: Run 'docker compose -f docker-compose.production.yml logs -f' to view all logs"
 echo ""
