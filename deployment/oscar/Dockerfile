@@ -41,7 +41,12 @@ COPY oscar/settings.xml /root/.m2/settings.xml
 
 # Build with Maven
 WORKDIR /build/oscar-source
-RUN mvn clean package -DskipTests -Dcheckstyle.skip=true
+
+# Remove any embedded local_repo (these local POMs may be unchecksummed and break downloads)
+RUN rm -rf ./local_repo || true
+
+# Ensure we use the generated settings.xml and add retries for HTTP
+RUN mvn -s /root/.m2/settings.xml clean package -DskipTests -Dcheckstyle.skip=true -Dmaven.wagon.http.retryHandler.count=3
 
 # Download DrugRef
 WORKDIR /build

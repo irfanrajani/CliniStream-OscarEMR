@@ -26,121 +26,104 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate Maven settings.xml for OSCAR build
+        env:
+          OSCAR_REPO_USERNAME: ${{ secrets.OSCAR_REPO_USERNAME }}
+          OSCAR_REPO_PASSWORD: ${{ secrets.OSCAR_REPO_PASSWORD }}
+          HAPI_SF_USERNAME: ${{ secrets.HAPI_SF_USERNAME }}
+          HAPI_SF_PASSWORD: ${{ secrets.HAPI_SF_PASSWORD }}
         run: |
-          cat > deployment/oscar/settings.xml << 'SETTINGS_EOF'
+          cat > deployment/oscar/settings.xml << 'XML_HEAD'
           <?xml version="1.0" encoding="UTF-8"?>
           <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
                                         http://maven.apache.org/xsd/settings-1.0.0.xsd">
-            
             <servers>
-              <!-- Credentials for OSCAR SourceForge repository (if provided) -->
+          XML_HEAD
+
+          if [ -n "$OSCAR_REPO_USERNAME" ] && [ -n "$OSCAR_REPO_PASSWORD" ]; then
+            cat >> deployment/oscar/settings.xml << EOF
               <server>
                 <id>oscar_repo</id>
                 <username>${OSCAR_REPO_USERNAME}</username>
                 <password>${OSCAR_REPO_PASSWORD}</password>
               </server>
-              
-              <!-- Credentials for HAPI SourceForge repository (if provided) -->
+          EOF
+          fi
+
+          if [ -n "$HAPI_SF_USERNAME" ] && [ -n "$HAPI_SF_PASSWORD" ]; then
+            cat >> deployment/oscar/settings.xml << EOF
               <server>
                 <id>hapi-sf</id>
                 <username>${HAPI_SF_USERNAME}</username>
                 <password>${HAPI_SF_PASSWORD}</password>
               </server>
+          EOF
+          fi
+
+          cat >> deployment/oscar/settings.xml << 'XML_TAIL'
             </servers>
-            
+
             <mirrors>
-              <!-- Mirror for Maven Central -->
               <mirror>
                 <id>central-mirror</id>
                 <mirrorOf>central</mirrorOf>
                 <url>https://repo.maven.apache.org/maven2</url>
               </mirror>
             </mirrors>
-            
+
             <profiles>
               <profile>
                 <id>oscar-build</id>
                 <repositories>
-                  <!-- Maven Central with relaxed checksum policy -->
                   <repository>
                     <id>central</id>
                     <url>https://repo.maven.apache.org/maven2</url>
-                    <releases>
-                      <checksumPolicy>warn</checksumPolicy>
-                    </releases>
-                    <snapshots>
-                      <checksumPolicy>warn</checksumPolicy>
-                    </snapshots>
+                    <releases><checksumPolicy>warn</checksumPolicy></releases>
+                    <snapshots><checksumPolicy>warn</checksumPolicy></snapshots>
                   </repository>
-                  
-                  <!-- JitPack for GitHub-hosted dependencies -->
+
                   <repository>
                     <id>jitpack.io</id>
                     <url>https://jitpack.io</url>
-                    <releases>
-                      <checksumPolicy>warn</checksumPolicy>
-                    </releases>
-                    <snapshots>
-                      <checksumPolicy>warn</checksumPolicy>
-                    </snapshots>
+                    <releases><checksumPolicy>warn</checksumPolicy></releases>
+                    <snapshots><checksumPolicy>warn</checksumPolicy></snapshots>
                   </repository>
-                  
-                  <!-- OSCAR SourceForge repository -->
+
                   <repository>
                     <id>oscar_repo</id>
                     <url>https://oscarmcmaster.sourceforge.net/m2</url>
-                    <releases>
-                      <checksumPolicy>warn</checksumPolicy>
-                    </releases>
-                    <snapshots>
-                      <checksumPolicy>warn</checksumPolicy>
-                    </snapshots>
+                    <releases><checksumPolicy>warn</checksumPolicy></releases>
+                    <snapshots><checksumPolicy>warn</checksumPolicy></snapshots>
                   </repository>
-                  
-                  <!-- HAPI SourceForge repository -->
+
                   <repository>
                     <id>hapi-sf</id>
                     <url>https://hl7api.sourceforge.net/m2</url>
-                    <releases>
-                      <checksumPolicy>warn</checksumPolicy>
-                    </releases>
-                    <snapshots>
-                      <checksumPolicy>warn</checksumPolicy>
-                    </snapshots>
+                    <releases><checksumPolicy>warn</checksumPolicy></releases>
+                    <snapshots><checksumPolicy>warn</checksumPolicy></snapshots>
                   </repository>
+
                 </repositories>
-                
+
                 <pluginRepositories>
-                  <!-- Maven Central for plugins with relaxed checksum policy -->
                   <pluginRepository>
                     <id>central</id>
                     <url>https://repo.maven.apache.org/maven2</url>
-                    <releases>
-                      <checksumPolicy>warn</checksumPolicy>
-                    </releases>
-                    <snapshots>
-                      <checksumPolicy>warn</checksumPolicy>
-                    </snapshots>
+                    <releases><checksumPolicy>warn</checksumPolicy></releases>
+                    <snapshots><checksumPolicy>warn</checksumPolicy></snapshots>
                   </pluginRepository>
                 </pluginRepositories>
               </profile>
             </profiles>
-            
+
             <activeProfiles>
               <activeProfile>oscar-build</activeProfile>
             </activeProfiles>
           </settings>
-          SETTINGS_EOF
-          
-          # Substitute credentials from secrets if available
-          sed -i "s/\${OSCAR_REPO_USERNAME}/${{ secrets.OSCAR_REPO_USERNAME || '' }}/g" deployment/oscar/settings.xml
-          sed -i "s/\${OSCAR_REPO_PASSWORD}/${{ secrets.OSCAR_REPO_PASSWORD || '' }}/g" deployment/oscar/settings.xml
-          sed -i "s/\${HAPI_SF_USERNAME}/${{ secrets.HAPI_SF_USERNAME || '' }}/g" deployment/oscar/settings.xml
-          sed -i "s/\${HAPI_SF_PASSWORD}/${{ secrets.HAPI_SF_PASSWORD || '' }}/g" deployment/oscar/settings.xml
-          
-          echo "Generated settings.xml for Maven build"
+          XML_TAIL
+
+          echo "Generated deployment/oscar/settings.xml"
 
       - name: Build and push OSCAR
         uses: docker/build-push-action@v5
