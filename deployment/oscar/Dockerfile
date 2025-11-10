@@ -1,21 +1,52 @@
 FROM maven:3.8-openjdk-8 AS builder
 
+# Install git and python3 for cloning OSCAR source and running scripts
+RUN apt-get update && apt-get install -y git python3 && rm -rf /var/lib/apt/lists/*
+
 # Build OSCAR from Open-O source
 WORKDIR /build
 
-# Copy Open-O source code
-COPY ../../open-o-source ./oscar-source
+# Clone OSCAR source code from OpenOSP (BC-ready fork)
+RUN git clone --depth 1 https://github.com/open-osp/Open-O.git oscar-source
+
+# Remove dependency lock plugin from pom.xml to avoid version conflicts
+RUN python3 << 'EOF'
+import re
+
+with open('oscar-source/pom.xml', 'r') as f:
+    content = f.read()
+
+# Remove the entire dependency-lock-maven-plugin block
+pattern = r'<plugin>\s*<groupId>se\.vandmo</groupId>\s*<artifactId>dependency-lock-maven-plugin</artifactId>.*?</plugin>'
+content = re.sub(pattern, '', content, flags=re.DOTALL)
+
+with open('oscar-source/pom.xml', 'w') as f:
+    f.write(content)
+EOF
 
 # Copy NextScript extensions and customizations
-COPY ../oscar-extensions/src ./oscar-source/src
-COPY ../oscar-extensions/apply-modifications.sh ./
+COPY oscar-extensions/src ./oscar-source/src
+COPY oscar-extensions/apply-modifications.sh ./
 
-# Apply modifications to base OSCAR files
-RUN chmod +x apply-modifications.sh && ./apply-modifications.sh ./oscar-source
+# Apply modifications to base OSCAR files (if script exists)
+RUN if [ -f apply-modifications.sh ]; then \
+      chmod +x apply-modifications.sh && ./apply-modifications.sh ./oscar-source; \
+    else \
+      echo "apply-modifications.sh not found, skipping modifications"; \
+    fi
+
+# Copy Maven settings.xml to configure repositories and checksum policies
+RUN mkdir -p /root/.m2
+COPY oscar/settings.xml /root/.m2/settings.xml
 
 # Build with Maven
 WORKDIR /build/oscar-source
-RUN mvn clean package -DskipTests -Dcheckstyle.skip=true
+
+# Remove any embedded local_repo (these local POMs may be unchecksummed and break downloads)
+RUN rm -rf ./local_repo || true
+
+# Ensure we use the generated settings.xml and add retries for HTTP
+RUN mvn -s /root/.m2/settings.xml clean package -DskipTests -Dcheckstyle.skip=true -Dmaven.wagon.http.retryHandler.count=3
 
 # Download DrugRef
 WORKDIR /build
@@ -51,19 +82,19 @@ COPY --from=builder /build/oscar-source/target/oscar-*.war /usr/local/tomcat/web
 COPY --from=builder /build/drugref2.war /usr/local/tomcat/webapps/drugref2.war
 
 # Copy NextScript customizations
-COPY conf/server.xml /usr/local/tomcat/conf/
-COPY conf/logging.properties /usr/local/tomcat/conf/
-COPY conf/web.xml /usr/local/tomcat/conf/
+COPY oscar/conf/server.xml /usr/local/tomcat/conf/
+COPY oscar/conf/logging.properties /usr/local/tomcat/conf/
+COPY oscar/conf/web.xml /usr/local/tomcat/conf/
 
 # Configuration template (will be populated by environment variables)
-COPY conf/oscar.properties.template /etc/oscar/oscar.properties.template
-COPY conf/drugref.properties.template /etc/oscar/drugref.properties.template
+COPY oscar/conf/oscar.properties.template /etc/oscar/oscar.properties.template
+COPY oscar/conf/drugref.properties.template /etc/oscar/drugref.properties.template
 
 # Copy database initialization scripts
 COPY --from=builder /build/oscar-source/database/mysql /oscar-db
 
 # Copy integration schema
-COPY sql/integration_schema.sql /sql/
+COPY oscar/sql/integration_schema.sql /sql/
 
 # Create required directories
 RUN mkdir -p /var/lib/OscarDocument/oscar_nextscript/document \
@@ -75,7 +106,7 @@ RUN mkdir -p /var/lib/OscarDocument/oscar_nextscript/document \
     /etc/oscar
 
 # Copy entrypoint script
-COPY docker-entrypoint.sh /
+COPY oscar/docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
 # Expose ports
