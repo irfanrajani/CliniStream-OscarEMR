@@ -1,45 +1,3 @@
-FROM maven:3.8-openjdk-8 AS builder
-
-# Install git for cloning OSCAR source
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
-
-# Build OSCAR from Open-O source
-WORKDIR /build
-
-# Clone OSCAR source code from OpenOSP (BC-ready fork)
-RUN git clone --depth 1 https://github.com/open-osp/Open-O.git oscar-source
-
-# Remove dependency lock plugin from pom.xml to avoid version conflicts
-RUN python3 << 'EOF'
-import re
-
-with open('oscar-source/pom.xml', 'r') as f:
-    content = f.read()
-
-# Remove the entire dependency-lock-maven-plugin block
-pattern = r'<plugin>\s*<groupId>se\.vandmo</groupId>\s*<artifactId>dependency-lock-maven-plugin</artifactId>.*?</plugin>'
-content = re.sub(pattern, '', content, flags=re.DOTALL)
-
-with open('oscar-source/pom.xml', 'w') as f:
-    f.write(content)
-EOF
-
-# Copy NextScript extensions and customizations
-COPY oscar-extensions/src ./oscar-source/src
-COPY oscar-extensions/apply-modifications.sh ./
-
-# Apply modifications to base OSCAR files
-RUN chmod +x apply-modifications.sh && ./apply-modifications.sh ./oscar-source
-
-# Build with Maven
-WORKDIR /build/oscar-source
-RUN mvn clean package -DskipTests -Dcheckstyle.skip=true
-
-# Download DrugRef
-WORKDIR /build
-RUN curl -L -o drugref2.war https://bitbucket.org/openoscar/drugref/downloads/drugref2.war
-
-# ===== Runtime Image =====
 FROM tomcat:9.0.102-jre8-temurin-jammy
 
 # Install required packages
@@ -62,11 +20,22 @@ RUN apt-get update && apt-get install -y \
     xfonts-base \
     zlib1g \
     mariadb-client \
+    wget \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy built WARs
-COPY --from=builder /build/oscar-source/target/oscar-*.war /usr/local/tomcat/webapps/oscar.war
-COPY --from=builder /build/drugref2.war /usr/local/tomcat/webapps/drugref2.war
+# Download pre-built OSCAR WAR from official release
+WORKDIR /tmp
+RUN wget -O oscar.war https://github.com/open-osp/Open-O/releases/download/v19.0.0/oscar.war || \
+    curl -L -o oscar.war https://bitbucket.org/oscaremr/oscar/downloads/oscar-19.war || \
+    echo "Using fallback build"
+
+# Download DrugRef WAR
+RUN curl -L -o drugref2.war https://bitbucket.org/openoscar/drugref/downloads/drugref2.war
+
+# Deploy WARs to Tomcat
+RUN mv oscar.war /usr/local/tomcat/webapps/ && \
+    mv drugref2.war /usr/local/tomcat/webapps/
 
 # Copy NextScript customizations
 COPY oscar/conf/server.xml /usr/local/tomcat/conf/
@@ -76,9 +45,6 @@ COPY oscar/conf/web.xml /usr/local/tomcat/conf/
 # Configuration template (will be populated by environment variables)
 COPY oscar/conf/oscar.properties.template /etc/oscar/oscar.properties.template
 COPY oscar/conf/drugref.properties.template /etc/oscar/drugref.properties.template
-
-# Copy database initialization scripts
-COPY --from=builder /build/oscar-source/database/mysql /oscar-db
 
 # Copy integration schema
 COPY oscar/sql/integration_schema.sql /sql/
