@@ -18,7 +18,7 @@ RUN chmod +x apply-modifications.sh && ./apply-modifications.sh ./oscar-source
 
 # Build with Maven
 WORKDIR /build/oscar-source
-RUN mvn clean package -DskipTests -Dcheckstyle.skip=true
+RUN mvn clean package -DskipTests -Dcheckstyle.skip=true -Ddependency-lock.skip=true
 
 # Download DrugRef
 WORKDIR /build
