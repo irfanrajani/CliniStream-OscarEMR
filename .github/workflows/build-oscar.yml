@@ -31,4 +31,4 @@ jobs:
           context: deployment
           file: deployment/oscar/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/oscar-emr:latest
+          tags: ghcr.io/${{ toLower(github.repository) }}/oscar-emr:latest
