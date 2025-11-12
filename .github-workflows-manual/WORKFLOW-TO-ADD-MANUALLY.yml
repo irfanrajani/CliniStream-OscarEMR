@@ -1,0 +1,228 @@
+name: Build and Deploy OSCAR EMR
+
+on:
+  push:
+    branches:
+      - main
+      - feature/complete-docker-deployment
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}/oscar-emr
+
+jobs:
+  build-oscar-war:
+    name: Build OSCAR WAR from Source
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Apply pom.xml fixes
+        working-directory: open-o-source
+        run: |
+          python3 << 'EOF'
+          import re
+
+          with open('pom.xml', 'r') as f:
+              content = f.read()
+
+          # Remove the Spring BOM import
+          content = re.sub(
+              r'<dependency>\s*<groupId>org\.springframework</groupId>\s*<artifactId>spring-framework-bom</artifactId>.*?</dependency>',
+              '',
+              content,
+              flags=re.DOTALL
+          )
+
+          # Add explicit versions to Spring dependencies
+          spring_deps = [
+              'spring-core', 'spring-tx', 'spring-orm', 'spring-webmvc',
+              'spring-aspects', 'spring-test', 'spring-aop'
+          ]
+
+          for dep in spring_deps:
+              content = re.sub(
+                  rf'(<dependency>\s*<groupId>org\.springframework</groupId>\s*<artifactId>{dep}</artifactId>\s*)(</dependency>)',
+                  r'\1<version>4.3.30.RELEASE</version>\n\t\t\2',
+                  content
+              )
+
+          # Remove SourceForge repositories
+          content = re.sub(
+              r'<pluginRepository>\s*<id>oscar_repo</id>.*?</pluginRepository>',
+              '',
+              content,
+              flags=re.DOTALL
+          )
+          content = re.sub(
+              r'<repository>\s*<id>oscar_repo</id>.*?</repository>',
+              '',
+              content,
+              flags=re.DOTALL
+          )
+
+          # Remove non-essential plugins
+          plugins_to_remove = [
+              r'<plugin>\s*<groupId>org\.jacoco</groupId>\s*<artifactId>jacoco-maven-plugin</artifactId>.*?</plugin>',
+              r'<plugin>\s*<groupId>org\.codehaus\.mojo</groupId>\s*<artifactId>build-helper-maven-plugin</artifactId>.*?</plugin>',
+              r'<plugin>\s*<groupId>org\.owasp</groupId>\s*<artifactId>dependency-check-maven</artifactId>.*?</plugin>',
+          ]
+
+          for plugin_pattern in plugins_to_remove:
+              content = re.sub(plugin_pattern, '', content, flags=re.DOTALL)
+
+          with open('pom.xml', 'w') as f:
+              f.write(content)
+
+          print("✅ pom.xml fixed successfully")
+          EOF
+
+      - name: Build OSCAR with Maven
+        working-directory: open-o-source
+        run: |
+          mvn clean package -DskipTests -Dcheckstyle.skip=true -Dmaven.test.skip=true \
+            -Dmaven.javadoc.skip=true -Dmaven.source.skip=true \
+            --batch-mode --no-transfer-progress
+
+      - name: Verify WAR file exists
+        working-directory: open-o-source
+        run: |
+          ls -lh target/*.war
+          echo "WAR_FILE=$(ls target/*.war | head -1)" >> $GITHUB_ENV
+
+      - name: Upload WAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: oscar-war
+          path: open-o-source/target/*.war
+          retention-days: 90
+
+  build-docker-images:
+    name: Build and Push Docker Images
+    needs: build-oscar-war
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        service:
+          - name: oscar
+            context: deployment
+            dockerfile: deployment/oscar/Dockerfile
+          - name: setup-wizard
+            context: deployment/setup-wizard
+            dockerfile: deployment/setup-wizard/Dockerfile
+          - name: integrations
+            context: deployment/integrations
+            dockerfile: deployment/integrations/Dockerfile
+          - name: backup
+            context: deployment/backup
+            dockerfile: deployment/backup/Dockerfile
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download OSCAR WAR artifact
+        if: matrix.service.name == 'oscar'
+        uses: actions/download-artifact@v4
+        with:
+          name: oscar-war
+          path: deployment/prebuilt-wars/
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.service.name }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ matrix.service.context }}
+          file: ${{ matrix.service.dockerfile }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
+
+  test-deployment:
+    name: Test Complete Deployment
+    needs: build-docker-images
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create .env file
+        working-directory: deployment
+        run: |
+          cp .env.example .env
+          sed -i 's/MYSQL_ROOT_PASSWORD=.*/MYSQL_ROOT_PASSWORD=test_root_pass/' .env
+          sed -i 's/MYSQL_PASSWORD=.*/MYSQL_PASSWORD=test_oscar_pass/' .env
+          sed -i 's/FIRST_RUN=.*/FIRST_RUN=true/' .env
+
+      - name: Pull Docker images
+        working-directory: deployment
+        run: |
+          docker compose pull
+
+      - name: Start services
+        working-directory: deployment
+        run: |
+          docker compose up -d
+          sleep 30
+
+      - name: Check service health
+        working-directory: deployment
+        run: |
+          docker compose ps
+          docker compose logs oscar | tail -50
+
+      - name: Test OSCAR accessibility
+        run: |
+          curl -f http://localhost:8567/oscar/ || exit 1
+
+      - name: Cleanup
+        if: always()
+        working-directory: deployment
+        run: |
+          docker compose down -v

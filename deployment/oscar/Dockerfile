@@ -1,9 +1,13 @@
-FROM tomcat:9.0.102-jre8-temurin-jammy
+# ==========================================
+# OSCAR EMR Production Dockerfile
+# Optimized for security, size, and performance
+# ==========================================
 
-# Install required packages
-RUN apt-get update && apt-get install -y \
+FROM tomcat:9.0.102-jre8-temurin-jammy AS base
+
+# Install required runtime packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
-    iputils-ping \
     gettext \
     ca-certificates \
     fontconfig \
@@ -11,7 +15,6 @@ RUN apt-get update && apt-get install -y \
     libjpeg-turbo8 \
     libpng16-16 \
     libssl3 \
-    libstdc++6 \
     libx11-6 \
     libxcb1 \
     libxext6 \
@@ -20,54 +23,83 @@ RUN apt-get update && apt-get install -y \
     xfonts-base \
     zlib1g \
     mariadb-client \
-    wget \
-    unzip \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
 
-# Download pre-built OSCAR WAR from official release
-WORKDIR /tmp
-RUN wget -O oscar.war https://github.com/open-osp/Open-O/releases/download/v19.0.0/oscar.war || \
-    curl -L -o oscar.war https://bitbucket.org/oscaremr/oscar/downloads/oscar-19.war || \
-    echo "Using fallback build"
+# Remove default Tomcat webapps
+RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Download DrugRef WAR
-RUN curl -L -o drugref2.war https://bitbucket.org/openoscar/drugref/downloads/drugref2.war
+# ==========================================
+# Application Layer
+# ==========================================
 
-# Deploy WARs to Tomcat
-RUN mv oscar.war /usr/local/tomcat/webapps/ && \
-    mv drugref2.war /usr/local/tomcat/webapps/
-
-# Copy NextScript customizations
-COPY oscar/conf/server.xml /usr/local/tomcat/conf/
-COPY oscar/conf/logging.properties /usr/local/tomcat/conf/
-COPY oscar/conf/web.xml /usr/local/tomcat/conf/
-
-# Configuration template (will be populated by environment variables)
-COPY oscar/conf/oscar.properties.template /etc/oscar/oscar.properties.template
-COPY oscar/conf/drugref.properties.template /etc/oscar/drugref.properties.template
-
-# Copy integration schema
-COPY oscar/sql/integration_schema.sql /sql/
-
-# Create required directories
-RUN mkdir -p /var/lib/OscarDocument/oscar_nextscript/document \
+# Create application directories
+RUN mkdir -p \
+    /var/lib/OscarDocument/oscar_nextscript/document \
     /var/lib/OscarDocument/oscar_nextscript/billing/download \
     /var/lib/OscarDocument/oscar_nextscript/billing/invoices \
     /var/lib/OscarDocument/oscar_nextscript/eform/images \
     /var/lib/OscarDocument/oscar_nextscript/incomingdocs \
     /var/lib/bc-integrator/export \
-    /etc/oscar
+    /etc/oscar \
+    /sql
+
+# Copy pre-built OSCAR WAR (from GitHub Actions artifact)
+COPY --chown=root:root prebuilt-wars/*.war /usr/local/tomcat/webapps/oscar.war
+
+# Copy Tomcat configuration
+COPY --chown=root:root oscar/conf/server.xml /usr/local/tomcat/conf/
+COPY --chown=root:root oscar/conf/logging.properties /usr/local/tomcat/conf/
+COPY --chown=root:root oscar/conf/web.xml /usr/local/tomcat/conf/
+
+# Copy OSCAR configuration templates
+COPY --chown=root:root oscar/conf/oscar.properties.template /etc/oscar/
+COPY --chown=root:root oscar/conf/drugref.properties.template /etc/oscar/
+
+# Copy database initialization scripts
+COPY --chown=root:root oscar/sql/*.sql /sql/
 
 # Copy entrypoint script
-COPY oscar/docker-entrypoint.sh /
+COPY --chown=root:root oscar/docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
+# ==========================================
+# Security Hardening
+# ==========================================
+
+# Create non-root user for Tomcat
+RUN groupadd -r oscar && useradd -r -g oscar -u 1000 oscar
+
+# Set proper ownership
+RUN chown -R oscar:oscar \
+    /usr/local/tomcat \
+    /var/lib/OscarDocument \
+    /var/lib/bc-integrator \
+    /etc/oscar
+
+# Set proper permissions (no write access to config)
+RUN chmod 755 /usr/local/tomcat/webapps && \
+    chmod 644 /etc/oscar/*.template && \
+    chmod 600 /sql/*.sql
+
+# Switch to non-root user
+USER oscar
+
+# ==========================================
+# Runtime Configuration
+# ==========================================
+
+# Environment variables
+ENV CATALINA_OPTS="-Xms512m -Xmx2048m -XX:MaxPermSize=512m -Djava.security.egd=file:/dev/./urandom"
+ENV JAVA_OPTS="-Djava.awt.headless=true -Dfile.encoding=UTF-8"
+
 # Expose ports
-EXPOSE 8080 443
+EXPOSE 8080
 
 # Health check
-HEALTHCHECK --interval=60s --timeout=10s --start-period=120s --retries=3 \
+HEALTHCHECK --interval=60s --timeout=10s --start-period=180s --retries=3 \
     CMD curl -f http://localhost:8080/oscar/ || exit 1
 
+# Start Tomcat
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["catalina.sh", "run"]

@@ -1,53 +1,61 @@
-# NextScript OSCAR EMR Deployment
-# Self-configuring, production-ready OSCAR EMR for Victoria, BC
+# ==========================================
+# OSCAR EMR Production Docker Compose
+# Self-configuring, secure, BC-ready deployment
+# ==========================================
 
 services:
-  # MariaDB Database
+  # ========================================
+  # Database Service
+  # ========================================
   db:
     image: mariadb:10.5
-    container_name: nextscript-db
+    container_name: oscar-db
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: oscar_nextscript
-      MYSQL_USER: oscar
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-oscar_mcmaster}
+      MYSQL_USER: ${MYSQL_USER:-oscar}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      TZ: America/Vancouver
+      TZ: ${TZ:-America/Vancouver}
     volumes:
       - db-data:/var/lib/mysql
-      - ./init-db:/docker-entrypoint-initdb.d
+      - ./sql:/docker-entrypoint-initdb.d:ro
     networks:
       - oscar-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 30s
       timeout: 10s
       retries: 5
+      start_period: 60s
 
+  # ========================================
   # OSCAR EMR Application
+  # ========================================
   oscar:
-    image: nextscript/oscar-emr:latest
-    container_name: nextscript-oscar
+    image: ${OSCAR_IMAGE:-ghcr.io/irfanrajani/clinistream-oscaremr/oscar:latest}
+    container_name: oscar-emr
     build:
       context: .
       dockerfile: oscar/Dockerfile
     environment:
-      TZ: America/Vancouver
+      TZ: ${TZ:-America/Vancouver}
       MYSQL_HOST: db
-      MYSQL_DATABASE: oscar_nextscript
-      MYSQL_USER: oscar
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-oscar_mcmaster}
+      MYSQL_USER: ${MYSQL_USER:-oscar}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      CLINIC_NAME: ${CLINIC_NAME:-NextScript}
+      CLINIC_NAME: ${CLINIC_NAME:-BC Medical Clinic}
       FIRST_RUN: ${FIRST_RUN:-true}
-      # Cloudflare proxy configuration
-      TRUST_PROXY: "true"
-      CLOUDFLARE_PROXY: "true"
+      # Security settings
+      TRUST_PROXY: ${TRUST_PROXY:-false}
+      CLOUDFLARE_PROXY: ${CLOUDFLARE_PROXY:-false}
+      # Java memory settings
+      CATALINA_OPTS: "-Xms512m -Xmx${OSCAR_MAX_MEMORY:-2048m}"
     volumes:
       - oscar-documents:/var/lib/OscarDocument
       - oscar-config:/etc/oscar
-      - ./config:/config
     ports:
-      - "8567:8080"  # Cloudflare reverse proxy -> localhost:8567
+      - "${OSCAR_PORT:-8567}:8080"
     networks:
       - oscar-network
     depends_on:
@@ -59,23 +67,26 @@ services:
       interval: 60s
       timeout: 10s
       retries: 3
-      start_period: 120s
+      start_period: 180s
 
-  # First-Run Setup Wizard
+  # ========================================
+  # Setup Wizard (First-Run Configuration)
+  # ========================================
   setup-wizard:
-    image: nextscript/setup-wizard:latest
-    container_name: nextscript-setup
+    image: ${WIZARD_IMAGE:-ghcr.io/irfanrajani/clinistream-oscaremr/setup-wizard:latest}
+    container_name: oscar-wizard
     build:
       context: ./setup-wizard
       dockerfile: Dockerfile
     environment:
       OSCAR_API_URL: http://oscar:8080/oscar
       DB_HOST: db
-      DB_DATABASE: oscar_nextscript
-      DB_USER: oscar
+      DB_DATABASE: ${MYSQL_DATABASE:-oscar_mcmaster}
+      DB_USER: ${MYSQL_USER:-oscar}
       DB_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: ${TZ:-America/Vancouver}
     ports:
-      - "8568:3000"  # Setup wizard on separate port
+      - "${WIZARD_PORT:-8568}:3000"
     networks:
       - oscar-network
     depends_on:
@@ -85,21 +96,29 @@ services:
     profiles:
       - setup
 
-  # Integration Services (RingCentral, Ocean, SMS, Labs)
-  # Note: DrugRef is included in the main OSCAR container
-  # Note: Lab integration (Expedius) runs within this container
+  # ========================================
+  # Integration Services
+  # Handles: RingCentral, OceanMD, BC Labs
+  # ========================================
   integrations:
-    image: nextscript/integrations:latest
-    container_name: nextscript-integrations
+    image: ${INTEGRATIONS_IMAGE:-ghcr.io/irfanrajani/clinistream-oscaremr/integrations:latest}
+    container_name: oscar-integrations
     build:
       context: ./integrations
       dockerfile: Dockerfile
     environment:
       OSCAR_API_URL: http://oscar:8080/oscar
       DB_HOST: db
-      DB_DATABASE: oscar_nextscript
-      DB_USER: oscar
+      DB_DATABASE: ${MYSQL_DATABASE:-oscar_mcmaster}
+      DB_USER: ${MYSQL_USER:-oscar}
       DB_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: ${TZ:-America/Vancouver}
+      # RingCentral credentials (loaded from DB on startup)
+      RINGCENTRAL_ENABLED: ${RINGCENTRAL_ENABLED:-false}
+      # OceanMD credentials (loaded from DB on startup)
+      OCEAN_ENABLED: ${OCEAN_ENABLED:-false}
+      # BC Labs SFTP (loaded from DB on startup)
+      BC_LABS_ENABLED: ${BC_LABS_ENABLED:-false}
     volumes:
       - integration-logs:/var/log/integrations
       - oscar-documents:/var/lib/OscarDocument:rw
@@ -109,28 +128,36 @@ services:
       - oscar
     restart: unless-stopped
 
+  # ========================================
   # Backup Service
+  # Automated DB + document backups with S3
+  # ========================================
   backup:
-    image: nextscript/backup:latest
-    container_name: nextscript-backup
+    image: ${BACKUP_IMAGE:-ghcr.io/irfanrajani/clinistream-oscaremr/backup:latest}
+    container_name: oscar-backup
     build:
       context: ./backup
       dockerfile: Dockerfile
     environment:
       MYSQL_HOST: db
-      MYSQL_DATABASE: oscar_nextscript
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-oscar_mcmaster}
       MYSQL_USER: root
       MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      BACKUP_SCHEDULE: ${BACKUP_SCHEDULE:-0 2 * * *}
+      TZ: ${TZ:-America/Vancouver}
+      # Backup configuration
+      BACKUP_SCHEDULE: ${BACKUP_SCHEDULE:-0 2 * * *}  # 2 AM daily
       BACKUP_DIR: /backups
       DOCUMENT_DIR: /var/lib/OscarDocument
       BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-30}
-      # Optional S3 backup
+      # S3 backup (optional)
       S3_BACKUP_ENABLED: ${S3_BACKUP_ENABLED:-false}
       S3_BUCKET: ${S3_BACKUP_BUCKET:-}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
       AWS_REGION: ${AWS_REGION:-us-west-2}
+      # Encryption (optional)
+      BACKUP_ENCRYPTION_ENABLED: ${BACKUP_ENCRYPTION_ENABLED:-false}
+      BACKUP_ENCRYPTION_KEY: ${BACKUP_ENCRYPTION_KEY:-}
     volumes:
       - backup-data:/backups
       - oscar-documents:/var/lib/OscarDocument:ro
@@ -139,11 +166,22 @@ services:
     depends_on:
       - db
     restart: unless-stopped
+    profiles:
+      - backup
 
+# ==========================================
+# Networks
+# ==========================================
 networks:
   oscar-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
 
+# ==========================================
+# Persistent Volumes
+# ==========================================
 volumes:
   db-data:
     driver: local
