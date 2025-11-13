@@ -1,0 +1,24 @@
+# vim:syntax=apparmor
+# OSCAREMR AppArmor policy for wkhtmltopdf 
+# ### P Hutten-Czapski ###
+# ### (c) 2022 ###
+# ### released under GPL ###                      
+#include <tunables/global>
+
+/usr/local/bin/wkhtmltopdf {
+  # Allows
+  #include <abstractions/base>
+  #include <abstractions/fonts>
+  #include <abstractions/nameservice>
+  #include <abstractions/openssl>
+
+  deny capability sys_ptrace,
+
+  # System paths wkhtmltopdf needs to operate
+  /etc/ssl/certs/ r,
+  /proc/*/maps r,
+  /usr/local/bin/wkhtmltopdf mr,
+  /var/cache/fontconfig/* r,
+  /tmp/** rwlk,
+
+}

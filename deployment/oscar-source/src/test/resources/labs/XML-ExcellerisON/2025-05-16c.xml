@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?> <HL7Messages MessageFormat="ORUR01" MessageCount="1" Version="2.3.1"><Message MsgID='1'><![CDATA[MSH|^~\&|PATHL7|EXC-RV^LIFELABS ONTARIO|HTTPCLIENT||20250516180849-0400||ORU^R01|ON320250516180849684|D|2.3.1|||AL
+PID|||2000012852^^^^JHN^^^^ON&Ontario&HL70347^^AA|TEST ACCESSION|LFLBLACK^DIAMOND^ALICE^^^^L||19961101|F|||||(647) 666-1188^H
+PV1|1|OU
+ORC|RE||2025-OSC250018
+OBR|1|2025-OSC250018-0_TR10477-8W|2025-OSC250018-0_TR10477-8W|TR10477-8W^Complete Blood Count|||20250513093800|||||||20250513094400|BLD&WHOLE BLOOD&HL70070|921379^BLAKE^DONALD||||||20250513100948||HAEM1|F|||921379^BLAKE^DONALD~^ON_EMR_DOCTOR_AJ^TEST~99999^TESTING^I.T.
+OBX|1|NM|6690-2^WBC||6.0|x E9/L|4.0 - 11.0||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|2|NM|789-8^RBC||3.10|x E12/L|4.00 - 5.10|L|||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|3|NM|718-7^Hemoglobin||400|g/L|120- 160|H|||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|4|NM|4544-3^Hematocrit||0.41|L/L|0.350 - 0.450||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|5|NM|787-2^MCV||85|fL|80 - 100||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|6|NM|785-6^MCH||30.0|pg|27.5 - 33.0||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|7|NM|786-4^MCHC||350|g/L|305 - 360||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|8|NM|788-0^RDW||12.0|%|11.5 - 14.5||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|9|NM|777-3^Platelets||265|x E9/L|150 - 400||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|10|NM|751-8^Neutrophils||4.0|x E9/L|2.0 - 7.5||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|11|NM|731-0^Lymphocytes||1.0|x E9/L|1.0 - 3.5||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|12|NM|742-7^Monocytes||1.0|x E9/L|0.2 - 1.0||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|13|NM|711-2^Eosinophils||0.0|x E9/L|0.0 - 0.5||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|14|NM|704-7^Basophils||0.0|x E9/L|0.0 - 0.2||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|15|NM|53115-2^Immature Granulocytes||0.0|x E9/L|0.0 - 0.1||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|16|NM|19048-8^Nucleated RBC||0|/100 WBC|||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|17|ST|11156-7^WBC  Morphology||NORMAL||||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|18|ST|6742-1^RBC Morphology||NORMAL||||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|19|ST|11125-2^Platelet Morphology||NORMAL||||||F|||20250513100948-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+ORC|RE||2025-OSC250018
+OBR|2|2025-OSC250018-0_TR10540-3|2025-OSC250018-0_TR10540-3|TR10540-3^INR (Prothrombin Time)|||20250513093800|||||||20250513094400|PLAS&PLASMA&HL70070|921379^BLAKE^DONALD||||||||HAEM3|I|||921379^BLAKE^DONALD~^ON_EMR_DOCTOR_AJ^TEST~99999^TESTING^I.T.
+ORC|RE||2025-OSC250018
+OBR|3|2025-OSC250018-0_TR10397-8|2025-OSC250018-0_TR10397-8|TR10397-8^Sodium|||20250513093800|||||||20250513094400|SER&SERUM&HL70070|921379^BLAKE^DONALD||||||||CHEM4|I|||921379^BLAKE^DONALD~^ON_EMR_DOCTOR_AJ^TEST~99999^TESTING^I.T.
+ORC|RE||2025-OSC250018
+OBR|4|2025-OSC250018-0_TR10359-8|2025-OSC250018-0_TR10359-8|TR10359-8^Potassium|||20250513093800|||||||20250513094400|SER&SERUM&HL70070|921379^BLAKE^DONALD||||||||CHEM4|I|||921379^BLAKE^DONALD~^ON_EMR_DOCTOR_AJ^TEST~99999^TESTING^I.T.
+ORC|RE||2025-OSC250018
+OBR|5|2025-OSC250018-0_TR10116-2|2025-OSC250018-0_TR10116-2|TR10116-2^Chloride|||20250513093800|||||||20250513094400|SER&SERUM&HL70070|921379^BLAKE^DONALD||||||||CHEM4|I|||921379^BLAKE^DONALD~^ON_EMR_DOCTOR_AJ^TEST~99999^TESTING^I.T.
+ORC|RE||2025-OSC250018
+OBR|6|2025-OSC250018-0_TR10203-8|2025-OSC250018-0_TR10203-8|TR10203-8^Gamma Glutamyl Transferase|||20250513093800|||||||20250513094400|SER&SERUM&HL70070|921379^BLAKE^DONALD||||||20250513103041||CHEM4|F|||921379^BLAKE^DONALD~^ON_EMR_DOCTOR_AJ^TEST~99999^TESTING^I.T.
+OBX|1|NM|2324-2^Gamma Glutamyl Transferase||180|U/L|<44|H|||F|||20250513103041-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+ORC|RE||2025-OSC250018
+OBR|7|2025-OSC250018-0_TR10009-9|2025-OSC250018-0_TR10009-9|TR10009-9^Alanine Aminotransferase|||20250513093800|||||||20250513094400|SER&SERUM&HL70070|921379^BLAKE^DONALD||||||20250513103041||CHEM4|F|||921379^BLAKE^DONALD~^ON_EMR_DOCTOR_AJ^TEST~99999^TESTING^I.T.
+OBX|1|NM|1742-6^Alanine Aminotransferase||70|U/L|<36|H|||F|||20250513103041-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+ORC|RE||2025-OSC250018
+OBR|8|2025-OSC250018-0_TR10051-1|2025-OSC250018-0_TR10051-1|TR10051-1^Aspartate Aminotransferase|||20250513093800|||||||20250513094400|SER&SERUM&HL70070|921379^BLAKE^DONALD||||||20250513111428||CHEM4|C|||921379^BLAKE^DONALD~^ON_EMR_DOCTOR_AJ^TEST~99999^TESTING^I.T.
+OBX|1|NM|1920-8^Aspartate Aminotransferase||90|U/L|<30|H|||C|||20250513111428-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+NTE|||\R\\R\\R\ This result has been amended \R\\R\\R\\.br\Original ASPARTATE TRANSAMINASE(AST) result\.br\         13-MAY-25 was 5 U/L
+ORC|RE||2025-OSC250018
+OBR|9|2025-OSC250018-0_TR11629-3|2025-OSC250018-0_TR11629-3|TR11629-3^Lipid Assessment|||20250513093800|||||||20250513094400|SER&SERUM&HL70070|921379^BLAKE^DONALD||||||20250513105951||CHEM6|F|||921379^BLAKE^DONALD~^ON_EMR_DOCTOR_AJ^TEST~99999^TESTING^I.T.
+OBX|1|NM|55420-4^Hours After Meal||12|Hours|||||F|||20250513103041-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+OBX|2|NM|14927-8^Triglyceride||2.10|mmol/L||H|||F|||20250513105951-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+NTE|||FASTING:     <1.70 mmol/L\.br\NON-FASTING: <2.00 mmol/L
+OBX|3|NM|14647-2^Cholesterol||5.60|mmol/L|<5.20|H|||F|||20250513105951-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+NTE|||Total cholesterol and HDL-C used for risk\.br\assessment and to calculate non HDL-C.
+OBX|4|NM|14646-4^HDL Cholesterol||0.99|mmol/L|>=1.30|L|||F|||20250513105951-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+NTE|||HDL-C <1.30 mmol/L indicates risk for metabolic\.br\syndrome.
+OBX|5|NM|70204-3^Non HDL Cholesterol||4.61|mmol/L|<4.20|H|||F|||20250513105951-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+NTE|||Non HDL-Cholesterol is not affected by the\.br\fasting status of the patient.\.br\ \.br\If non-HDL-C >=4.20 mmol/L in primary prevention\.br\setting for low risk patients (FRS 5-9.9%) or\.br\intermediate risk patients (FRS 10-20%), consider\.br\therapy. Therapy also suggested in low risk\.br\patients (FRS <10%) with non-HDL-C >=5.8 mmol/L.
+OBX|6|NM|39469-2^LDL Cholesterol||3.74|mmol/L|<3.50|H|||F|||20250513105951-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+NTE|||If LDL-C >=3.50 mmol/L in primary prevention\.br\setting for low risk patients (FRS 5-9.9%) or\.br\intermediate risk patients (FRS 10-20%), consider\.br\therapy. Therapy also suggested in low risk\.br\patients (FRS <10%) with LDL-C >4.99 mmol/L.\.br\LDL-C is calculated using the NIH equation.\.br\ \.br\For additional LDL-C and non-HDL-C thresholds\.br\based on risk stratification, refer to 2021 CCS\.br\Guidelines. Can J Cardiol. 2021;37(8):1129-1150.
+OBX|7|NM|32309-7^Cholesterol/HDL Cholesterol||5.7||||||F|||20250513105951-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+NTE|||Cholesterol/HDL-C is not included in the 2021 CCS\.br\guideline as a lipid initiation or treatment\.br\target but is recognized as an indicator of high\.br\CVD risk at Cholesterol/HDL-C ratio >6.0
+ORC|RE||2025-OSC250018
+OBR|10|2025-OSC250018-0_TR10082-6B|2025-OSC250018-0_TR10082-6B|TR10082-6B^Vitamin D-25 Hydroxy|||20250513093800|||||||20250513094400|SER&SERUM&HL70070|921379^BLAKE^DONALD||||||20250513110021||CHEM28|F|||921379^BLAKE^DONALD~^ON_EMR_DOCTOR_AJ^TEST~99999^TESTING^I.T.
+OBX|1|NM|14635-7^25-Hydroxy Vitamin D||220.0|nmol/L|75.0 - 250.0||||F|||20250513110021-0400|5687^LifeLabs&100 International Blvd.&&Toronto&Ontario&M9W 6J6&Canada&B
+]]></Message></HL7Messages>

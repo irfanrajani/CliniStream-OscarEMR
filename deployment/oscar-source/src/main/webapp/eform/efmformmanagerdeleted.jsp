@@ -1,0 +1,124 @@
+<%--
+
+    Copyright (c) 2001-2002. Department of Family Medicine, McMaster University. All Rights Reserved.
+    This software is published under the GPL GNU General Public License.
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+    This software was written for the
+    Department of Family Medicine
+    McMaster University
+    Hamilton
+    Ontario, Canada
+
+--%>
+<%@ page import="oscar.eform.data.*, oscar.eform.*, java.util.*"%>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
+<%
+String orderByRequest = request.getParameter("orderby");
+String orderBy = "";
+if (orderByRequest == null) orderBy = EFormUtil.DATE;
+else if (orderByRequest.equals("form_subject")) orderBy = EFormUtil.SUBJECT;
+else if (orderByRequest.equals("form_name")) orderBy = EFormUtil.NAME;
+else if (orderByRequest.equals("file_name")) orderBy = EFormUtil.FILE_NAME;
+%>
+<!DOCTYPE html>
+<html:html locale="true">
+<head>
+<html:base />
+<script src="<%= request.getContextPath() %>/js/global.js"></script>
+<title><bean:message key="eform.uploadhtml.title" /></title>
+<script>
+
+
+	    jQuery(document).ready( function () {
+	        jQuery('#tblDeletedEforms').DataTable({
+            "order": [],
+	        "bPaginate": false,
+            "language": {
+                        "url": "<%=request.getContextPath() %>/library/DataTables/i18n/<bean:message key="global.i18nLanguagecode"/>.json"
+                    }
+            });
+	    });
+
+</script>
+
+<script language="javascript">
+  function checkFormAndDisable(){
+    if(document.forms[0].formHtml.value==""){
+      alert("<bean:message key="eform.uploadhtml.msgFileMissing"/>");
+    } else {
+      document.forms[0].subm.value = "<bean:message key="eform.uploadimages.processing"/>";
+      document.forms[0].subm.disabled = true;
+      document.forms[0].submit();
+    }
+  }
+
+  function newWindow(url, id) {
+        Popup = window.open(url,id,'toolbar=no,location=no,status=yes,menubar=no, scrollbars=yes,resizable=yes,width=700,height=600,left=200,top=0');
+  }
+
+  function confirmNRestore(url) {
+    if (confirm("<bean:message key="eform.calldeletedformdata.confirmRestore"/>")) {
+        document.location = url;
+    }
+  }
+</script>
+</head>
+<body>
+
+
+<%@ include file="efmTopNav.jspf"%>
+
+<h3><bean:message key="eform.calldeletedformdata.title" /></h3>
+
+
+<table class="table table-condensed table-striped table-hover" id="tblDeletedEforms">
+<thead>
+	<tr>
+		<th><bean:message key="eform.uploadhtml.btnFormName" /></th>
+		<th><bean:message key="eform.uploadhtml.btnSubject" /></th>
+		<th><bean:message key="eform.uploadhtml.btnFile" /></th>
+		<th><bean:message key="eform.uploadhtml.btnDate" /></th>
+		<th><bean:message key="eform.uploadhtml.btnTime" /></th>
+		<th><bean:message key="eform.uploadhtml.msgAction" /></th>
+	</tr>
+</thead>
+<tbody>
+	<%
+	ArrayList<HashMap<String, ? extends Object>> eForms = EFormUtil.listEForms(orderBy, EFormUtil.DELETED);
+  for (int i=0; i<eForms.size(); i++) {
+	  HashMap<String, ? extends Object> curForm =  eForms.get(i);
+%>
+	<tr>
+		<td><a href="#" class="viewEform" onclick="newWindow('<%= request.getContextPath() %>/eform/efmshowform_data.jsp?fid=<%=curForm.get("fid")%>', '<%="FormD"+i%>'); return false;"><%=curForm.get("formName")%></a></td>
+		<td><%=curForm.get("formSubject")%>&nbsp;</td>
+		<td><%=curForm.get("formFileName")%></td>
+		<td><%=curForm.get("formDate")%></td>
+		<td><%=curForm.get("formTime")%></td>
+		<td><a href='<%= request.getContextPath() %>/eform/restoreEForm.do?fid=<%=curForm.get("fid")%>' class="contentLink">
+			    <bean:message key="eform.calldeletedformdata.btnRestore" />
+	        </a>
+		</td>
+	</tr>
+	<% } %>
+</tbody>
+</table>
+
+<%@ include file="efmFooter.jspf"%>
+
+
+</body>
+</html:html>

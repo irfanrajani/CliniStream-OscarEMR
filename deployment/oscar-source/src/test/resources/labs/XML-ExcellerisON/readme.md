@@ -1,0 +1,1 @@
+These are sample XML wrapped Hl7 files from Excelleris in the Ontario format current May 22, 2025

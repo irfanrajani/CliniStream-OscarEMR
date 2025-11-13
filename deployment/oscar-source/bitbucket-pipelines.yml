@@ -1,0 +1,31 @@
+image: maven:3-jdk-8
+
+pipelines:
+
+    branches:
+        stable:
+           - step:
+              name: Build
+              caches:
+                - maven
+              script:
+                - mvn -B -Dmaven.test.skip=True  package  # Builds the WAR
+                - mv /opt/atlassian/pipelines/agent/build/target/oscar-19.0.0-SNAPSHOT.war /opt/atlassian/pipelines/agent/build/target/oscar-19.$BITBUCKET_BUILD_NUMBER.war
+                - curl -X POST "https://${BITBUCKET_USERNAME}:${BITBUCKET_APP_PASSWORD}@api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"/opt/atlassian/pipelines/agent/build/target/oscar-19.$BITBUCKET_BUILD_NUMBER.war"
+                - COMMIT_MESSAGE=`git log --format=%B -n 1 $BITBUCKET_COMMIT`
+                - echo "COMMIT_MESSAGE="\"$COMMIT_MESSAGE\" > /opt/atlassian/pipelines/agent/build/target/latestBuild
+                - echo "BUILD_NUMBER="$BITBUCKET_BUILD_NUMBER >> /opt/atlassian/pipelines/agent/build/target/latestBuild
+                - builddate=$(date +"%y.%m.%d-%H%M%S")
+                - echo "BUILD_DATE="$builddate >> /opt/atlassian/pipelines/agent/build/target/latestBuild
+                - echo "WAR_URL=https://bitbucket.org/oscaremr/oscar/downloads/oscar-19."$BITBUCKET_BUILD_NUMBER".war" >> /opt/atlassian/pipelines/agent/build/target/latestBuild
+                - curl -X POST "https://${BITBUCKET_USERNAME}:${BITBUCKET_APP_PASSWORD}@api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"/opt/atlassian/pipelines/agent/build/target/latestBuild"
+        'OSCAREMR-*':
+           - step:
+              name: Build
+              caches:
+                - maven
+              script:
+                - mvn -B -Dmaven.test.skip=True  package  # Builds the WAR
+                                
+
+        

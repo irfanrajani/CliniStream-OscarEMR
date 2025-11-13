@@ -1,0 +1,76 @@
+<%@page import="org.oscarehr.web.AppointmentProviderAdminDayUIBean"%>
+<%@page import="org.oscarehr.common.model.ProviderPreference"%>
+<%@page import="org.oscarehr.util.LoggedInInfo"%>
+<%@page import="org.oscarehr.common.model.EForm"%>
+<%@page import="org.oscarehr.common.model.Demographic" %>
+<%@page import="org.oscarehr.common.dao.DemographicDao" %>
+<%@page import="org.oscarehr.util.SpringUtils"%>
+<%@page import="org.oscarehr.common.model.ProviderData"%>
+<%@page import="org.oscarehr.common.dao.ProviderDataDao"%>
+
+<%@page import="java.util.Collection, java.util.Collections, java.util.List, java.util.ArrayList"%>
+<%@page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@page import="org.apache.commons.lang.StringUtils"%>
+<%
+	LoggedInInfo loggedInInfo3=LoggedInInfo.getLoggedInInfoFromSession(request);
+	ProviderPreference providerPreference = (ProviderPreference)request.getAttribute("providerPreference");
+	String demographic_no = request.getParameter("demographic_no");
+	String appointment_no = request.getParameter("appointment_no");
+	String appointmentDate = request.getParameter("appointment_date");
+    DemographicDao demographicDao = SpringUtils.getBean(DemographicDao.class);
+	Demographic demographic = demographicDao.getDemographic(demographic_no);
+	ProviderDataDao providerDao = SpringUtils.getBean(ProviderDataDao.class);
+	ProviderData provider = providerDao.findByProviderNo(String.valueOf(providerPreference.getProviderNo()));
+	if (providerPreference!=null)
+	{
+		Collection<String> formNames=providerPreference.getAppointmentScreenForms();
+		List<String>formNamesList = new ArrayList<String>(formNames);
+		Collections.sort(formNamesList);
+		
+		for (String formNameTemp : formNamesList)
+		{
+			String trimmedEscapedLinkName=StringEscapeUtils.escapeHtml(AppointmentProviderAdminDayUIBean.getLengthLimitedLinkName(loggedInInfo3, formNameTemp));
+			String escapedLinkName=StringEscapeUtils.escapeHtml(formNameTemp);
+			%>
+				|<a href=# onClick='popupPage2("../form/forwardshortcutname.jsp?formname=<%=escapedLinkName%>&amp;demographic_no=<%=demographic_no%>&amp;appointmentNo=<%=appointment_no%>")' title='<%=escapedLinkName%>'><%=trimmedEscapedLinkName%></a>
+			<%
+		}
+		
+		Collection<Integer> eFormIds=providerPreference.getAppointmentScreenEForms();
+		for (Integer eFormIdTemp : eFormIds)
+		{
+			EForm eForm=AppointmentProviderAdminDayUIBean.getEForms(eFormIdTemp);
+			String trimmedEscapedLinkName=StringEscapeUtils.escapeHtml(AppointmentProviderAdminDayUIBean.getLengthLimitedLinkName(loggedInInfo3, eForm.getFormName()));
+			String escapedLinkName=StringEscapeUtils.escapeHtml(eForm.getFormName());
+			String appointmentDateParam = "";
+			if (eForm.getFormName().toLowerCase().equals("ocean")) {
+				appointmentDateParam = "&amp;appointment_date=" + appointmentDate;
+			}
+			%>
+				|<a href=# onClick='popupPage2("<%=request.getContextPath()%>/eform/efmformadd_data.jsp?fid=<%=eFormIdTemp%>&amp;demographic_no=<%=demographic_no%>&amp;appointment=<%=appointment_no%><%=appointmentDateParam%>")' title='<%=escapedLinkName%>'><%=trimmedEscapedLinkName%></a>
+			<%
+		}
+
+		Collection<ProviderPreference.QuickLink> quickLinks=providerPreference.getAppointmentScreenQuickLinks();
+		for (ProviderPreference.QuickLink quickLink : quickLinks)
+		{
+			String trimmedEscapedLinkName=StringEscapeUtils.escapeHtml(AppointmentProviderAdminDayUIBean.getLengthLimitedLinkName(loggedInInfo3, quickLink.getName()));
+			
+			String escapedLinkUrl=quickLink.getUrl();
+			escapedLinkUrl=escapedLinkUrl.replaceAll("\\$\\{contextPath\\}", request.getContextPath());
+			escapedLinkUrl=escapedLinkUrl.replaceAll("\\$\\{demographicId\\}", String.valueOf(demographic_no));
+			escapedLinkUrl=escapedLinkUrl.replaceAll("\\$\\{appointmentId\\}", String.valueOf(appointment_no));
+			escapedLinkUrl=escapedLinkUrl.replaceAll("\\$\\{providerId\\}", String.valueOf(providerPreference.getProviderNo()));
+			escapedLinkUrl=escapedLinkUrl.replaceAll("\\$\\{providerOhip\\}", StringUtils.trimToEmpty(provider.getOhipNo()));
+			escapedLinkUrl=escapedLinkUrl.replaceAll("\\$\\{demographicHin\\}", StringUtils.trimToEmpty(demographic.getHin()));
+			escapedLinkUrl=escapedLinkUrl.replaceAll("\\$\\{demographicVer\\}", StringUtils.trimToEmpty(demographic.getVer()));
+			
+			escapedLinkUrl=StringEscapeUtils.escapeHtml(escapedLinkUrl);
+			
+			String escapedLinkName=StringEscapeUtils.escapeHtml(quickLink.getName());
+			%>
+				|<a href=# onClick='popupPage2("<%=escapedLinkUrl%>")' title='<%=escapedLinkName%>'><%=trimmedEscapedLinkName%></a>
+			<%
+		}
+	}
+%>

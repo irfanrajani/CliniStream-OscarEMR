@@ -1,0 +1,377 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<!--V2.2 Mar 4, 2022 -->
+<!--Author PHC -->
+<title>Rich Text Letter</title>
+
+<style type="text/css">
+ body { font-family: Arial; }
+.butn {width: 140px;}
+</style>
+<style>
+.doc {
+	color:blue;
+	font-size:10px;
+}
+.lab {
+	color:#CC0099;
+	font-size:10px;
+}
+.hrm {
+	color:red;
+	font-size:10px;
+}
+.eform {
+	color: green;
+	font-size:10px;
+}
+.chevron {
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 14px;
+	-webkit-transform: rotate(180deg);
+	display: inline-block;	
+}
+.hide {
+	display: none;
+}
+.editControlButton span{
+    position: relative;
+	display: inline-block;
+	padding: 6px;
+}
+.editControlButton i {
+	padding: 6px;
+	color: #757575;
+}
+.editControlButton i:hover {
+    background-color: lightgrey;
+	color: black;
+}
+</style>
+
+<style type="text/css" media="print">
+.DoNotPrint {
+    display: none;
+}
+</style>
+
+<script language="javascript">
+// GLOBALS
+var needToConfirm = false;
+var ImgArray = [];
+</script>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<link href="../css/jquery.ui.colorPicker.css" rel="stylesheet" type="text/css" />
+<script src="../js/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
+<script src="../js/jquery.ui.colorPicker.min.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript" src="${oscar_javascript_path}eforms/APCache.js"></script>
+<script language="javascript" type="text/javascript" src="${oscar_javascript_path}eforms/imageControl.js"></script>
+<script language="javascript" type="text/javascript" src="${oscar_javascript_path}eforms/faxControl.js"></script>
+<script language="javascript" type="text/javascript" src="${oscar_javascript_path}eforms/signatureControl.jsp"></script>
+<script language="javascript" type="text/javascript" src="${oscar_javascript_path}eforms/printControl.js"></script>
+<script language="javascript" type="text/javascript" src="${oscar_javascript_path}eforms/editControl2.js.jsp"></script>
+
+<script src='../eform/displayImage.do?imagefile=stamps.js'></script>
+<link rel="stylesheet" href="../css/font-awesome.min.css">
+
+
+<script language="javascript">
+//keypress events trigger dirty flag for the iFrame and the subject line
+document.onkeyup=setDirtyFlag
+
+function setDirtyFlag() {
+	needToConfirm = true; 
+}
+
+function releaseDirtyFlag() {
+	needToConfirm = false; //Call this function if dosent requires an alert.
+	//this could be called when save button is clicked
+}
+
+window.onbeforeunload = confirmExit;
+
+function confirmExit() {
+	if (needToConfirm){
+	return "You have attempted to leave this page. If you have made any changes without clicking the Submit button, your changes will be lost. Are you sure you want to exit this page?";
+	}
+}
+
+var loads=true;
+
+function saveRTL() {
+	needToConfirm=false;
+	var theRTL=editControlContents('edit');
+	var myNewString = theRTL.replace(/"/g, '&quot;');
+	myNewString = theRTL.replace(/</g, '&lt;');
+	myNewString = theRTL.replace(/>/g, '&gt;');
+	document.getElementById('Letter').value=myNewString.replace(/'/g, "&#39;");
+//  alternate approach to escape dangerous characters albeit less human readable, and needs to be unencoded
+//	document.getElementById('Letter').value=encodeURIComponent(theRTL);	
+}
+
+function maximize() {
+    var width=900; //180+cfg_width;
+	window.resizeTo(width,1160) ; // width, height
+	loads=false;
+}
+
+<!-- CODE FOR PULLING MEASUREMENTS  -->
+var depth=5;
+
+	function labgrid(){
+	//---------Paste lab grid-----------------------------------------------------------
+	doHtml("<font size='3'><b>Lab testing summary:</font></b><p></p")  //header
+	var LabName = ["HB", "EGFR", "SCR", "A1C", "FBS", "BG", "GT2", "APOB", "TCHL", "LDLC", "LDL", "HDL", "TCHD", "TG", "ACR", "NA", "Kpl", "CA", "PH", "MG", "TSH", "PSA", "PTH", "AST", "ALT", "CRP", "FOBT", "FITQ", "FIT", "HPSE", "HPSG", "HPBT", "HPYL", "INR", "URIC"]
+	for (i = 0; i < LabName.length; i++) {
+	   getMeasures(LabName[i], depth)
+	}
+	}
+
+	function labgrid2(){
+	//---------Paste Vitals grid-----------------------------------------------------------
+	doHtml("<font size='3'><b>Vitals summary:</font></b><p></p")  //header
+	var LabName = ["BP","WT","HT","BMI"]
+	for (i = 0; i < LabName.length; i++) {
+	   getMeasures(LabName[i], depth)
+	}
+	}
+
+	/*add eform attach*/
+	function popupEformUpload() {
+		var fid,demographic_no= "";
+		fid = gup("fid");
+		demographic_no= gup("demographic_no");
+		//popup('../eform/attachEform.jsp?demo='+demographic_no+'&requestId='+fid); 
+		popup('../eform/attachEform.jsp?demo='+demographic_no); 
+		return false;
+	}
+	
+	function updateAttached() {
+	    var t = setTimeout('fetchAttached()', 2000);
+	}
+	function fetchAttached() {
+	    var updateElem = 'tdAttachedDocs';
+		var fid,demographic_no= "";
+		fid = gup("fid");
+		//fid='86';
+		demographic_no= gup("demographic_no");
+		var params = "demo="+demographic_no+"&requestId="+fid;
+		var fdid = '${fdid}';
+        console.log(params);
+	//	alert(demographic_no);
+		//alert(params);
+		params = "requestId=" + fdid;
+		var url = "../eform/displayAttachedFiles.jsp";
+		
+		$.ajax({
+			url : url,
+			data:params,
+			type:'get',  
+			success :function(request) {
+				//alert(request.responseText);
+				$("#tdAttachedDocs").html(request);
+				// $(updateElem).innerHTML = request;
+			},
+			error:function(request) {
+				$(updateElem).innerHTML = "<h3>Error: " + + request.status + "</h3>";
+			}
+		});
+	}
+</script>
+
+<!-- START OF EDITCONTROL CODE --> 
+<script language="javascript">
+	//put any of the optional configuration variables that you want here
+	cfg_width = 720; //editor control width in pixels
+	cfg_height = 500; //editor control height in pixels
+	cfg_editorname = 'edit'; //the handle for the editor                  
+	cfg_isrc = '../eform/displayImage.do?imagefile='; //location of the button icon files
+	cfg_filesrc = '../eform/displayImage.do?imagefile='; //location of the html files
+	cfg_template = 'blank.rtl'; //default style and content template
+	cfg_formattemplate = '<option value=""> loading... </option></select>';
+    cfg_layout = '<table style="background-color:  #E1E1E1; width:'+cfg_width+'px"><tr id=control1><td align=center>\
+[bold][italic][underlined][strike][subscript][superscript]|[left][center][full][right]|[unordered][ordered][rule][undo][redo]|[indent][outdent][select-all][clean]\
+</td></tr><tr id=control2><td align=center>\
+[heading1][table][text-colour][hilight]|[image][link][attach][new-page]|[clock][date][cut][copy][delete][help]|[edit][export]\
+</td></tr><tr id=control3><td align=center>[select-block][select-face][select-size][select-template]\
+</td></tr></table>[edit-area]'; 
+	//cfg_layout = '[all]';             //adjust the format of the buttons here
+	insertEditControl(); // Initialise the edit control and sets it at this point in the webpage
+</script>
+<!-- END OF EDITCONTROL CODE -->
+
+<script>
+// example of non standard database pulls to create cache that can be pulled from a button
+function getAgeGender() {
+	// set the HTML contents of the letterhead
+	var ageGender = cache.get('age')
+			+ ' year old  '
+			+ cache.get('gender');
+	return ageGender;
+}
+
+	cache.addMapping({
+		name: "ageGender", 
+		values: ["_age","gender","age","sex","ageComplex"], 
+		storeInCacheHandler: function (key, value) {
+			var text = getAgeGender();
+			cache.put("ageGender", text);
+		},
+		cacheResponseHandler: function () {
+			if (checkKeyResponse(this.name)) {
+				doHtml(cache.get(this.name));
+			}
+		}
+	});
+</script>
+</head>
+
+<body bgcolor="FFFFFF" onload="Start();">
+
+<form method="post" action="" name="RichTextLetter" >
+<input type="hidden" name="WT" id="WT" oscarDB=m$WT#value>
+<textarea name="Letter" id="Letter" style="width:600px; display: none;"></textarea>
+<div class="edit-controllers" id="edit-controllers"></div>
+
+    <div class="DoNotPrint" id="control4" style="position:absolute; top:5px; left: 740px;"> <!-- left should be cfg_width +20 -->
+
+    <!-- Letter Head -->
+    <input type="button" class="butn" name="AddLetterhead" id="AddLetterhead" value="Letterhead" onclick="printKey('letterhead');">
+    <br>
+    <!-- Adressee Select -->
+    <input type="text" name="referral_name" id="referral_name" onKeyup="consultantSearch(this.value)" placeholder=" lastname, firstname" autocomplete="off" onFocus="toggleTempBin(1, 'referral_name')" onBlur="toggleTempBin(0, 'referral_name')"  style="font-size:12px; width:140px;">
+        <div id="tempBin" onmouseover="tempBinHover(true)" onmouseout="tempBinHover(false)"style="display:none;position:absolute;padding:4px; background-color:white;border:thin solid #cccccc;z-index:999;font-size:12px;">You must enter at least 2 characters of a doctors name!</div>
+    <input type="hidden" name="consultantFilter" id="consultantFilter">
+    <textarea name="CopyTo" id="CopyTo" type="hidden" style="display:none;" ></textarea>
+    <br>
+    <input type="button" class="butn" name="AddSelected" id="AddSelected" value="Paste Selected" onclick="doHtml(getElementById('CopyTo').value.replace(/(\r\n|\n|\r)/gm,'<br>'));console.log(getElementById('CopyTo').value);">
+    <br>
+    <!-- Referring Block -->
+    <input type="button" class="butn" name="AddReferral" id="AddReferral" value="Referring Block" onclick="printKey('_ReferringBlock');">
+    <br>
+    <!-- Patient Block -->
+    <input type="button" class="butn" name="label" value="Patient Label" onclick="hist='label';printKey(hist);">
+    <br>
+	<input type="button" class="butn" name="Patient" value="Patient Name" onclick="printKey('first_last_name');">
+    <br>
+    <input type="button" class="butn" name="PatientSex" value="Age & Gender" onclick="printKey('ageGender');">
+    <br>
+    <!-- Social History -->
+    <input type="button" class="butn" name="AddSocialFamilyHistory" value="Social History" onclick="var hist='_SocialFamilyHistory';printKey(hist);">
+    <br>
+    <!--  Medical History -->
+    <input type="button"  class="butn" name="AddMedicalHistory" value="Medical History" width=30 onclick="var hist='medical_historyS';printKey(hist);">
+    <br>
+    <!--  Ongoing Concerns -->
+    <input type="button" class="butn" name="AddOngoingConcerns" value="Ongoing Concerns" onclick="var hist='ongoingconcerns'; printKey(hist);">
+    <br>
+    <!-- Reminders -->
+    <input type="button" class="butn" name="AddReminders" value="Reminders"
+	    onclick="var hist='reminders'; printKey(hist);">
+    <br>
+    <!-- Allergies -->
+    <input type="button" class="butn" name="Allergies" id="Allergies" value="Allergies" onclick="printKey('allergies_des');">
+    <br>
+    <!-- Prescriptions -->
+    <input type="button" class="butn" name="Medlist" id="Medlist" value="Prescriptions"	onclick="printKey('druglist');">
+    <br>
+    <!-- Other Medications -->
+    <input type="button" class="butn" name="OtherMedicationsHistory" value="Other Medications" onclick="printKey('other_medications_history'); ">
+    <br>
+    <!-- Risk Factors -->
+    <input type="button" class="butn" name="RiskFactors" value="Risk Factors" onclick="printKey('risk_factors_ext'); ">
+    <br>
+    <!-- Family History -->
+    <input type="button" class="butn" name="FamilyHistory" value="Family History" onclick="printKey('family_history'); ">
+    <br>
+    <!-- Preventions -->  
+    <input type="button" class="butn" name="Preventions" value="Preventions" onclick="fpreventions()">
+    <br>
+
+<script>
+function fpreventions(){
+    var sql2pass="SELECT   '<br>',  prevention_type as '<b>PREVENTIONS','&#160;&#160;&#160;Date:&#160;' as ':', LEFT(prevention_date,10) as '</b>' FROM preventions  WHERE demographic_no=" + demographicNo + " AND deleted='0' GROUP by prevention_type, prevention_date ";
+    $(document).ready(function () {  
+        $.ajax({  
+            url: "../oscarReport/RptByExample.do" ,
+            data: { sql: sql2pass }
+        }).then(function(data) {  
+           //alert(data)
+           var elements = $(data);
+           var found = elements.find('.MainTableRightColumn table table');
+           doHtml(found.html())
+        });  
+    });
+}
+</script>
+
+    <!-- Closing Salutation -->
+    <input type="button" class="butn" name="Closing" value="Closing Salutation" onclick="printKey('_ClosingSalutation');">
+    <br>
+    <!-- Signature Stamp -->
+    <input type="button" class="butn" name="stamp" value="Stamp" onclick="printKey('stamp');">
+    <br>
+    <!--  Current User -->
+    <input type="button" class="butn" name="User" value="Current User" onclick="var hist='current_user'; printKey(hist);">
+    <br>
+    <!-- Attending Doctor -->
+    <input type="button" class="butn" name="Doctor" value="Doctor (MRP)" onclick="var hist='doctor'; printKey(hist);">
+    <br>
+    <!-- Vitals -->
+    <input type="button" class="butn" name="Vitals" value="Vitals" onclick="labgrid2()">
+    <br>
+    <!-- Common Labs -->
+    <input type="button" class="butn" name="LabGrid" value="Lab Grid" onclick="labgrid()">
+    <br>
+
+    <table style="width:140px">
+        <tbody>
+            <tr>
+                <td style="text-align: center" id="tdAttachedLabel" >Attached Files:</td>
+            </tr>
+            <tr>
+	            <td id="tdAttachedDocs" > <!-- important as this is where the results get put--> </td>
+            </tr>
+            <tr id="trAttachedDocs" >
+	            <td style="text-align: center">Legend<br>
+	            <span class="doc">Blue - Documents</span><br>
+	            <span class="lab">Purple - Labs</span><br>
+	            <span class="hrm">Red - Hrm</span><br>
+	            <span class="eform">Green - EForm</span>
+	            </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="DoNotPrint" >
+    <span id="arrow" title="expand" class="chevron" onclick="collapseFooter();">&nbsp^&nbsp;</span>
+    <input onclick="viewsource(this.checked)" type="checkbox"> HTML Source
+    <input onclick="usecss(this.checked)" type="checkbox">
+    Use CSS	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    Subject: <input name="subject" id="subject" size="40" type="text">		 
+
+    <table id="controls4">
+        <tr id=sig>
+            <td><div id="signatureInput">&nbsp;</div></td>
+        </tr>
+        <tr>
+            <td><div id="faxControl">&nbsp;</div></td>
+        </tr>      
+        <tr>
+            <td>
+            <input value="Submit" name="SubmitButton" type="submit" onclick="saveRTL();  document.RichTextLetter.submit()">
+            <input value="Print" name="PrintSaveButton" type="button" onclick="document.getElementById('edit').contentWindow.print();saveRTL();  setTimeout('document.RichTextLetter.submit()',1000);">
+            <input value="Reset" name="ResetButton" type="reset">
+            <input value="Print" name="PrintButton" type="button" onclick="document.getElementById('edit').contentWindow.print();">
+            </td>
+        </tr>
+    </table>
+</div>
+</form>
+</body>
+</html>

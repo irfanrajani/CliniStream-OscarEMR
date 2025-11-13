@@ -1,0 +1,212 @@
+{
+  "resourceType": "Bundle",
+  "id": "fdc5194d-5b55-43a5-a5f8-2223b9ab0b0d",
+  "type": "message",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "MessageHeader",
+        "id": "9b76bd53-cd3d-4162-bd44-432d251b07eb",
+        "eventCoding": {
+          "system": "http://terminology.hl7.org/CodeSystem/message-events",
+          "code": "MedicationAdministration-Recording"
+        },
+        "destination": [
+          {
+            "name": "DHIR",
+            "endpoint": "https://wsgateway.prod.ehealthontario.ca/API/FHIR/Immunizations/v3/clinician/"
+          }
+        ],
+        "sender": {
+          "display": "McMaster Hospital"
+        },
+        "author": {
+          "reference": "Practitioner/S999998"
+        },
+        "source": {
+          "name": "Oscar EMR",
+          "software": "Oscar",
+          "version": "${env.JOB_NAME}-${env.BUILD_NUMBER}",
+          "endpoint": "https://127.0.0.1:8081/oscar"
+        },
+        "responsible": {
+          "reference": "Organization/804cc082-134f-4204-8b03-f01e163aad0f"
+        },
+        "focus": [
+          {
+            "reference": "Patient/1"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Organization",
+        "id": "804cc082-134f-4204-8b03-f01e163aad0f",
+        "identifier": [
+          {
+            "system": "https://ehealthontario.ca/API/FHIR/NamingSystem/ca-on-panorama-phu-id",
+            "value": "20"
+          }
+        ],
+        "name": "Hamilton Public Health services"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "P999998",
+        "name": [
+          {
+            "family": "oscardoc",
+            "given": [
+              "doctor"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "4",
+        "status": "completed",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "333680004",
+              "display": "Act-HIB® (Hib)"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/1"
+        },
+        "primarySource": true,
+        "lotNumber": "UI880AA",
+        "expirationDate": "2019-10-30",
+        "site": {
+          "text": "Unknown"
+        },
+        "route": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "372464004",
+              "display": "Intradermal: ID"
+            }
+          ]
+        },
+        "doseQuantity": {
+          "value": 1.0,
+          "unit": "mL"
+        },
+        "performer": [
+          {
+            "function": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/v2/0443",
+                  "code": "AP",
+                  "display": "AdministeringProvider"
+                }
+              ]
+            },
+            "actor": {
+              "reference": "Practitioner/P999998"
+            }
+          }
+        ],
+        "note": [
+          {
+            "text": "test"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "1",
+        "identifier": [
+          {
+            "system": "https://ehealthontario.ca/API/FHIR/NamingSystem/ca-on-patient-hcn",
+            "value": "7361544534"
+          },
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/v2/0203",
+                  "code": "MR"
+                }
+              ]
+            },
+            "system": "2.16.840.1.113883.3.239.23.269",
+            "value": "1"
+          }
+        ],
+        "name": [
+          {
+            "use": "official",
+            "family": "DAVID",
+            "given": [
+              "ALICE"
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "519-",
+            "use": "home"
+          },
+          {
+            "system": "phone",
+            "use": "work"
+          },
+          {
+            "system": "email",
+            "use": "home"
+          }
+        ],
+        "gender": "male",
+        "birthDate": "2000-01-14",
+        "address": [
+          {
+            "use": "home",
+            "state": "CA-ON",
+            "postalCode": "N0G1X0"
+          }
+        ],
+        "communication": [
+          {
+            "language": {
+              "coding": [
+                {
+                  "system": "https://www.hl7.org/fhir/valueset-languages.html",
+                  "code": "en-US"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "S999998",
+        "name": [
+          {
+            "family": "oscardoc",
+            "given": [
+              "doctor"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

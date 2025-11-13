@@ -1,0 +1,102 @@
+
+<%/*
+ * Copyright (c) 2001-2002. Department of Family Medicine, McMaster University. All Rights Reserved. *
+ * This software is published under the GPL GNU General Public License. 
+ * This program is free software; you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License 
+ * as published by the Free Software Foundation; either version 2 
+ * of the License, or (at your option) any later version. * 
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. * * You should have received a copy of the GNU General Public License 
+ * along with this program; if not, write to the Free Software 
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. * 
+ * 
+ * <OSCAR TEAM>
+ * 
+ * This software was written for the 
+ * Department of Family Medicine 
+ * McMaster University 
+ * Hamilton 
+ * Ontario, Canada 
+ */%> 
+ 
+<%@page import="java.io.StringWriter"%>
+<%@page import="org.codehaus.jackson.map.ObjectMapper"%>
+<%@page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@page import="net.sf.json.JSONObject"%>
+<%@page import="org.oscarehr.common.model.PharmacyInfo"%>
+<%@ page import="oscar.oscarRx.data.*,oscar.oscarProvider.data.ProviderMyOscarIdData,oscar.oscarDemographic.data.DemographicData,oscar.OscarProperties,oscar.log.*"%>
+<%@ page import="oscar.oscarRx.util.RxUtil" %>
+
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/oscar-tag.tld" prefix="oscar" %>
+ 
+<script language="javascript" type="text/javascript">
+
+function newWindow(url) {
+	newwindow=window.open(url,'name','height=700,width=1000');
+	if (window.focus) {newwindow.focus()}
+	return false;
+}
+
+
+</script>
+
+
+<tr>
+	<td height="50" bgcolor="#000000"><span class="ScreenTitle" >&nbsp;<bean:message key="global.prescriptions" /></span></td>
+        <td width="100%" valign="bottom"  bgcolor="#000000" style="border:none; padding: 5px;" height="0%" colspan="2">
+            <table width="100%" border="0" height="100%">
+                <tr>
+                    <td style="color:white;text-transform:uppercase;" >     
+					<b>&nbsp;&nbsp;<bean:message key="SearchDrug.nameText" /></b> 
+                    <span style="color:white;text-decoration:underline;cursor:pointer;" onclick="window.open('<%=request.getContextPath() %>/demographic/demographiccontrol.jsp?demographic_no=<%=patient.getDemographicNo()%>&displaymode=edit&dboperation=search_detail',width=929,height=895)"> 
+                    	<jsp:getProperty name="patient" property="surname" />, <jsp:getProperty name="patient" property="firstName"/></span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b><bean:message key="SearchDrug.sexText" /> </b><jsp:getProperty name="patient" property="sex" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span title="<bean:message key="SearchDrug.ageText" />&nbsp;<jsp:getProperty name="patient" property="age" />">
+                    	<b><bean:message key="SearchDrug.DOBtext" /> </b><%= RxUtil.DateToString(patient.getDOB(), "MMM d, yyyy") %>
+                    </span>
+		     		
+                    <b>&nbsp;&nbsp;&nbsp;&nbsp;<u><a style="color:white; "href="SelectPharmacy2.jsp"><bean:message key="SearchDrug.PreferredPharmacy" /></a></u>:</b>
+                    <select style="text-transform:uppercase;" id="Calcs" name="pharmacyId" onchange="populatePharmacy(this.options[this.selectedIndex].value);showpic('Layer1');"> 
+                    <%
+                    	if( pharmacyList != null ) {
+                    	    ObjectMapper mapper = new ObjectMapper();
+                    	    StringWriter jsonObject;
+	        				for( PharmacyInfo pharmacyInfo : pharmacyList ) {
+	        					
+	        				    jsonObject = new StringWriter();
+	        					mapper.writeValue(jsonObject, pharmacyInfo);
+
+					%>
+								<option value='<%=jsonObject.toString().replaceAll("'", "")%>'><%=pharmacyInfo.getName() + "  (" + pharmacyInfo.getCity()%>)</option>
+					<%
+	        				}
+	       		 		}
+					%>
+                    </select>        
+                    </td>
+                    <td valign="top" align="right">
+                        <span class="HelpAboutLogout" style="color:white;">
+                        		<% 
+                        		OscarProperties dProp = OscarProperties.getInstance();
+                        		if (dProp.getBooleanProperty("oneid.oauth2.enabled", "true")) { %>
+                        		<a style="color:white;" target="_blank" href="<%=dProp.getProperty("rx.EAP.link","http://www.health.gov.on.ca/en/pro/programs/sadie/")%>" >EAP</a> |
+                        		<a style="color:white;" target="_blank" href="<%=dProp.getProperty("rx.check.med.coverage.link","https://www.ontario.ca/page/check-medication-coverage/")%>" >Check Medication Coverage</a> |
+                        		<%	} %>
+							<a style="color:white;" href="javascript: popupFocusPage(200,700,'./drugrefInfo.jsp','Drugref Info');" >Drugref Info</a> |
+							<oscar:help keywords="prescriptions+prescribing" key="app.top1" style="color:white;"/> |
+                            <a style="color:white;" href="<%=request.getContextPath()%>/oscarEncounter/About.jsp" target="_new"><bean:message key="global.about" /></a>
+                            <!-- is this needed? 
+                            <a style="color:white;" href="Disclaimer.htm">Disclaimer</a> 
+                            -->
+                        </span>
+                    </td>
+                </tr>
+            </table>
+	</td>
+</tr>

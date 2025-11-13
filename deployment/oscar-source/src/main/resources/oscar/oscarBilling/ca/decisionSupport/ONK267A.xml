@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<guidelines>
+    <guideline title="K267AMessage" >
+        <conditions>
+            <condition type="billedFor" all="K267A">
+                <param key="payer" value="MSP"/>
+                <param key="ageMin" value="2"/>
+                <param key="ageMax" value="11"/>
+                <param key="inDays" value="365"/>
+            </condition>
+        </conditions>
+        <consequence>
+            <warning strength="warning">Not eligible to bill K267A</warning>
+            <warning strength="recommendation">Not eligible for annual physical billing</warning>
+        </consequence>
+    </guideline>
+    <guideline title="K267AEligibleMessage">
+        <conditions>
+            <condition type="billedFor" notall="K267A">
+                <param key="payer" value="MSP"/>
+                <param key="ageMin" value="2"/>
+                <param key="ageMax" value="11"/>
+                <param key="inDays" value="365"/>
+            </condition>
+        </conditions>
+        <consequence>
+            <warning strength="warning">Eligible to bill K267A</warning>
+            <warning strength="recommendation">Eligible for annual physical billing</warning>
+        </consequence>
+    </guideline>
+</guidelines>

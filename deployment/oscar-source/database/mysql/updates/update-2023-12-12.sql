@@ -1,0 +1,1 @@
+ALTER TABLE `CVCImmunization` ADD `route` VARCHAR(10) AFTER `typicalDoseUofM`;

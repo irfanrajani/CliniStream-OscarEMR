@@ -1,0 +1,2 @@
+./drugref.sql.gz
+./filelist.txt

@@ -1,0 +1,13 @@
+oscar (19-65~1842) RELEASED
+
+Release of oscar-emr  
+build 1842
+
+To conserve bandwidth this deb does not contain the source.  
+The source is however made available to any who need it.  
+To obtain the source for this particular build issue the following commands
+
+git clone https://bitbucket.org/oscaremr/oscar/branches/stable
+cd stable
+git checkout 2e87ae49a23688269218bf3c9e5048f62e11f6db  oscar-14.0.0-SNAPSHOT.war
+

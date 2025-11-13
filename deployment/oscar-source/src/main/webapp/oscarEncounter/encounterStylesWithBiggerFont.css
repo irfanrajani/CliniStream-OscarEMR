@@ -1,0 +1,1021 @@
+ /*
+ * 
+ * Copyright (c) 2001-2002. Department of Family Medicine, McMaster University. All Rights Reserved. *
+ * This software is published under the GPL GNU General Public License. 
+ * This program is free software; you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License 
+ * as published by the Free Software Foundation; either version 2 
+ * of the License, or (at your option) any later version. * 
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details. * * You should have received a copy of the GNU General Public License 
+ * along with this program; if not, write to the Free Software 
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. * 
+ * 
+ * <OSCAR TEAM>
+ * 
+ * This software was written for the 
+ * Department of Family Medicine 
+ * McMaster University 
+ * Hamilton 
+ * Ontario, Canada 
+ */
+
+ BODY {
+    font-size: 12px!important;
+    font-family: Arial,sans-serif!important;
+    background-color: #ebebeb;
+    /* overflow-x: hidden; */
+}
+
+TH {
+    font-weight: bold;
+}
+
+A IMG {
+    border: 0px;
+}
+
+H3 {
+    font-weight: bold;
+    margin-bottom: -10px;
+}
+
+.box {
+    border-top: 1px;
+    border-left: 1px;
+    border-right: 1px;
+    border-bottom: 1px;
+}
+
+.ControlTextarea {
+    font-family: Arial,sans-serif;
+}
+
+.FakeLink {
+    text-align: right;
+}
+
+.Head {
+    background-color: #BBBBBB;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+.Head INPUT {
+    width: 100px;
+}
+
+.RowTop {
+    font-variant: small-caps;
+    background-color: #CCCCCC;
+    display: flex;
+    font-size: 14px;
+    padding: 2px;
+    align-items: baseline;
+    flex-direction: row;
+}
+
+.RowTop a{
+    text-decoration: initial;
+    padding: 0 2px;
+    display: inline-block;
+    border-radius: 2px;
+    margin: 0 2px;
+}
+.RowTop a:hover{
+    background-color: rgba(0,0,0,0.07);
+}
+
+.RowTop .createNew {
+    padding: 0 4px;
+}
+
+.RowTop .createNew>span a {
+    font-size: 12px!important;
+}
+
+.ControlPushButton {
+    font-family: Arial,sans-serif;
+}
+
+.Header {
+    font-weight: bold;
+    background-color: #6699cc;
+    padding: 0 24px;
+}
+
+H4 {
+    font-weight: bold;
+    margin-bottom: -10px;
+}
+
+H3 {
+    font-weight: bold;
+    margin-bottom: -10px;
+}
+
+TH {
+    font-weight: bold;
+}
+
+.doctorInfo {
+    text-decoration: bold;
+    background-color: #A39FC4;
+}
+
+.encounterTable {
+    background-color: #EBEAF2;
+}
+
+.patientInfo {
+    text-decoration: bold;
+    background-color: #CBC9E0;
+}
+
+.LeftTable {
+    width: 100%;
+}
+
+.BodyStyle {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+}
+
+.MainTable {
+    border-collapse: collapse;
+    border-color: #111111;
+    border-width: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+}
+
+.MainTableTopRowLeftColumn {
+    background-color: #063a60;
+    height: 34px;
+    max-width: 130px;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    font-variant: all-small-caps;
+}
+
+.MainTableBottomRowLeftColumn {
+    border-right: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    max-width: 130px;
+}
+
+.MainTableLeftColumn {
+    border-right: 1px solid #CCCCCC;
+    max-width: 130px;
+    padding: 0;
+}
+
+.MainTableLeftColumn a {
+    padding: 6px;
+    display: inline-block;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0;
+}
+
+.MainTableLeftColumn a:only-child {
+    display: block;
+}
+
+.MainTableLeftColumn a:hover {
+    background-color: rgba(0,0,0,0.07);
+}
+
+.MainTableLeftColumn .Header td {
+    padding: 6px 6px;
+    background-color: #CCCCCC;
+    font-variant: small-caps;
+    font-size: 12px;
+}
+
+.MainTableTopRowRightColumn {
+    background-color: #063a60;
+    height: 34px;
+    min-width: 400px;
+}
+
+.MainTableBottomRowRightColumn {
+    border-bottom: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+}
+
+.MainTableRightColumn {
+    border-right: 2px solid #A9A9A9;
+    height: 34px;
+    margin-left: 4px;
+    background-color: white;
+}
+
+.TopStatusBar {
+    font-weight: bold;
+    background-color: transparent;
+    color: white;
+    height: 23px;
+    width: 100%;
+    text-align: center;
+}
+
+.demographicDetail {
+    background-color: #CCCCCC;
+}
+
+.demographicDetail tr[bgcolor="#CCCCCC"] td {
+    background-color: #DDDDFF;
+    padding: 2px;
+}
+
+.demographicDetail td input {
+    margin-top: 3px;
+}
+
+div.info,span.info {
+    font-weight: bold;
+}
+
+div.statusName,div.statusInfo,div.statusAppointment {
+    float: left;
+    padding-right: 20px;
+}
+
+div.statusAppointment {
+    font-style: italic;
+}
+
+div.demographicSection {
+    width: auto;
+    margin: 0 0 8px 0;
+    border-top: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+    float: none;
+}
+
+div.demographicSection h3 {
+    background-color: #CCCCCC;
+    font-variant: small-caps;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    font-size: 14px;
+    padding: 4px;
+}
+
+div.demographicSection h3 a{
+    text-decoration: initial;
+    display: inline-block;
+    padding: 0 4px;
+    border-radius: 2px;
+}
+div.demographicSection h3 a:hover{
+    background-color: rgba(0,0,0,0.07);
+}
+
+div.demographicSection ul {
+    list-style: none;
+    list-style-type: none;
+    list-style-position: outside;
+    padding-left: 1px;
+    margin-left: 1px;
+    margin-top: 0px;
+    padding-top: 1px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+div.leftSection,div.rightSection {
+    float: left;
+    width: calc(50% - 6px);
+    margin: 0 2px;
+}
+
+div.rightSection {
+}
+
+div.demographicSection li {
+    padding-right: 15px;
+    white-space: nowrap;
+}
+
+div.demographicSection li span {
+    display: inline-block;
+    padding: 2px;
+}
+
+div.demographicSection li .label {
+    min-width: 140px;
+    text-align: right;
+}
+
+#viewDemographics2,div.demographicWrapper,.lightPurple {
+    background-color: #ebebeb;
+    width: 100%;
+}
+
+div.demographicDetail {
+    width: 100%;
+    background-color: #ebebeb;
+}
+
+div.label {
+    clear: both;
+    float: left;
+}
+
+#viewMobileMenu,.mobileScrollBtns,.mobileTitle,.mobileTopBar {
+    display: none;
+}
+
+.darkPurple {
+    background-color: #CCCCCC;
+}
+
+div.demographicWrapper {
+    background-color: #eeeeff;
+    margin-top: 5px;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+.menu {
+    position: absolute;
+    visibility: hidden;
+    background-color: #6699cc;
+    layer-background-color: #6699cc;
+    color: white;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 3px solid black;
+    border-right: 3px solid black;
+    padding: 3px;
+    z-index: 10;
+    width: 25em;
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+}
+
+div.label {
+    display: block;
+}
+
+.TopStatusBarShort {
+    font-weight: bold;
+    background-color: #6699cc;
+    color: black;
+    height: 23px;
+    width: 500;
+}
+
+.Title {
+    font-weight: bold;
+    color: white;
+    background-color: #6699cc;
+}
+
+.fieldBox {
+    background-color: "#ddddff";
+}
+
+.note {
+    color: #3366CC;
+}
+
+.data {
+    background-color: #F7F7F7;
+}
+
+.data2 {
+    background-color: #F7F7F7;
+    color: #3366CC;
+}
+
+.data3 {
+    color: #15120B;
+}
+
+.data4 {
+    background-color: #F7F7F7;
+    color: #3366CC;
+}
+
+.data5 {
+    background-color: #FDFEC7;
+    color: #3366CC;
+}
+
+div.topBox {
+    margin: 0!important;
+    padding: 0px;
+    background-color: #FFFFFF;
+    width: calc(50% - 0px)!important;    
+}
+
+div#divR1I1,div#divR2I1 {
+    border-right: 1px solid rgba(0,0,0,0.87);
+    width: calc(50% - 1px)!important;
+    position: absolute;
+    height: 100%!important;
+}
+
+div#divR1,div#divR2 {
+    background-color: inherit;
+    min-height: 140px;
+    height: auto!important;
+    position: relative;
+}
+
+div#divR1>div>div>br, div#divR2>div>div>br {
+    display: none;
+}
+
+div#divR2>div>div{
+	height: auto !important;
+}
+
+div.leftBox {
+    clear: both;
+    width: 100%;
+    background-color: #FFFFFF;
+}
+
+span.footnote {
+    background-color: #ccccee;
+    border: 1px solid #000;
+    width: 4px;
+}
+
+div.topBox h3 a {
+    color: white;
+    text-decoration: none;
+}
+
+div.topBox h3 {
+    color: white;
+    font-weight: bold;
+    margin-top: 0px;
+    padding-top: 4px!important;
+    margin-bottom: 0px;
+    padding-bottom: 4px!important;
+    padding-left: 8px;
+    padding-right: 0px;
+}
+
+div.topBox ul {
+    list-style: circle inside;
+    padding-left: 1px;
+    margin-left: 0px!important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    overflow: auto;
+    height: 106px;
+}
+
+div.topBox li {
+    white-space: nowrap;
+    padding: 4px;
+}
+
+div.leftBox h3 a {
+    color: white;
+    text-decoration: none;
+}
+
+div.leftBox h3 {
+    background-color: #6699cc;
+    color: white;
+    font-weight: bold;
+    margin-top: 0px;
+    padding-top: 4px!important;
+    margin-bottom: 0px;
+    padding-bottom: 4px!important;
+    padding-left: 8px;
+    padding-right: 0px;
+    border-top: 1px solid black;
+}
+
+div.leftBox ul {
+    list-style: none;
+    list-style-type: none;
+    list-style-position: outside;
+    padding-left: 1px;
+    margin-left: 1px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+div.leftBox li {
+    white-space: nowrap;
+    padding: 4px 6px;
+}
+
+div.leftBox li .links {
+    font-size: 12px;
+}
+
+.menu {
+    position: absolute;
+    visibility: hidden;
+    background-color: #6699cc;
+    layer-background-color: #6699cc;
+    color: white;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 3px solid black;
+    border-right: 3px solid black;
+    padding: 3px;
+    z-index: 101;
+}
+
+.menuItemright {
+    float: right;
+    color: white;
+    text-decoration: none;
+}
+
+.menuItemleft {
+    float: left;
+    color: white;
+    text-decoration: none;
+}
+
+#leftNavBar {
+    display: inline;
+    float: left;
+    width: 20%;
+}
+
+#rightNavBar {
+    display: inline;
+    float: right;
+    width: 20%;
+}
+
+#content {
+    display: inline;
+    float: left;
+    width: 60%;
+    background-color: #CCCCCC;
+    border: 1px solid black;
+}
+
+#encMainDiv {
+    width: auto!important;
+    border: none!important;
+    background-color: #ebebeb!important;
+    height: 410px;
+    overflow: auto;
+    margin: 0!important;
+    position: relative;
+}
+
+.addItem {
+    width: 10%;
+    float: right;
+    text-align: center;
+}
+
+.headerTitle {
+    clear: left;
+    float: left;
+    width: 90%;
+}
+
+.links {
+    color: blue;
+    text-decoration: none;
+}
+
+.linkhover {
+    color: black;
+    text-decoration: underline;
+}
+
+#mainContent {
+    background-color: #ebebeb!important;
+    width: 100%;
+    margin: 0!important;
+    float: left;
+}
+
+#notCpp {
+    height: 70%;
+    margin-left: 2px;
+    background-color: #FFFFFF;
+}
+
+.editBtn {
+    float: right;
+    margin-right: 5px;
+}
+
+.caseNote_date {
+    float: left;
+    width: 25%;
+    font-weight: bold;
+}
+
+.caseNote_content {
+    float: left;
+    width: 60%;
+}
+
+div.note,div.newNote {
+    color: #000000;
+    font-family: arial,sans-serif;
+    margin: 3px!important;
+    float: none!important;
+    width: auto!important;
+    display: block;
+}
+
+div.note>div>div[id^="wrapper"],div.note>div>div[id^="txt"],div.newNote>div>div[id^="txt"] {
+    background-color: white;
+}
+
+._nifty {
+    border: 1px solid rgba(0,0,0,.57)!important;
+    padding: 3px!important;
+    background-color: #CCCCFF;
+    border-radius: 3px;
+}
+
+._nifty>div,._nifty>form {
+    border: none!important;
+}
+
+#save {
+    width: auto!important;
+    margin: 0!important;
+    background-color: #CCCCCC!important;
+    padding: 16px!important;
+    border: none!important;
+}
+
+#save #aTimer {
+    border: 1px solid rgba(0,0,0,0.37);
+    padding: 2px 6px;
+}
+
+#save #toggleTimer {
+    margin-right: 12px;
+    margin-left: 12px;
+}
+
+#save>span>input {
+    position: relative;
+    top: 8px;
+}
+
+#save #assignIssueSection {
+    margin-top: 6px;
+    padding: 0;
+}
+
+#save>div>button {
+    margin-top: 14px;
+}
+
+#save #saveButtons,#save #globalButtons {
+    float: right;
+    margin-right: 5px;
+}
+
+#saveButtons>input {
+    margin: 0 3px;
+}
+
+.sig {
+    background-color: #CCCCCC;
+    color: #000000;
+    width: 100%;
+    padding: 3px 0 0 0!important;
+}
+
+.observation,.observationEdit,.showEditDate {
+    float: right;
+    margin-right: 3px;
+    font-style: italic;
+}
+
+.encType {
+    clear: right;
+    margin-right: 3px;
+    float: right;
+}
+
+.topLinks {
+    color: black;
+    text-decoration: none;
+    font-size: 12px!important;
+}
+
+.topLinkhover {
+    color: blue;
+    text-decoration: underline;
+}
+
+div.newNote {
+    color: #000000;
+    font-family: arial,sans-serif;
+    margin: 5px 0px 5px 5px;
+    float: left;
+    width: 98%;
+}
+
+div.newNote pre {
+    color: #000000;
+    font-family: arial,sans-serif;
+    margin: 0px 3px 0px 3px;
+    width: 100%;
+    clear: left;
+}
+
+.txtArea {
+    font-family: arial,sans-serif;
+    width: 100%!important;
+    rows: 10;
+    overflow: hidden;
+    border: none;
+    margin: 0px!important;
+    box-sizing: border-box;
+}
+
+div#autosaveTime {
+    text-align: center;
+    margin: 0px;
+}
+
+div.expandedBox,div.cppBox {
+    clear: both;
+    overflow: auto;
+}
+
+div.expandedBox {
+    height: 100%;
+}
+
+.showEdPosition {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.showEdFooter {
+    text-align: left;
+    padding: 0 2px;
+}
+
+ul#issueIdList {
+    padding: 0;
+}
+
+.showEdContent {
+    background-color: #CCCCCC;
+    position: absolute;
+    display: none;
+    z-index: 200;
+    right: 100px;
+    bottom: 200px;
+    text-align: center;
+    font-size: inherit!important;
+}
+
+#showEditButtons,#showEditLogout {
+    float: right;
+    margin-right: 10px;
+}
+
+#noteEditTxt {
+    margin: 10px;
+}
+
+div#issueNoteAssign {
+    text-align: center;
+}
+
+#issueListCPP {
+    background-color: #FFFFFF;
+    height: 200px;
+    width: 350px;
+    position: absolute;
+    z-index: 1;
+    overflow: auto;
+}
+
+.enTemplate_name_auto_complete {
+    width: 350px;
+    background: #fff;
+    text-align: left;
+}
+
+.enTemplate_name_auto_complete ul {
+    border: 1px solid #888;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    list-style-type: square;
+    list-style-position: inside;
+}
+
+.enTemplate_name_auto_complete ul li {
+    margin: 0;
+    padding: 3px;
+}
+
+.enTemplate_name_auto_complete ul li.selected {
+    background-color: #ffb;
+    text-decoration: underline;
+}
+
+.enTemplate_name_auto_complete ul strong.highlight {
+    color: #800;
+    margin: 0;
+    padding: 0;
+}
+
+p.passwd,p.passwdErr {
+    margin: 0px 3px;
+}
+
+p.passwdErr {
+    color: red;
+}
+
+#notesLoading {
+    background-color: #AAAADD;
+    border: 1px solid black;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 2px 2px 4px;
+    margin-left: 20px;
+    padding: 4px;
+    position: absolute;
+    right: 50px;
+    text-align: center;
+    top: 25px;
+    width: 130px;
+    z-index: 4000;
+}
+
+#notesLoading img {
+    margin-right: 5px;
+}
+
+#encounterHeader {
+    padding: 8px 12px!important;
+    width: calc(100% - 24px)!important;
+}
+
+#toolbar {
+    border: none!important;
+    background-color: transparent!important;
+}
+
+#ocean_div {
+    background-color: white;
+    border: 1px solid rgb(159,163,207);
+    width: auto!important;
+    margin: 0 3px;
+}
+
+#observationDate_cal {
+    position: relative;
+    top: 3px;
+}
+
+.artop {
+    display: none!important;
+}
+
+#notCPP {
+    margin: 0!important;
+}
+
+#encounterHeader * {
+    font-size: 14px!important;
+}
+
+#encMainDiv div,#encMainDiv a {
+    font-size: 13px!important;
+}
+
+textarea {
+    background-color: white!important;
+}
+
+.leftBox a:empty {
+    display: inline-block;
+    height: 23px;
+    width: 100%;
+    padding-right: 11%;
+    background-color: #ebebeb;
+    margin: -5px 0px -4px -8px;
+}
+
+div#rightNavBar>div.leftBox>div>ul+br {
+    display: none;
+}
+
+div[id^="wrapper"] {
+    padding: 3px 6px;
+    border-radius: 3px;
+}
+
+#measurements_div{
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	padding: 12px 0;
+}
+
+#measurements_div * {
+    font-size: 12px;
+}
+
+#measurements_div>span>a{
+	text-decoration: none;
+	padding: 0px 6px;
+	display: inline-block;
+}
+
+.slidey {
+    border: 1px solid rgba(0,0,0,0.17);
+    margin: 0!important;
+}
+
+.slidey .title {
+    padding: 4px!important;
+    margin: 0!important;
+}
+
+.slidey .slideblock,.slidey #s_20 {
+    background-color: #dfdfff!important;
+}
+
+div#cppBoxes {
+    background-color: white;
+}
+
+div#cppBoxes>span {
+    display: none;
+}
+
+#editDemographic input,#editDemographic select,#editDemographic input,#editDemographic textarea {
+    max-width: 173px;
+    box-sizing: border-box;
+    display: inline-block!important;
+}
+
+#demographicPatientNotes textarea {
+    max-width: 100%;
+}
+
+#editDemographic select {
+    height: 23px;
+}
+
+#editDemographic td>select:only-child,#editDemographic td>input:only-child {
+    width: 100%;
+}
+
+#editDemographic tr[valign="top"] {
+    vertical-align: middle;
+}
+
+#editDemographic tr[bgcolor="#CCCCFF"]{
+    background-color:#ebebeb;
+}
+#editDemographic tr>td>a{
+    margin: 0 4px;
+    display: inline-block;
+}
+
+.demographicDetail>tbody>tr[bgcolor="#CCCCFF"]{
+	background-color:#ebebeb;
+}
+
+.demographicSection>div[style="background-color: #EEEEFF;"]{
+	background-color: #ebebeb!important;
+}
+
+#editDemographic,#demographicPatientNotes{
+	background-color: #ebebeb;
+}

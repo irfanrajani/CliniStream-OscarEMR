@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ================================================ -->
+<!--               OSCAR log4j2 logger                -->
+<!-- ================================================ -->
+<!-- By default Catalina.out is the console and gets  -->
+<!-- loggs from java for Tomcat itself and from log4j2-->
+<!-- with a root logger for console at error level    -->
+<!-- more nuanced behavior can be configured here     -->
+<Configuration>
+    <!-- Logging Properties -->
+    <Properties>
+        <Property name="LOG_PATTERN">%d %-5p %C{2} (%F:%L) - %m%n</Property>
+        <Property name="LOG_ROOT">logs</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>         
+        <!-- File Appenders on need basis --> 
+<!--        <RollingFile name="debugLog" fileName="${LOG_ROOT}/oscar-debug.log" -->
+<!--            filePattern="${LOG_ROOT}/oscar-debug-%d{yyyy-MM-dd}-%i.log"> -->
+<!--            <LevelRangeFilter minLevel="DEBUG" maxLevel="FATAL" onMatch="ACCEPT" onMismatch="DENY"/> -->
+<!--            <PatternLayout pattern="${LOG_PATTERN}"/> -->
+<!--            <Policies> -->
+<!--                <TimeBasedTriggeringPolicy interval="1" modulate="true"/> -->
+<!--               <SizeBasedTriggeringPolicy size="10MB" /> -->
+<!--           </Policies> -->
+<!--            <DefaultRolloverStrategy max="10"/> -->
+<!--        </RollingFile>       -->      
+    </Appenders>
+    <Loggers>
+        <!-- OFF -->
+
+        <!-- ERROR -->
+
+        <!-- WARN -->
+
+        <!-- INFO -->
+
+        <!-- DEBUG -->
+        <!-- example to log all oscar.eform classes at debug
+        <Logger name="oscar.eform" additivity="false"  includeLocation="true"  level="debug">
+            <AppenderRef ref="Console"  />
+        </Logger>
+        <Logger name="org.oscarehr.util" additivity="false"  includeLocation="true"  level="debug">
+            <AppenderRef ref="Console"  />
+        </Logger> -->
+        <!-- all else caught by the root level logger at error -->
+        <Root level="error">
+            <AppenderRef ref="Console" />
+        </Root>
+    </Loggers>
+</Configuration>

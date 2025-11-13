@@ -1,0 +1,39 @@
+.ontario_record_header img{
+	width: 250px;
+}
+.ontario_record_header h5{
+	margin-bottom: 0;
+	margin-top: 48px;
+}
+.ontario_record_header h3{
+	margin-top: 0;
+}
+.ontario_record_header{
+	margin-bottom: 35px;
+}
+.ontario_record_wrap{
+	padding: 50px 0;
+}
+table td input[type="text"]{
+	border: 0;
+}
+.record_table td{
+	padding-left: 5px;
+}
+.shrinkMe{
+	border-left: 1px solid #333;
+	border-right: 1px solid #333;
+}
+.medical_history_wrap table{
+	border-left: 1px solid #333;
+	border-top: 1px solid #333;
+}
+.medical_history_wrap table td{
+	height: 26px;
+}
+.medical_history_wrap table td input[type="text"]{
+	height: 20px;
+}
+.medical_history_wrap_right table{
+	border-right: 1px solid #333;
+}
