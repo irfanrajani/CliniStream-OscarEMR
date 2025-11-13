@@ -183,7 +183,10 @@ app.post('/api/setup/labs', async (req, res) => {
       ['labs', 'provider', provider, false],
       ['labs', 'username', username, true],
       ['labs', 'password', password, true],
-      ['labs', 'download_enabled', downloadEnabled ? 'true' : 'false', false]
+      ['labs', 'enabled', downloadEnabled ? 'true' : 'false', false],
+      ['labs', 'host', 'sftp.excelleris.com', false],
+      ['labs', 'port', '22', false],
+      ['labs', 'remote_path', '/inbox', false]
     ];
 
     for (const [integration, key, value, encrypted_flag] of configs) {
@@ -262,6 +265,33 @@ app.post('/api/test/ocean', async (req, res) => {
     res.json({
       success: false,
       error: error.response?.data?.message || error.message || 'Connection failed'
+    });
+  }
+});
+
+// Test Lab SFTP connection
+app.post('/api/test/labs', async (req, res) => {
+  try {
+    const { username, password, provider } = req.body;
+
+    // We can't test SFTP from Node.js without ssh2 library
+    // For now, just validate credentials are provided
+    if (!username || !password) {
+      res.json({ success: false, error: 'Username and password are required' });
+      return;
+    }
+
+    // Basic validation - real test happens when integration service starts
+    res.json({
+      success: true,
+      message: `Lab credentials saved. Connection will be verified when integration service starts.`,
+      note: 'SFTP connection test requires integration service to be running'
+    });
+  } catch (error) {
+    console.error('Lab test failed:', error.message);
+    res.json({
+      success: false,
+      error: error.message || 'Connection test failed'
     });
   }
 });
