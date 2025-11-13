@@ -44,8 +44,7 @@ RUN curl -L -o drugref2.war https://bitbucket.org/openoscar/drugref/downloads/dr
 
 # Deploy WARs to Tomcat
 RUN mv oscar.war /usr/local/tomcat/webapps/ && \
-    if [ -f drugref2.war ]; then mv drugref2.war /usr/local/tomcat/webapps/; fi
-    # Wait for WAR to be extracted by Tomcat
+    if [ -f drugref2.war ]; then mv drugref2.war /usr/local/tomcat/webapps/; fi && \
     mkdir -p /usr/local/tomcat/webapps/oscar
 
 # Copy database schemas from source
@@ -75,10 +74,10 @@ RUN mkdir -p /var/lib/OscarDocument/oscar_nextscript/document \
     /var/lib/OscarDocument/oscar_nextscript/eform/images \
     /var/lib/OscarDocument/oscar_nextscript/incomingdocs/1/Fax \
     /var/lib/bc-integrator/export \
+    /etc/oscar
+
 # Copy NextScript integration bridge files
 COPY oscar/webapp/integrations /oscar-integrations/
-
-    /etc/oscar
 
 # Copy entrypoint script
 COPY oscar/docker-entrypoint.sh /
