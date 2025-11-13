@@ -26,6 +26,24 @@ until mariadb -h"${MYSQL_HOST}" -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -e "SELE
 done
 echo "✅ Database is ready!"
 
+# Extract WAR files manually if not already extracted
+echo "Extracting WAR files..."
+if [ ! -d "/usr/local/tomcat/webapps/oscar" ]; then
+    echo "Extracting OSCAR WAR..."
+    mkdir -p /usr/local/tomcat/webapps/oscar
+    cd /usr/local/tomcat/webapps/oscar
+    jar -xf /usr/local/tomcat/webapps/oscar.war
+    cd /
+fi
+
+if [ -f "/usr/local/tomcat/webapps/drugref2.war" ] && [ ! -d "/usr/local/tomcat/webapps/drugref2" ]; then
+    echo "Extracting DrugRef WAR..."
+    mkdir -p /usr/local/tomcat/webapps/drugref2
+    cd /usr/local/tomcat/webapps/drugref2
+    jar -xf /usr/local/tomcat/webapps/drugref2.war
+    cd /
+fi
+
 # Generate oscar.properties from template with environment variables
 echo "Generating configuration..."
 if [ ! -f /etc/oscar/oscar.properties.template ]; then
@@ -36,7 +54,7 @@ fi
 envsubst < /etc/oscar/oscar.properties.template > /usr/local/tomcat/webapps/oscar/WEB-INF/classes/oscar_mcmaster.properties
 
 # Generate drugref.properties if template exists
-if [ -f /etc/oscar/drugref.properties.template ]; then
+if [ -f /etc/oscar/drugref.properties.template ] && [ -d /usr/local/tomcat/webapps/drugref2 ]; then
     envsubst < /etc/oscar/drugref.properties.template > /usr/local/tomcat/webapps/drugref2/WEB-INF/classes/drugref2.properties
 fi
 
@@ -124,19 +142,9 @@ fi
 # Copy integration bridge files to OSCAR webapp
 if [ -d "/oscar-integrations" ]; then
     echo "Installing NextScript integration bridge..."
-    # Wait for Tomcat to extract WAR
-    until [ -d "/usr/local/tomcat/webapps/oscar/WEB-INF" ]; do
-        echo "Waiting for OSCAR webapp to be extracted..."
-        sleep 2
-    done &
-
-    # Copy integration files (will happen in background)
-    (
-        sleep 10
-        mkdir -p /usr/local/tomcat/webapps/oscar/integrations
-        cp -r /oscar-integrations/* /usr/local/tomcat/webapps/oscar/integrations/
-        echo "✅ Integration bridge installed"
-    ) &
+    mkdir -p /usr/local/tomcat/webapps/oscar/integrations
+    cp -r /oscar-integrations/* /usr/local/tomcat/webapps/oscar/integrations/
+    echo "✅ Integration bridge installed"
 fi
 
 echo "Starting Tomcat..."
