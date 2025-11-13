@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const axios = require('axios');
 const { encrypt, decrypt } = require('./crypto');
 
 const app = express();
@@ -199,6 +200,69 @@ app.post('/api/setup/labs', async (req, res) => {
   } catch (error) {
     console.error('Error saving lab config:', error);
     res.status(500).json({ error: error.message });
+  }
+});
+
+// Test RingCentral connection
+app.post('/api/test/ringcentral', async (req, res) => {
+  try {
+    const { clientId, clientSecret, username, password } = req.body;
+
+    // Test authentication by getting a token
+    const tokenResponse = await axios.post('https://platform.ringcentral.com/restapi/oauth/token',
+      new URLSearchParams({
+        'grant_type': 'password',
+        'username': username,
+        'password': password
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
+        },
+        timeout: 10000
+      }
+    );
+
+    if (tokenResponse.data.access_token) {
+      res.json({ success: true, message: 'RingCentral credentials verified!' });
+    } else {
+      res.json({ success: false, error: 'Invalid credentials' });
+    }
+  } catch (error) {
+    console.error('RingCentral test failed:', error.response?.data || error.message);
+    res.json({
+      success: false,
+      error: error.response?.data?.error_description || error.message || 'Connection failed'
+    });
+  }
+});
+
+// Test Ocean connection
+app.post('/api/test/ocean', async (req, res) => {
+  try {
+    const { siteId, apiKey } = req.body;
+
+    // Test Ocean API connection
+    const oceanResponse = await axios.get(`https://ocean.cognisantmd.com/api/v1/site/${siteId}/referrals`, {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      timeout: 10000
+    });
+
+    if (oceanResponse.status === 200) {
+      res.json({ success: true, message: 'Ocean credentials verified!' });
+    } else {
+      res.json({ success: false, error: 'Invalid credentials' });
+    }
+  } catch (error) {
+    console.error('Ocean test failed:', error.response?.data || error.message);
+    res.json({
+      success: false,
+      error: error.response?.data?.message || error.message || 'Connection failed'
+    });
   }
 });
 
