@@ -305,7 +305,7 @@ app.post('/api/setup/complete', async (req, res) => {
 
     res.json({
       success: true,
-      message: 'Setup complete! You can now access OSCAR EMR at http://your-server:8080/oscar'
+      message: 'Setup complete! You can now access OSCAR EMR at http://localhost:8567/oscar'
     });
   } catch (error) {
     console.error('Error completing setup:', error);
