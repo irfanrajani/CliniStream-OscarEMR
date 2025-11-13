@@ -121,5 +121,23 @@ if [ "$FIRST_RUN" = "true" ]; then
     fi
 fi
 
+# Copy integration bridge files to OSCAR webapp
+if [ -d "/oscar-integrations" ]; then
+    echo "Installing NextScript integration bridge..."
+    # Wait for Tomcat to extract WAR
+    until [ -d "/usr/local/tomcat/webapps/oscar/WEB-INF" ]; do
+        echo "Waiting for OSCAR webapp to be extracted..."
+        sleep 2
+    done &
+
+    # Copy integration files (will happen in background)
+    (
+        sleep 10
+        mkdir -p /usr/local/tomcat/webapps/oscar/integrations
+        cp -r /oscar-integrations/* /usr/local/tomcat/webapps/oscar/integrations/
+        echo "✅ Integration bridge installed"
+    ) &
+fi
+
 echo "Starting Tomcat..."
 exec "$@"
