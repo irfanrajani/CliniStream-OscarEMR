@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const { encrypt, decrypt } = require('./crypto');
 
 const app = express();
 app.use(express.json());
@@ -126,14 +127,14 @@ app.post('/api/setup/ringcentral', async (req, res) => {
       ['ringcentral', 'enabled', 'true', false]
     ];
 
-    for (const [integration, key, value, encrypted] of configs) {
-      // In production, encrypt sensitive values
-      const finalValue = encrypted ? value : value; // TODO: Implement encryption
+    for (const [integration, key, value, encrypted_flag] of configs) {
+      // Encrypt sensitive values
+      const finalValue = encrypted_flag ? encrypt(value) : value;
       await db.query(
         `INSERT INTO integration_config (integration_name, config_key, config_value, encrypted)
          VALUES (?, ?, ?, ?)
          ON DUPLICATE KEY UPDATE config_value = ?, encrypted = ?`,
-        [integration, key, finalValue, encrypted, finalValue, encrypted]
+        [integration, key, finalValue, encrypted_flag, finalValue, encrypted_flag]
       );
     }
 
@@ -155,12 +156,13 @@ app.post('/api/setup/ocean', async (req, res) => {
       ['ocean', 'enabled', 'true', false]
     ];
 
-    for (const [integration, key, value, encrypted] of configs) {
+    for (const [integration, key, value, encrypted_flag] of configs) {
+      const finalValue = encrypted_flag ? encrypt(value) : value;
       await db.query(
         `INSERT INTO integration_config (integration_name, config_key, config_value, encrypted)
          VALUES (?, ?, ?, ?)
          ON DUPLICATE KEY UPDATE config_value = ?, encrypted = ?`,
-        [integration, key, value, encrypted, value, encrypted]
+        [integration, key, finalValue, encrypted_flag, finalValue, encrypted_flag]
       );
     }
 
@@ -183,12 +185,13 @@ app.post('/api/setup/labs', async (req, res) => {
       ['labs', 'download_enabled', downloadEnabled ? 'true' : 'false', false]
     ];
 
-    for (const [integration, key, value, encrypted] of configs) {
+    for (const [integration, key, value, encrypted_flag] of configs) {
+      const finalValue = encrypted_flag ? encrypt(value) : value;
       await db.query(
         `INSERT INTO integration_config (integration_name, config_key, config_value, encrypted)
          VALUES (?, ?, ?, ?)
          ON DUPLICATE KEY UPDATE config_value = ?, encrypted = ?`,
-        [integration, key, value, encrypted, value, encrypted]
+        [integration, key, finalValue, encrypted_flag, finalValue, encrypted_flag]
       );
     }
 

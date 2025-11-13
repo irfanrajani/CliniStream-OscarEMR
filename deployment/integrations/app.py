@@ -21,6 +21,7 @@ from integrations.ocean_service import OceanService
 from integrations.fax_processor import FaxProcessor
 from integrations.sms_sender import SMSSender
 from integrations.expedius_service import ExpediusService
+from crypto_utils import decrypt_value
 
 # Setup logging
 logging.basicConfig(
@@ -78,7 +79,12 @@ def load_integration_config(integration_name):
         config = {}
         for row in cursor.fetchall():
             value = row['config_value']
-            # TODO: Decrypt if row['encrypted'] is True
+            # Decrypt if encrypted
+            if row['encrypted']:
+                try:
+                    value = decrypt_value(value)
+                except Exception as e:
+                    logger.error(f"Failed to decrypt {row['config_key']}: {e}")
             config[row['config_key']] = value
 
         cursor.close()
