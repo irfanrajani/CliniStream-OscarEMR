@@ -1,22 +1,3 @@
-# Multi-stage build for NextScript custom OSCAR EMR
-# Stage 1: Build OSCAR WAR from customized source
-# Stage 2: Deploy to Tomcat
-
-# ===== BUILD STAGE =====
-FROM maven:3.8-openjdk-8 AS builder
-
-WORKDIR /build
-
-# Copy customized OSCAR source (includes NextScript integrations)
-COPY oscar-source /build/oscar
-
-# Build OSCAR WAR (skip tests for faster build)
-WORKDIR /build/oscar
-RUN mvn clean package -DskipTests -Dmaven.test.skip=true
-
-# WAR will be at: target/oscar*.war
-
-# ===== RUNTIME STAGE =====
 FROM tomcat:9.0.102-jre8-temurin-jammy
 
 # Install required packages
@@ -44,31 +25,42 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy built OSCAR WAR from builder stage
-COPY --from=builder /build/oscar/target/*.war /usr/local/tomcat/webapps/oscar.war
+# Download OSCAR source for database schemas
+WORKDIR /tmp
+RUN git clone --depth 1 --branch master https://bitbucket.org/oscaremr/oscar.git oscar-source || \
+    git clone --depth 1 https://github.com/purposemed/emr.git oscar-source
+
+# Download pre-built OSCAR WAR from official release
+RUN wget -O oscar.war "https://sourceforge.net/projects/oscarmcmaster/files/Oscar%20Document/Oscar%2019/oscar.war/download" || \
+    curl -L -o oscar.war https://bitbucket.org/oscaremr/oscar/downloads/oscar-19.war || \
+    { echo "ERROR: Failed to download OSCAR WAR"; exit 1; }
+
+# Verify WAR file exists and is not empty
+RUN if [ ! -s oscar.war ]; then echo "ERROR: oscar.war is missing or empty"; exit 1; fi
 
 # Download DrugRef WAR
-WORKDIR /tmp
 RUN curl -L -o drugref2.war https://bitbucket.org/openoscar/drugref/downloads/drugref2.war || \
     echo "DrugRef download failed, will skip"
 
-# Deploy DrugRef
-RUN if [ -f drugref2.war ]; then mv drugref2.war /usr/local/tomcat/webapps/; fi
+# Deploy WARs to Tomcat
+RUN mv oscar.war /usr/local/tomcat/webapps/ && \
+    if [ -f drugref2.war ]; then mv drugref2.war /usr/local/tomcat/webapps/; fi && \
+    mkdir -p /usr/local/tomcat/webapps/oscar
 
-# Extract WARs (needed for entrypoint script to write configs)
-RUN mkdir -p /usr/local/tomcat/webapps/oscar && \
-    cd /usr/local/tomcat/webapps/oscar && \
-    jar -xf /usr/local/tomcat/webapps/oscar.war
-
-# Copy database schemas from builder
-COPY --from=builder /build/oscar/database/mysql/*.sql /oscar-db/
+# Copy database schemas from source
+RUN mkdir -p /oscar-db && \
+    if [ -d "/tmp/oscar-source/database/mysql" ]; then \
+        cp /tmp/oscar-source/database/mysql/*.sql /oscar-db/ 2>/dev/null || true; \
+    fi && \
+    # Cleanup source to save space
+    rm -rf /tmp/oscar-source
 
 # Copy NextScript customizations
 COPY oscar/conf/server.xml /usr/local/tomcat/conf/
 COPY oscar/conf/logging.properties /usr/local/tomcat/conf/
 COPY oscar/conf/web.xml /usr/local/tomcat/conf/
 
-# Configuration templates (will be populated by environment variables)
+# Configuration template (will be populated by environment variables)
 COPY oscar/conf/oscar.properties.template /etc/oscar/oscar.properties.template
 COPY oscar/conf/drugref.properties.template /etc/oscar/drugref.properties.template
 
@@ -83,6 +75,9 @@ RUN mkdir -p /var/lib/OscarDocument/oscar_nextscript/document \
     /var/lib/OscarDocument/oscar_nextscript/incomingdocs/1/Fax \
     /var/lib/bc-integrator/export \
     /etc/oscar
+
+# Copy NextScript integration bridge files
+COPY oscar/webapp/integrations /oscar-integrations/
 
 # Copy entrypoint script
 COPY oscar/docker-entrypoint.sh /
