@@ -24,6 +24,7 @@ RUN npm install --production
 # Copy built app and server
 COPY --from=builder /app/dist ./dist
 COPY server.js ./
+COPY crypto.js ./
 
 EXPOSE 3000
 

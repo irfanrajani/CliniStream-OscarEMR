@@ -74,6 +74,7 @@ services:
       DB_DATABASE: oscar_nextscript
       DB_USER: oscar
       DB_PASSWORD: ${MYSQL_PASSWORD}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
     ports:
       - "8568:3000"  # Setup wizard on separate port
     networks:
@@ -100,6 +101,7 @@ services:
       DB_DATABASE: oscar_nextscript
       DB_USER: oscar
       DB_PASSWORD: ${MYSQL_PASSWORD}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
     volumes:
       - integration-logs:/var/log/integrations
       - oscar-documents:/var/lib/OscarDocument:rw
